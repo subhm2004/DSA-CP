@@ -1,1 +1,0 @@
-// algo samajh aagyi, abb code khud bnao

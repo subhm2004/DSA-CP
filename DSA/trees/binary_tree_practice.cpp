@@ -1,0 +1,179 @@
+/*
+ * ============================================================================
+ * TOPIC    : Trees
+ * FILE     : binary_tree_practice.cpp
+ * PROBLEM  : Binary Tree Practice
+ * ABOUT    : Binary tree traversals, views, construction, Morris traversal
+ * APPROACH : Recursive DFS; base case when node == nullptr.
+ * COMPLEX  : See approach — depends on input size n.
+ * ============================================================================
+ */
+
+#include <iostream>
+#include <queue>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val){
+        this-> data= val;
+        this-> left= NULL;
+        this->right= NULL;
+    }
+};
+
+
+/*
+ * CreateTree()
+ * Purpose : Recursive DFS; base case when node == nullptr.
+ * Returns : Node*
+ */
+Node* CreateTree(){
+    int data;
+    cout<< "enter node data"<< endl;
+    cin>> data;
+    if(data== -1){
+        return NULL;
+    }
+    Node* root= new Node(data);
+    root-> left= CreateTree();
+    root-> right= CreateTree();
+}
+
+
+/*
+ * preorder()
+ * Purpose : Tree DFS in specific visit order.
+ * Params  : Node* root
+ * Returns : void
+ */
+void preorder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    cout<< root-> data<< "->";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+
+/*
+ * inorder()
+ * Purpose : Tree DFS in specific visit order.
+ * Params  : Node* root
+ * Returns : void
+ */
+void inorder(Node* root){
+    if(root== NULL){
+        return;
+    }
+    inorder(root->left);
+    cout<< root->data<<"->";
+    inorder(root->right);
+}
+
+
+/*
+ * postorder()
+ * Purpose : Tree DFS in specific visit order.
+ * Params  : Node* root
+ * Returns : void
+ */
+void postorder(Node* root){
+    if(root== NULL){
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    cout<< root-> data<< "->";
+}
+
+
+/*
+ * levelorder()
+ * Purpose : Recursive DFS; base case when node == nullptr.
+ * Params  : Node* root
+ * Returns : void
+ */
+void levelorder(Node* root){
+    if(root== NULL){
+        return;
+    }
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        Node* newnode= q.front();
+        q.pop();
+        cout<< newnode-> data<< "->";
+        if(newnode-> left!= NULL){
+            q.push(newnode-> left);
+        }
+        if(newnode-> right!= NULL){
+            q.push(newnode-> right);
+        }
+    }
+}
+
+
+/*
+ * levelordertraversal()
+ * Purpose : Recursive DFS; base case when node == nullptr.
+ * Params  : Node* root
+ * Returns : void
+ */
+void levelordertraversal(Node* root){
+    if(root== NULL){
+        return;
+    }
+    queue<Node*>q1;
+    q1.push(root);
+    q1.push(NULL);
+    while(!q1.empty()){
+        Node* newnode= q1.front();
+        q1.pop();
+        if(newnode!= NULL){
+            cout<< newnode-> data<< "->";
+            if(newnode-> left!= NULL){
+                q1.push(newnode-> left);
+            }
+            if(newnode-> right!= NULL){
+                q1.push(newnode-> right);
+            }
+        }
+        else {
+            cout<< endl;
+            if(!q1.empty()){
+                q1.push(NULL);
+            }
+        }
+    }
+}
+
+
+/*
+ * main()
+ * Purpose : Entry point — demo/test for Binary Tree Practice
+ */
+int main(){
+    Node* root= CreateTree();
+    cout<< "INORDER"<< endl;
+    inorder(root);
+    cout<< endl;
+    cout<< "PREORDER"<< endl;
+    preorder(root);
+    cout<< endl;
+    cout<< "POSTORDER"<< endl;
+    postorder(root);
+    cout<< endl;
+    cout<< "LEVELORDER"<< endl;
+    levelorder(root);
+    cout<< endl;
+    cout<< "LEVELORDER TRAVERSAL"<< endl;
+    levelordertraversal(root);
+    cout<< endl;
+
+
+
+}

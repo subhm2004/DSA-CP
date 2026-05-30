@@ -1,0 +1,24 @@
+# Build artifacts
+*.exe
+*.out
+a.out
+*.o
+*.obj
+*.dSYM/
+
+# Temp rename / compile
+__tmp_*.cpp
+*.__tmp_rename__.cpp
+
+# IDE / OS
+.DS_Store
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+
+# Misc
+output.txt
+tempCodeRunnerFile.cpp
