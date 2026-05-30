@@ -20,7 +20,8 @@ C++/
 ├── DSA/              Interview & FAANG — arrays, trees, graphs, DP, …
 ├── CP/               Contest library — segtree, flows, strings, NT, …
 ├── CP_Template/      Lean single-file starter for Codeforces / AtCoder
-└── scripts/          README generator, LeetCode header tools
+├── site/             Static browser UI (HTML + Tailwind + JS)
+└── scripts/          README generator, site data, LeetCode tools
 ```
 
 | Section | Use when | Index |
@@ -30,6 +31,22 @@ C++/
 | **[CP_Template](./CP_Template/)** | Copy one file → contest | [CP_Template/README.md](./CP_Template/README.md) |
 
 Har topic folder ke andar **`README.md`** — file list, approach notes, LeetCode #, aur TODO (agar kuch missing ho).
+
+### Static site (browser UI)
+
+**Live (after Pages enabled):** [https://subhm2004.github.io/DSA/](https://subhm2004.github.io/DSA/)
+
+Search topics, filter DSA/CP, open files on GitHub.
+
+```bash
+# Local
+python3 -m http.server 8080   # → localhost:8080/site/
+
+# Regenerate index
+python3 scripts/generate_site_data.py
+```
+
+Deploy: push to `main` → GitHub Actions (see [site/README.md](./site/README.md)).
 
 ---
 
@@ -109,6 +126,7 @@ Key templates: `mod_int` · `ternary_search` · `aho_corasick` · `fft_ntt` · `
 
 | Script | Kya karta hai |
 |--------|----------------|
+| [`generate_site_data.py`](./scripts/generate_site_data.py) | Static site index → `site/data.js` |
 | [`generate_folder_readmes.py`](./scripts/generate_folder_readmes.py) | Har topic folder ka README regenerate |
 | [`add_leetcode_headers.py`](./scripts/add_leetcode_headers.py) | `LEETCODE : N — Title` headers inject |
 
