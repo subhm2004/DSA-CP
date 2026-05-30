@@ -10,12 +10,13 @@ After enabling Pages (see below):
 
 ## One-time GitHub setup
 
-1. Push this repo to `main`
-2. GitHub repo → **Settings** → **Pages**
-3. **Build and deployment** → Source: **GitHub Actions**
-4. Push triggers [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) automatically
+1. Push to `main` (workflow creates `gh-pages` branch automatically)
+2. Open **[Settings → Pages](https://github.com/subhm2004/DSA-CP/settings/pages)**
+3. **Build and deployment** → Source: **Deploy from a branch**
+4. Branch: **`gh-pages`** · Folder: **`/ (root)`** → **Save**
+5. Wait ~1 min, open **https://subhm2004.github.io/DSA-CP/**
 
-First deploy ~1–2 min. Check **Actions** tab if site doesn’t load.
+If it still 404, go to **Actions** → re-run **Deploy static site to GitHub Pages**.
 
 ## Local dev
 

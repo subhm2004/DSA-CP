@@ -46,7 +46,7 @@ python3 -m http.server 8080   # → localhost:8080/site/
 python3 scripts/generate_site_data.py
 ```
 
-Deploy: push to `main` → GitHub Actions (see [site/README.md](./site/README.md)).
+Deploy: push to `main` → set Pages branch **`gh-pages`** / root ([setup](./site/README.md)).
 
 ---
 
