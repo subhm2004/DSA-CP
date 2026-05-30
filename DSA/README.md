@@ -39,7 +39,6 @@
 | [Char Array](./char_array/) | [Open →](./char_array/README.md) |
 | [OOP](./oop/) | [Open →](./oop/README.md) |
 | [Patterns](./patterns/) | [Open →](./patterns/README.md) |
-| [Practice](./practice/) | [Open →](./practice/README.md) |
 | [Queues](./queues/) | [Open →](./queues/README.md) |
 | [Strings](./strings/) | [Open →](./strings/README.md) |
 | [Vectors](./vectors/) | [Open →](./vectors/README.md) |
