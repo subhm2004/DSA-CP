@@ -16,7 +16,7 @@ def repo_meta() -> dict:
     """Read GitHub owner/name/branch from git remote."""
     import subprocess
 
-    owner, name, branch = "subhm2004", "DSA", "main"
+    owner, name, branch = "subhm2004", "DSA-CP", "main"
     try:
         url = subprocess.check_output(
             ["git", "remote", "get-url", "origin"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL

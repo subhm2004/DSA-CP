@@ -1,17 +1,17 @@
 // Auto-generated — run: python3 scripts/generate_site_data.py
 window.REPO_DATA = {
-  "generated": "2026-05-30 17:09",
+  "generated": "2026-05-30 17:12",
   "meta": {
     "owner": "subhm2004",
-    "name": "DSA",
+    "name": "DSA-CP",
     "branch": "main",
-    "repoUrl": "https://github.com/subhm2004/DSA",
-    "pagesUrl": "https://subhm2004.github.io/DSA/"
+    "repoUrl": "https://github.com/subhm2004/DSA-CP",
+    "pagesUrl": "https://subhm2004.github.io/DSA-CP/"
   },
   "stats": {
-    "dsaFiles": 331,
+    "dsaFiles": 340,
     "cpFiles": 233,
-    "dsaTopics": 29,
+    "dsaTopics": 30,
     "cpTopics": 66
   },
   "dsa": [
@@ -1394,6 +1394,68 @@ window.REPO_DATA = {
           "path": "DSA/patterns/square_pattern.cpp",
           "leetcode": "",
           "problem": "Square Pattern"
+        }
+      ]
+    },
+    {
+      "id": "DSA-practice",
+      "name": "Practice",
+      "path": "DSA/practice",
+      "fileCount": 9,
+      "files": [
+        {
+          "name": "Tower_of_hanoi.cpp",
+          "path": "DSA/practice/Tower_of_hanoi.cpp",
+          "leetcode": "",
+          "problem": "Tower Of Hanoi"
+        },
+        {
+          "name": "basic_practice.cpp",
+          "path": "DSA/practice/basic_practice.cpp",
+          "leetcode": "",
+          "problem": "Basic Practice"
+        },
+        {
+          "name": "longest_increasing_subsequence.cpp",
+          "path": "DSA/practice/longest_increasing_subsequence.cpp",
+          "leetcode": "",
+          "problem": "Longest Increasing Subsequence"
+        },
+        {
+          "name": "loops_practice.cpp",
+          "path": "DSA/practice/loops_practice.cpp",
+          "leetcode": "",
+          "problem": "Loops Practice"
+        },
+        {
+          "name": "merge_sort_practice.cpp",
+          "path": "DSA/practice/merge_sort_practice.cpp",
+          "leetcode": "",
+          "problem": "Merge Sort Practice"
+        },
+        {
+          "name": "misc_practice_1.cpp",
+          "path": "DSA/practice/misc_practice_1.cpp",
+          "leetcode": "",
+          "problem": "Misc Practice 1"
+        },
+        {
+          "name": "queue_basic_s.cpp",
+          "path": "DSA/practice/queue_basic_s.cpp",
+          "leetcode": "",
+          "problem": "Queue Basic S"
+        },
+        {
+          "name": "sorting_practice.cpp",
+          "path": "DSA/practice/sorting_practice.cpp",
+          "leetcode": "",
+          "problem": "Sorting Practice"
+        },
+        {
+          "name": "stack_basics_practice.cpp",
+          "path": "DSA/practice/stack_basics_practice.cpp",
+          "leetcode": "",
+          "problem": "Stack Basics Practice"
         }
       ]
     },

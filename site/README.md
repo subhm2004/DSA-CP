@@ -6,7 +6,7 @@ Browser UI for DSA & CP — deployed on **GitHub Pages**.
 
 After enabling Pages (see below):
 
-**https://subhm2004.github.io/DSA/**
+**https://subhm2004.github.io/DSA-CP/**
 
 ## One-time GitHub setup
 

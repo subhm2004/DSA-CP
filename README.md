@@ -34,7 +34,7 @@ Har topic folder ke andar **`README.md`** — file list, approach notes, LeetCod
 
 ### Static site (browser UI)
 
-**Live (after Pages enabled):** [https://subhm2004.github.io/DSA/](https://subhm2004.github.io/DSA/)
+**Live (after Pages enabled):** [https://subhm2004.github.io/DSA-CP/](https://subhm2004.github.io/DSA-CP/)
 
 Search topics, filter DSA/CP, open files on GitHub.
 
