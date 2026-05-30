@@ -21,8 +21,11 @@ If it still 404, go to **Actions** → re-run **Deploy static site to GitHub Pag
 ## Local dev
 
 ```bash
+bash scripts/serve_site.sh
+# → http://localhost:8080/
+
+# Or from repo root (auto-redirects to /site/):
 python3 -m http.server 8080
-# → http://localhost:8080/site/
 ```
 
 ## Regenerate index

@@ -39,8 +39,9 @@ Har topic folder ke andar **`README.md`** — file list, approach notes, LeetCod
 Search topics, filter DSA/CP, open files on GitHub.
 
 ```bash
-# Local
-python3 -m http.server 8080   # → localhost:8080/site/
+# Local — open the site (NOT the repo folder listing)
+bash scripts/serve_site.sh          # → http://localhost:8080/
+# or: python3 -m http.server 8080    # → http://localhost:8080/  (auto-redirects to /site/)
 
 # Regenerate index
 python3 scripts/generate_site_data.py
