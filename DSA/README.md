@@ -1,6 +1,6 @@
 # DSA — Data Structures & Algorithms
 
-**321 C++ files** | Interview & FAANG prep | Har topic ka apna folder + README
+**332 C++ files** | Interview & FAANG prep | Har topic ka apna folder + README
 
 > Har folder ke andar `README.md` hai — files, LeetCode #, aur TODO list.
 
@@ -43,6 +43,7 @@
 | [Strings](./strings/) | [Open →](./strings/README.md) |
 | [Vectors](./vectors/) | [Open →](./vectors/README.md) |
 | [Misc](./misc/) | [Open →](./misc/README.md) |
+| [Miscellaneous](./miscellaneous/) | [Open →](./miscellaneous/README.md) |
 
 </details>
 

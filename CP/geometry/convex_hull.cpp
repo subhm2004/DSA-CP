@@ -3,7 +3,9 @@
  * TOPIC    : Computational Geometry — Convex Hull
  * FILE     : convex_hull.cpp
  * PROBLEM  : Smallest convex polygon containing all points
- * APPROACH : Andrew's monotone chain (sort + two-stack scan)
+ * APPROACH : Andrew's monotone chain (1979) — sort by x + two-stack scan
+ * REF      : https://cp-algorithms.com/geometry/convex-hull.html (Implementation 2)
+ * NOTE     : Graham's scan → graham_scan_convex_hull.cpp + graham_scan_convex_hull.md
  * COMPLEX  : Time: O(n log n)  |  Space: O(n)
  * ============================================================================
  */

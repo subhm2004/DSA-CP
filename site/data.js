@@ -1,6 +1,6 @@
 // Auto-generated — run: python3 scripts/generate_site_data.py
 window.REPO_DATA = {
-  "generated": "2026-05-30 17:24",
+  "generated": "2026-05-30 23:27",
   "meta": {
     "owner": "subhm2004",
     "name": "DSA-CP",
@@ -9,9 +9,9 @@ window.REPO_DATA = {
     "pagesUrl": "https://subhm2004.github.io/DSA-CP/"
   },
   "stats": {
-    "dsaFiles": 331,
-    "cpFiles": 233,
-    "dsaTopics": 29,
+    "dsaFiles": 332,
+    "cpFiles": 237,
+    "dsaTopics": 30,
     "cpTopics": 66
   },
   "dsa": [
@@ -1144,8 +1144,8 @@ window.REPO_DATA = {
         {
           "name": "tortoise_algo.cpp",
           "path": "DSA/linked_list/tortoise_algo.cpp",
-          "leetcode": "141 — Linked List Cycle / 142 — Linked List Cycle II",
-          "problem": "Tortoise Algo"
+          "leetcode": "141 — Linked List Cycle",
+          "problem": "Detect cycle + find cycle entry node + middle node"
         }
       ]
     },
@@ -1234,6 +1234,20 @@ window.REPO_DATA = {
           "path": "DSA/misc/dynamictwo_d.cpp",
           "leetcode": "",
           "problem": "Dynamictwo D"
+        }
+      ]
+    },
+    {
+      "id": "DSA-miscellaneous",
+      "name": "Miscellaneous",
+      "path": "DSA/miscellaneous",
+      "fileCount": 1,
+      "files": [
+        {
+          "name": "josephus_problem.cpp",
+          "path": "DSA/miscellaneous/josephus_problem.cpp",
+          "leetcode": "",
+          "problem": "n people in circle, every k-th eliminated — who survives?"
         }
       ]
     },
@@ -2969,7 +2983,7 @@ window.REPO_DATA = {
       "id": "CP-geometry",
       "name": "Geometry",
       "path": "CP/geometry",
-      "fileCount": 7,
+      "fileCount": 9,
       "files": [
         {
           "name": "ccw_orientation.cpp",
@@ -2990,6 +3004,12 @@ window.REPO_DATA = {
           "problem": "Minimize m*x + b queries with increasing x (DP optimization)"
         },
         {
+          "name": "graham_scan_convex_hull.cpp",
+          "path": "CP/geometry/graham_scan_convex_hull.cpp",
+          "leetcode": "",
+          "problem": "Smallest convex polygon containing all given points"
+        },
+        {
           "name": "line_intersection.cpp",
           "path": "CP/geometry/line_intersection.cpp",
           "leetcode": "",
@@ -3000,6 +3020,12 @@ window.REPO_DATA = {
           "path": "CP/geometry/lines_intersection_point.cpp",
           "leetcode": "",
           "problem": "Intersection point of two infinite lines (if not parallel)"
+        },
+        {
+          "name": "oriented_triangle_area.cpp",
+          "path": "CP/geometry/oriented_triangle_area.cpp",
+          "leetcode": "",
+          "problem": "Signed area of triangle (p1, p2, p3); orientation; unsigned area"
         },
         {
           "name": "ray_casting_algorithm.cpp",
@@ -3377,8 +3403,14 @@ window.REPO_DATA = {
       "id": "CP-graphs-mst",
       "name": "Mst",
       "path": "CP/graphs/mst",
-      "fileCount": 4,
+      "fileCount": 6,
       "files": [
+        {
+          "name": "kirchhoff_theorem.cpp",
+          "path": "CP/graphs/mst/kirchhoff_theorem.cpp",
+          "leetcode": "",
+          "problem": "Count spanning trees of a connected undirected graph"
+        },
         {
           "name": "krushkal_algorithm.cpp",
           "path": "CP/graphs/mst/krushkal_algorithm.cpp",
@@ -3402,6 +3434,12 @@ window.REPO_DATA = {
           "path": "CP/graphs/mst/printing_mst_krushkal_algo.cpp",
           "leetcode": "",
           "problem": "Printing Mst Krushkal Algo"
+        },
+        {
+          "name": "second_best_mst.cpp",
+          "path": "CP/graphs/mst/second_best_mst.cpp",
+          "leetcode": "",
+          "problem": "Smallest total weight among all spanning trees except the MST"
         }
       ]
     },
@@ -3729,7 +3767,7 @@ window.REPO_DATA = {
           "name": "persistent_segment_tree.cpp",
           "path": "CP/segment_tree/persistent_segment_tree.cpp",
           "leetcode": "",
-          "problem": "Versioned range sum — update creates new version"
+          "problem": "Range sum queries on many historical versions of an array"
         },
         {
           "name": "segment_tree_2d.cpp",

@@ -1,4 +1,4 @@
-    "CP/math": "FFT, NTT — polynomial convolution.",    "DSA/math": "GCD, LCM, sieve, prime check — interview number theory.",#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Generate README.md for every DSA/CP topic folder."""
 
 import re
@@ -40,6 +40,7 @@ DESCRIPTIONS = {
     "DSA/heaps": "Priority queue, kth element, median from stream (two heaps).",
     "DSA/intervals": "Merge, insert, meeting rooms.",
     "DSA/linked_list": "Singly/doubly LL, cycle, reversal.",
+    "DSA/miscellaneous": "Classic puzzles — Josephus, etc.",
     "DSA/math": "GCD, LCM, sieve, prime check — interview number theory.",
     "DSA/queues": "Queue, deque, circular queue.",
     "DSA/recursion": "Backtracking, subsets, permutations.",

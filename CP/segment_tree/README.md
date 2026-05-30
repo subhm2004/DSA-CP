@@ -17,7 +17,7 @@ Range queries, lazy propagation, persistent.
 | [lazy_propogation.cpp](./lazy_propogation.cpp) | — |
 | [lazy_propogation_root.cpp](./lazy_propogation_root.cpp) | — |
 | [min_max_segment_tree.cpp](./min_max_segment_tree.cpp) | — |
-| [persistent_segment_tree.cpp](./persistent_segment_tree.cpp) | Versioned range sum — update creates new version |
+| [persistent_segment_tree.cpp](./persistent_segment_tree.cpp) | Range sum queries on many historical versions of an array |
 | [segment_tree_2d.cpp](./segment_tree_2d.cpp) | 2D grid point update + submatrix sum |
 | [segment_tree_2d_important.cpp](./segment_tree_2d_important.cpp) | — |
 | [subtree_query_problems.cpp](./subtree_query_problems.cpp) | — |

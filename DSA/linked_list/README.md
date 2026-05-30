@@ -21,7 +21,7 @@ Singly/doubly LL, cycle, reversal.
 | [palindrome_linked_list.cpp](./palindrome_linked_list.cpp) | 234 — Palindrome Linked List |
 | [reverse_linked_list.cpp](./reverse_linked_list.cpp) | 206 — Reverse Linked List |
 | [start_ofloop.cpp](./start_ofloop.cpp) | 142 — Linked List Cycle II |
-| [tortoise_algo.cpp](./tortoise_algo.cpp) | 141 — Linked List Cycle / 142 — Linked List Cycle II |
+| [tortoise_algo.cpp](./tortoise_algo.cpp) | 141 — Linked List Cycle |
 
 ---
 **Status:** ✅ Good coverage

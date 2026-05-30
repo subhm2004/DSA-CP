@@ -18,7 +18,7 @@ Advanced graph algorithms for contests.
 | [graph_implementation/](./graph_implementation/) | [Open →](./graph_implementation/README.md) | (4 files)
 | [heavy_light_decomposition/](./heavy_light_decomposition/) | [Open →](./heavy_light_decomposition/README.md) | (1 files)
 | [matrix_exponentiation/](./matrix_exponentiation/) | [Open →](./matrix_exponentiation/README.md) | (2 files)
-| [mst/](./mst/) | [Open →](./mst/README.md) | (4 files)
+| [mst/](./mst/) | [Open →](./mst/README.md) | (6 files)
 | [scc/](./scc/) | [Open →](./scc/README.md) | (3 files)
 | [shortest_path/](./shortest_path/) | [Open →](./shortest_path/README.md) | (7 files)
 | [topological_sort/](./topological_sort/) | [Open →](./topological_sort/README.md) | (3 files)

@@ -1,6 +1,6 @@
 # CP — Competitive Programming
 
-**223+ C++ files** | Codeforces / AtCoder / ICPC | Har topic ka apna folder + README
+**237+ C++ files** | Codeforces / AtCoder / ICPC | Har topic ka apna folder + README
 
 > Har folder ke andar `README.md` — files list, approach notes, **TODO** for missing templates.
 

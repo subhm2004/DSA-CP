@@ -4,7 +4,6 @@ C++ implementations for this topic.
 
 **Path:** [`DSA/patterns/`](./)
 
-
 ## Files (14)
 
 | File | LeetCode / Notes |

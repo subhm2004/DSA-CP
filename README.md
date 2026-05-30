@@ -6,8 +6,8 @@ Personal C++ library for **interview prep** and **contest coding** — organized
 
 |                  |    Count |
 | ---------------- | -------: |
-| DSA solutions    |  **340** |
-| CP templates     |  **233** |
+| DSA solutions    |  **332** |
+| CP templates     |  **237** |
 | Contest template |    **1** |
 | Topic READMEs    | **100+** |
 
