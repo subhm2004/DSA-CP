@@ -15,6 +15,16 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MAKE BINARY TREE — Level-order array se tree construct
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Array representation (Leetcode style) se binary tree banao.
+//          -1 = NULL node.
+//
+// Approach: BFS queue se parent-child link
+// Complexity: Time O(n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 struct TreeNode
 {
     int val;
@@ -23,6 +33,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
+// ── buildTree: array → binary tree ──
+//   1) Empty/-1 → nullptr
+//   2) Root banao, queue me daalo
+//   3) Har node ke left/right assign karo
 TreeNode *buildTree(const vector<int> &values)
 {
     if (values.empty() || values[0] == -1)
@@ -55,14 +69,7 @@ TreeNode *buildTree(const vector<int> &values)
     return root;
 }
 
-
-
-/*
- * printTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : TreeNode *root
- * Returns : void
- */
+// ── printTree: level-order traversal print ──
 void printTree(TreeNode *root)
 {
     if (!root)
@@ -93,15 +100,10 @@ void printTree(TreeNode *root)
     cout << endl;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Make Binary Tree
- */
+// ── main: build + print demo ──
 int main()
 {
-    vector<int> values = {1, 2, 3, -1, 5, -1, 4}; // -1 means NULL
+    vector<int> values = {1, 2, 3, -1, 5, -1, 4};
     TreeNode *root = buildTree(values);
 
     cout << "Level Order Traversal: ";

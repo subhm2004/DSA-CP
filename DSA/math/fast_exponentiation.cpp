@@ -12,26 +12,29 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// POWER — naive exponentiation (learning version)
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: res=1 se start, b baar multiply — a^b
+// Fast version binary exponentiation se O(log b) hota hai
+// Yahan simple loop O(b) — basics ke liye
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * power()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int a, int b
- * Returns : int
- */
+// ── power: a ko b times multiply karke a^b nikalo ───────────────────────────
+//   1) res=1 initialize
+//   2) i=1 se b tak res = res * a
+//   3) final res return
 int power(int a, int b) {
     int res=1;
     for(int i=1; i<=b; i++) {
-        res = res*a;
+        res = res*a; // ek aur factor multiply
     }
     return res;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Fast Exponentiation
- */
+// ── main: base aur exponent input, result print ────────────────────────────
+//   1) a, b user se lo
+//   2) power(a,b) call, answer print
 int main() {
     int a,b;
     cout<< "enter base"<< endl;

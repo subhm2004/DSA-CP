@@ -12,146 +12,111 @@
 #include <iostream>
 #include <limits.h>
 using namespace std;
-class Stack{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// STACK USING ARRAY — top pointer se LIFO implement
+// ────────────────────────────────────────────────────────────────────────────
+// top=-1 empty; push → top++, pop → top--
+// overflow jab top==size-1; underflow jab top==-1
+// ════════════════════════════════════════════════════════════════════════════
+
+class Stack {
+public:
     int *arr;
     int size;
     int top;
-    Stack(int size){
-        int *arr= new int[size];
-        this-> size= size;
-        this-> top= -1;
+    Stack(int size) {
+        int *arr = new int[size];
+        this->size = size;
+        this->top = -1;                    // empty stack — koi element nahi
     }
-    
-    
-    /*
-     * push()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push(int data){
-        if(top == size-1){
-            cout<< "stack overflow"<< endl;
+
+    // ── push: top pe element daalo ───────────────────────────────────────────
+    //   1) top==size-1 → overflow
+    //   2) top++, arr[top]=data
+    void push(int data) {
+        if (top == size - 1) {
+            cout << "stack overflow" << endl;
             return;
-        }
-        else {
-            top= top + 1;
-            arr[top]= data;
+        } else {
+            top = top + 1;                 // index aage — naya top
+            arr[top] = data;
         }
     }
-    
-    
-    /*
-     * pop()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int pop(){
-        if(top== -1){
-            cout<< "stack underflow can't delete"<< endl;
+
+    // ── pop: top element nikaalo aur return ──────────────────────────────────
+    //   1) top==-1 → underflow
+    //   2) value save, top--, return
+    int pop() {
+        if (top == -1) {
+            cout << "stack underflow can't delete" << endl;
             return INT_MIN;
-        }
-        else {
-            int x= arr[top];
-            top= top-1;
+        } else {
+            int x = arr[top];
+            top = top - 1;                 // shrink — ek element kam
             return x;
         }
     }
-    
-    
-    /*
-     * gettop()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int gettop(){
-        if(top == -1){
-            cout<< "stack underflow"<< endl;
+
+    // ── gettop: peek — top element dekho bina hataye ─────────────────────────
+    int gettop() {
+        if (top == -1) {
+            cout << "stack underflow" << endl;
             return INT_MAX;
-        }
-        else {
+        } else {
             return arr[top];
         }
     }
-    
-    
-    /*
-     * getsize()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int getsize(){
-        if(top==-1){
-            cout<< "Stack is empty"<< endl;
-        }
-        else {
-            return top+1;
+
+    // ── getsize: kitne elements hain ─────────────────────────────────────────
+    int getsize() {
+        if (top == -1) {
+            cout << "Stack is empty" << endl;
+        } else {
+            return top + 1;                // top index + 1 = count
         }
     }
-    
-    
-    /*
-     * isEmpty()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isEmpty(){
-        if(top==-1){
+
+    // ── isEmpty: stack khali? ────────────────────────────────────────────────
+    bool isEmpty() {
+        if (top == -1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * isfull()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isfull(){
-        if(top== size-1){
+
+    // ── isfull: array bhar gaya? ─────────────────────────────────────────────
+    bool isfull() {
+        if (top == size - 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * print()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void print(){
-        cout<< "Stack:"<< endl;
-        for(int i=top; i>=0; i--){
-            cout<< arr[i]<< endl;
+
+    // ── print: top se bottom tak print ───────────────────────────────────────
+    void print() {
+        cout << "Stack:" << endl;
+        for (int i = top; i >= 0; i--) {
+            cout << arr[i] << endl;        // LIFO order — top pehle
         }
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Stack Using Array
- */
-int main(){
-    cout<< "Name: Vanshika Aggarwal"<< endl;
-    cout<< "Roll No. 22001003138"<< endl;
-    Stack* sp= new Stack(5);
-    sp-> push(10);
-    sp-> push(20);
-    sp-> push(30);
-    sp-> push(40);
-    sp-> push(50);
-    sp-> print();
-    cout<< "Size of stack is: "<< sp-> getsize() << endl;
-    cout<< "Is stack full: "<< sp-> isfull()<< endl;
-    cout<< "popped: "<< sp-> pop()<< " from stack "<< endl;
-    cout<< "New stack is:"<< endl;
-    sp-> print();   
+int main() {
+    cout << "Name: Vanshika Aggarwal" << endl;
+    cout << "Roll No. 22001003138" << endl;
+    Stack *sp = new Stack(5);
+    sp->push(10);
+    sp->push(20);
+    sp->push(30);
+    sp->push(40);
+    sp->push(50);
+    sp->print();
+    cout << "Size of stack is: " << sp->getsize() << endl;
+    cout << "Is stack full: " << sp->isfull() << endl;
+    cout << "popped: " << sp->pop() << " from stack " << endl;
+    cout << "New stack is:" << endl;
+    sp->print();
 }

@@ -11,6 +11,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// EKO WOOD CUTTING — Maximum cutting height jahan wood >= need
+// ────────────────────────────────────────────────────────────────────────────
+// BS on answer = height H
+// woodCollected(H) = sum of (tree[i] - H) for tree[i] > H
+// Height badhao -> kam wood -> monotonic
+// MAX answer: wood >= need -> lo=mid+1 (aur uncha try karo)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── woodCollected: height H pe kitna wood milega ───────────────────────────
+//   1) har tree jahan h > height, wood += h - height
+//   2) total wood return
 long long woodCollected(const vector<int> &trees, int height) {
     long long sum = 0;
     for (int h : trees)
@@ -19,6 +31,10 @@ long long woodCollected(const vector<int> &trees, int height) {
     return sum;
 }
 
+// ── maxCuttingHeight: maximum H jahan need wood mil jaye ────────────────────
+//   1) lo=0, hi=max tree height
+//   2) woodCollected(mid) >= need -> ans=mid, lo=mid+1
+//   3) warna hi=mid-1
 int maxCuttingHeight(vector<int> trees, long long need) {
     int lo = 0, hi = *max_element(trees.begin(), trees.end()), ans = 0;
 

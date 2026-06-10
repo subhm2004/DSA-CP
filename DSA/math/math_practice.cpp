@@ -12,31 +12,32 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ARRAY REARRANGEMENT — negatives left, Dutch National Flag (0,1,2)
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: two-pointer technique se elements ko sections me baanto
+// sortarray — negatives left shift; sortcolor — 0,1,2 sort (LeetCode 75)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * sortarray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int *arr, int size
- * Returns : void
- */
+// ── sortarray: negatives ko array ke start me lao ───────────────────────────
+//   1) j=0 — next negative ki jagah track karo
+//   2) har element pe — negative mila? swap(arr[i], arr[j]), j++
+//   3) positives apni jagah rehte hain
 void sortarray(int *arr, int size) {
     int j=0;
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         if(arr[i] < 0) {
-            swap(arr[i],arr[j] );
+            swap(arr[i],arr[j] ); // negative ko left section me daalo
             j++;
         }
     }
 }
 
-
-/*
- * sortcolor()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── sortcolor: Dutch National Flag — 0,1,2 sort in-place ───────────────────
+//   1) j=0 (0s ke liye), k=size-1 (2s ke liye), i pointer
+//   2) arr[i]==0? swap with j, dono aage
+//   3) arr[i]==2? swap with k, k peeche — i same (naya element check)
+//   4) arr[i]==1? sirf i++ — beech me rehne do
 void sortcolor(int arr[], int size) {
     int j=0, k= size-1;
     int i=0;
@@ -48,33 +49,24 @@ void sortcolor(int arr[], int size) {
         }
         else if(arr[i] == 2) {
             swap(arr[i], arr[k]);
-            k--;
+            k--; // 2 ko end me bhejo — i check dubara
         }
         else {
-            i++;
+            i++; // 1 — already sahi section me
         }
     }
 }
 
-
-/*
- * printarray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array elements print karo ───────────────────────────────────
+//   1) i=0 se size-1 tak har element space-separated cout
 void printarray(int arr[], int size) {
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Math Practice
- */
+// ── main: sortcolor demo on sample array ─────────────────────────────────────
+//   1) arr set karo, sortcolor call, printarray se result dikhao
 int main() {
     int arr[] = {1,0,2,2,1,0,1,0,2};
     int size = 9;

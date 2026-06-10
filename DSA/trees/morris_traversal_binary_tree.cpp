@@ -15,6 +15,19 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MORRIS TRAVERSAL — O(1) space inorder traversal
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Stack/recursion ke bina inorder traversal karo.
+//
+// Approach: Threaded binary tree trick
+//   - Left subtree ka inorder predecessor dhundho
+//   - Predecessor->right = current (thread banao)
+//   - Visit ke baad thread hatao
+//
+// Complexity: Time O(n)  |  Space O(1) extra
+// ════════════════════════════════════════════════════════════════════════════
+
 struct TreeNode
 {
     int val;
@@ -23,6 +36,10 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
+// ── buildTree: level-order array se tree banao ──
+//   1) -1 ya empty → nullptr
+//   2) BFS queue se left/right assign
+//   3) Index i array me aage badhao
 TreeNode *buildTree(const vector<int> &values)
 {
     if (values.empty() || values[0] == -1)
@@ -55,14 +72,12 @@ TreeNode *buildTree(const vector<int> &values)
     return root;
 }
 
-
-
-/*
- * morrisTraversal()
- * Purpose : Morris traversal — O(1) extra space via threading.
- * Params  : TreeNode *root
- * Returns : void
- */
+// ── morrisTraversal: O(1) space inorder ──
+//   1) current pointer root se start
+//   2) Left nahi → print + right jao
+//   3) Left hai → predecessor dhundho (rightmost in left subtree)
+//   4) Thread nahi → predecessor->right = current, left jao
+//   5) Thread hai → thread hatao, print, right jao
 void morrisTraversal(TreeNode *root)
 {
     TreeNode *current = root;
@@ -71,23 +86,23 @@ void morrisTraversal(TreeNode *root)
     {
         if (current->left == nullptr)
         {
-            cout << current->val << " ";
+            cout << current->val << " ";  // visit
             current = current->right;
         }
         else
         {
             TreeNode *predecessor = current->left;
             while (predecessor->right != nullptr && predecessor->right != current)
-                predecessor = predecessor->right;
+                predecessor = predecessor->right;  // inorder predecessor
 
             if (predecessor->right == nullptr)
             {
-                predecessor->right = current;
+                predecessor->right = current;  // thread banao
                 current = current->left;
             }
             else
             {
-                predecessor->right = nullptr;
+                predecessor->right = nullptr;  // thread hatao
                 cout << current->val << " ";
                 current = current->right;
             }
@@ -95,12 +110,7 @@ void morrisTraversal(TreeNode *root)
     }
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Morris Traversal Binary Tree
- */
+// ── main: Morris inorder demo ──
 int main()
 {
     vector<int> values = {1, 2, 3, -1, 5, -1, 4}; // -1 means NULL

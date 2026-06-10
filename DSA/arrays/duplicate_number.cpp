@@ -14,16 +14,21 @@
 #include <algorithm>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// FIND DUPLICATE — sort karke adjacent compare
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: sort ke baad duplicate side-by-side aayega
+// arr[i] == arr[i+1] ho to wahi duplicate hai
+// duplicate2() — Floyd cycle detection (TODO stub)
+// COMPLEX: Sort approach O(n log n)  |  Floyd O(n) O(1) space
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * duplicate()
- * Purpose : Hash set or sorting to find duplicates.
- * Params  : int *arr, int& size
- * Returns : int
- */
+// ── duplicate: sort + adjacent scan se duplicate dhundho ───────────────────
+//   1) sort(arr, arr+size) — duplicates paas aa jayenge
+//   2) i=0 se size-2 tak — arr[i]==arr[i+1] check
+//   3) match mila to duplicate return, warna -1
 int duplicate (int *arr, int& size) {
-    sort(arr, arr+size); // this sln takes timecomplexity nlogn
-    // Iterate over all elements
+    sort(arr, arr+size);
     for(int i=0; i<size-1; i++) {
         if(arr[i]== arr[i+1] ) {
             return arr[i];
@@ -33,21 +38,18 @@ int duplicate (int *arr, int& size) {
 }
 
 
-/*
- * duplicate2()
- * Purpose : Hash set or sorting to find duplicates.
- * Params  : int *arr, int& size
- * Returns : int
- */
+// ── duplicate2: Floyd cycle detection (abhi empty stub) ────────────────────
+//   1) array ko linked list jaisa treat karo — arr[i] -> arr[arr[i]]
+//   2) slow-fast pointer se cycle entry = duplicate
+//   3) implementation pending
 int duplicate2(int *arr, int& size) {
     
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Duplicate Number
- */
+// ── main: duplicate() demo ─────────────────────────────────────────────────
+//   1) sample array {1,2,4,4,3}
+//   2) duplicate print karo
 int main() {
     int arr[] = {1,2,4,4,3};
     int size = 5;

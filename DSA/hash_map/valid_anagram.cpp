@@ -12,6 +12,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// VALID ANAGRAM — Character frequency match karo
+// ────────────────────────────────────────────────────────────────────────────
+// Anagram = same chars, different order
+// cnt[26]: s se ++, t se -- — end me sab zero hona chahiye
+// Length alag ho to turant false
+// O(n) time, O(1) space (fixed 26)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── isAnagram: do strings anagram hain ya nahi ─────────────────────────────
+//   1) size alag -> false
+//   2) cnt[s[i]-'a']++, cnt[t[i]-'a']-- ek saath
+//   3) cnt me koi non-zero -> false
+//   4) sab zero -> true (same frequency)
 bool isAnagram(string s, string t) {
     if (s.size() != t.size()) return false;
     int cnt[26] = {};
@@ -23,6 +37,7 @@ bool isAnagram(string s, string t) {
     return true;
 }
 
+// ── main: "anagram" vs "nagaram" -> YES ────────────────────────────────────
 int main() {
     cout << (isAnagram("anagram", "nagaram") ? "YES" : "NO") << endl;
     return 0;

@@ -15,12 +15,21 @@ using namespace std;
 
 
 
-/*
- * possible()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int> cooksRanks, int P, int mid
- * Returns : bool
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// PRATA POJ — Min time for P pratas (BS on answer)
+// ────────────────────────────────────────────────────────────────────────────
+// Cook rank R — jth prata time = j*R
+// possible(mid): mid time me P pratas ban sakte?
+// MIN time pattern: possible -> ans=mid, e=mid-1
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── possible: P pratas in mid time? ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 bool possible(vector<int> cooksRanks, int P, int mid)
 {
     int currP = 0;
@@ -51,12 +60,12 @@ bool possible(vector<int> cooksRanks, int P, int mid)
 }
 
 
-/*
- * minTime()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int> cooksRank, int P
- * Returns : int
- */
+
+// ── minTime: min time BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int minTime(vector<int> cooksRank, int P)
 {
     int start = 0;
@@ -80,10 +89,12 @@ int minTime(vector<int> cooksRank, int P)
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Pratas Poj
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main()
 {
     int T;

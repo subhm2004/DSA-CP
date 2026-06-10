@@ -12,6 +12,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MEETING ROOMS II — Min rooms = max simultaneous meetings
+// ────────────────────────────────────────────────────────────────────────────
+// Start aur end arrays alag sort karo
+// start[i] < end[j] -> nayi meeting shuru, rooms++, i++
+// warna meeting khatam, rooms--, j++
+// maxRooms = peak overlap count
+// Chronological order simulate — greedy two pointers
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── minMeetingRooms: minimum conference rooms chahiye ──────────────────────
+//   1) start[] aur end[] alag arrays, sort
+//   2) i,j pointers — start vs end compare
+//   3) start < end -> rooms++ (overlap badha), i++
+//   4) warna rooms-- (ek meeting khatam), j++
+//   5) maxRooms return
 int minMeetingRooms(vector<vector<int>> &intervals) {
     vector<int> start, end;
     for (auto &iv : intervals) {
@@ -25,7 +41,7 @@ int minMeetingRooms(vector<vector<int>> &intervals) {
     while (i < (int)start.size()) {
         if (start[i] < end[j]) {
             rooms++;
-            maxRooms = max(maxRooms, rooms);
+            maxRooms = max(maxRooms, rooms); // peak simultaneous
             i++;
         } else {
             rooms--;
@@ -35,6 +51,7 @@ int minMeetingRooms(vector<vector<int>> &intervals) {
     return maxRooms;
 }
 
+// ── main: 3 intervals -> 2 rooms ───────────────────────────────────────────
 int main() {
     vector<vector<int>> v = {{0,30},{5,10},{15,20}};
     cout << minMeetingRooms(v) << endl; // 2

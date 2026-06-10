@@ -13,14 +13,19 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// STL PRIORITY_QUEUE — Max heap vs Min heap demo
+// ────────────────────────────────────────────────────────────────────────────
+// priority_queue<int> = max heap (default) — top sabse bada
+// priority_queue<int, vector<int>, greater<int>> = min heap — top sabse chhota
+// push O(log n), pop O(log n), top O(1)
+// k-th smallest: min heap me (k-1) baar pop
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * findingksmallest()
- * Purpose : priority_queue for O(log n) min/max access.
- * Params  : priority_queue<int, vector<int>, greater<int>> p, int& k
- * Returns : int
- */
+// ── findingksmallest: min heap se k-th chhota nikaalo ──────────────────────
+//   1) empty heap -> -1 return
+//   2) jab tak k != 1: pop karo, k--
+//   3) top() = k-th smallest return
 int findingksmallest(priority_queue<int, vector<int>, greater<int>> p, int& k){
     if(p.empty()){
         return -1;
@@ -32,14 +37,12 @@ int findingksmallest(priority_queue<int, vector<int>, greater<int>> p, int& k){
     return p.top();
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Stl Priority Queue Heaps
- */
+// ── main: max/min heap operations aur k-smallest demo ────────────────────────
+//   1) max heap push/pop/top/size demo
+//   2) min heap push demo
+//   3) user se k input, findingksmallest call
 int main(){
-    // Min heap — smallest element at top
-    priority_queue<int>pq;
+    priority_queue<int>pq; // max heap
     pq.push(10);
     pq.push(20);
     pq.push(30);
@@ -55,7 +58,7 @@ int main(){
     else {
         cout<< "not empty"<< endl;
     }
-    priority_queue<int, vector<int>, greater<int>> p;
+    priority_queue<int, vector<int>, greater<int>> p; // min heap
     p.push(10);
     p.push(20);
     p.push(30);
@@ -73,7 +76,6 @@ int main(){
     cin>> k;
     int ans= findingksmallest(p,k);
     cout<< "kth smallest element is: "<< ans << endl;
-
 
 
 

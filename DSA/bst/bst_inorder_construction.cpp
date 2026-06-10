@@ -12,6 +12,16 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST INORDER CONSTRUCTION — Sorted array se balanced tree
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Sorted inorder se BST construct (variant of bst_inorder_traversal).
+//
+// Approach: Divide & conquer — mid pick, left/right recurse
+// Complexity: Time O(n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,13 +34,10 @@ class Node{
     }
 };
 
-
-/*
- * CreateBSTInorder()
- * Purpose : Use BST property: left < root < right.
- * Params  : int inorder[], int s, int e, int& size
- * Returns : Node*
- */
+// ── CreateBSTInorder: [s..e] range se BST ──
+//   1) s >= e → NULL (base case variant)
+//   2) mid element root banao
+//   3) Left/right halves recursively
 Node* CreateBSTInorder(int inorder[], int s, int e, int& size){
     if(s>=e){
         return NULL;
@@ -40,16 +47,9 @@ Node* CreateBSTInorder(int inorder[], int s, int e, int& size){
     root-> left=  CreateBSTInorder(inorder, s, mid-1, size);
     root-> right= CreateBSTInorder(inorder, mid+1, e, size);
     return root;
-
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS level print ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -75,11 +75,7 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst Inorder Construction
- */
+// ── main: demo with sorted inorder array ──
 int main(){
     int inorder[]= {5,10,15,20,25,30,35,40};
     int size= 8;

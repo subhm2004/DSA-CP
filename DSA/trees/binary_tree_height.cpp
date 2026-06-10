@@ -12,6 +12,19 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY TREE HEIGHT — Maximum depth nikalo
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Root se sabse neeche leaf tak kitne edges/nodes?
+//
+// Approach: Recursive DFS
+//   - NULL → 0 return
+//   - max(leftDepth, rightDepth) + 1
+//
+// Complexity: Time O(n)  |  Space O(h) recursion
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,12 +37,10 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── CreateTree: user input se tree banao ──
+//   1) Data lo, -1 = NULL
+//   2) Node create, left/right recursive
+//   3) Root return
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -43,13 +54,11 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * Maxdepth()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : int
- */
+// ── Maxdepth: subtree ki maximum depth ──
+//   1) NULL → 0 (base case)
+//   2) Left aur right depth recursively
+//   3) Dono ka max lo + 1 (current level)
+//   4) Ye poori tree ki height hai
 int Maxdepth(Node* root){
     if(root== NULL){
         return 0;
@@ -58,16 +67,9 @@ int Maxdepth(Node* root){
     int right= Maxdepth(root-> right);
     int maxi= max(left,right);
     return maxi+1;
-
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Tree Height
- */
+// ── main: tree build karo ──
 int main(){
     Node* root= CreateTree();
-
-
 }

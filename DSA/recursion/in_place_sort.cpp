@@ -14,13 +14,18 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// IN-PLACE MERGE — Do sorted arrays ko bina extra space merge
+// ────────────────────────────────────────────────────────────────────────────
+// arr1 aur arr2 sorted — arr1[i]>arr2[j] pe swap, arr2 sort
+// partitioning: quick sort jaisa pivot placement
+// Merge sort ka in-place variant practice
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * partitioning()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : vector<int> &arr2, int s, int e
- * Returns : void
- */
+// ── partitioning: pivot ko sahi jagah pe rakho ──────────────────────────────
+//   1) pivot = arr2[s], count chhote elements
+//   2) swap se pivot sahi index pe
+//   3) i,j se partition — galat elements swap
 void partitioning(vector<int> &arr2, int s,int e){
     int pivotindex= s;
     int pivotelement= arr2[s];
@@ -46,7 +51,6 @@ void partitioning(vector<int> &arr2, int s,int e){
         }
     }
     cout<< "second array is\n";
-    // Iterate over all elements
     for(int i=0; i< arr2.size(); i++){
         cout<< arr2[i] << " ";
 
@@ -54,13 +58,9 @@ void partitioning(vector<int> &arr2, int s,int e){
     cout<< endl;
 }
 
-
-/*
- * inplacesorting()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : vector<int>&arr1, vector<int>& arr2
- * Returns : void
- */
+// ── inplacesorting: arr1 aur arr2 ko merge karo in-place ────────────────────
+//   1) arr1[i]<=arr2[j] -> i++ (theek order)
+//   2) warna swap aur arr2 sort karo
 void inplacesorting(vector<int>&arr1, vector<int>& arr2){
     int i=0, j=0;
     int s=0, e= arr2.size()-1;
@@ -69,27 +69,21 @@ void inplacesorting(vector<int>&arr1, vector<int>& arr2){
             i++;
         }
         else {
-            swap(arr1[i], arr2[j]);
-            sort(arr2.begin(), arr2.end());
+            swap(arr1[i], arr2[j]);  // galat order — swap
+            sort(arr2.begin(), arr2.end());  // arr2 dubara sorted
         }
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for In Place Sort
- */
+// ── main: in-place merge demo ───────────────────────────────────────────────
 int main(){
     vector<int>arr1{1,2,8,9,12,13};
     vector<int>arr2{3,4,7,10};
     inplacesorting(arr1,arr2);
-    // Iterate over all elements
     for(int i=0; i< arr1.size(); i++){
         cout<< arr1[i]<< " ";
     }
     cout<< endl;
-    // Iterate over all elements
     for(int i=0; i< arr2.size(); i++){
         cout<< arr2[i]<< " ";
     }

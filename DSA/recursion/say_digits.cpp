@@ -13,31 +13,30 @@
 #include <math.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SAY DIGITS — Number ko words me bolna (zero, one, two, ...)
+// ────────────────────────────────────────────────────────────────────────────
+// Last digit n%10 nikalo, n/10 pe recurse, phir arr[digit] print
+// Tail recursion — pehle chhota number, baad me word print
+// arr[0]="zero", arr[1]="one", ... mapping use hoti hai
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * printdigit()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : string arr[10], int& n
- * Returns : void
- */
+// ── printdigit: number ke har digit ka word print ───────────────────────────
+//   1) n==0 -> base case
+//   2) digit = n%10 — last digit
+//   3) n = n/10, recursive call — baaki digits
+//   4) recursion wapas aate hi arr[digit] print
 void printdigit(string arr[10], int& n) {
-    // Base case: n == 0
     if(n==0) {
         return;
     }
     int digit = n % 10;
     n= n/10;
-    printdigit(arr, n);
-    cout<< arr[digit]<< endl;
+    printdigit(arr, n);  // pehle left digits ke words
+    cout<< arr[digit]<< endl;  // ab current digit ka naam
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Say Digits
- */
+// ── main: number input, digit names print ───────────────────────────────────
 int main() {
     int n;
     cout<< "enter any number"<< endl;

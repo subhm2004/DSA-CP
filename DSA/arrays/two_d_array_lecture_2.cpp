@@ -13,13 +13,19 @@
 #include <limits.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// 2D ARRAY OPERATIONS — column sum, search, min/max
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: nested loops se 2D matrix traverse — row-wise ya column-wise
+// columnsum: har column ka total, linearsearch: element dhundho
+// maxelement/minelement: poori matrix scan
+// COMPLEX: Time O(n*m) per operation  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * columnsum()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[3][3]
- * Returns : void
- */
+// ── columnsum: har column ke elements ka sum ───────────────────────────────
+//   1) outer loop columns (i), inner loop rows (j)
+//   2) arr[j][i] add karo — column-wise sum
+//   3) har column ka total print
 void columnsum(int arr[3][3]) {
     for(int i=0; i<3; i++) {
         int sum =0;
@@ -31,12 +37,10 @@ void columnsum(int arr[3][3]) {
 }
 
 
-/*
- * linearsearch()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[3][3], int search
- * Returns : void
- */
+// ── linearsearch: 2D matrix me element dhundho ─────────────────────────────
+//   1) nested loop — har cell check
+//   2) match mila to row, column print + flag=1
+//   3) flag==0 to not found
 void linearsearch(int arr[3][3], int search) {
     int flag =0;
     for(int i=0; i<3; i++) {
@@ -54,12 +58,10 @@ void linearsearch(int arr[3][3], int search) {
 }
 
 
-/*
- * maxelement()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[3][3]
- * Returns : int
- */
+// ── maxelement: matrix ka maximum element ───────────────────────────────────
+//   1) max = INT_MIN se start
+//   2) har cell pe compare — bada mila to update
+//   3) max return
 int maxelement(int arr[3][3]) {
     int max = INT_MIN;
     for(int i=0; i<3; i++) {
@@ -73,12 +75,10 @@ int maxelement(int arr[3][3]) {
 }
 
 
-/*
- * minelement()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[3][3]
- * Returns : int
- */
+// ── minelement: matrix ka minimum element ───────────────────────────────────
+//   1) min = INT_MAX se start
+//   2) har cell pe compare — chhota mila to update
+//   3) min return
 int minelement(int arr[3][3]) {
     int min = INT_MAX;
     for(int i=0; i<3; i++) {
@@ -93,10 +93,10 @@ int minelement(int arr[3][3]) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Two D Array Lecture 2
- */
+// ── main: 2D array input, min/max print ────────────────────────────────────
+//   1) 3x3 matrix user input
+//   2) print matrix
+//   3) maxelement aur minelement call
 int main() {
     int search;
     int arr[3][3];

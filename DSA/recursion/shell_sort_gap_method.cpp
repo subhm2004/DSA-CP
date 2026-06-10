@@ -12,13 +12,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// IN-PLACE MERGE SORT — Gap method se merge (Shell sort inspired)
+// ────────────────────────────────────────────────────────────────────────────
+// Gap se subarrays compare — galat order pe swap
+// mergesort divide karta hai, inplacemerging gap se merge
+// Gap half hota jata hai jab tak 1 na ho jaye
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * inplacemerging()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : vector<int> &arr, int& s, int& e
- * Returns : void
- */
+// ── inplacemerging: gap se adjacent pairs compare/swap ──────────────────────
+//   1) gap = (e+1)/2 + (e+1)%2 — shuruati gap
+//   2) i aur j=i+gap — compare, swap if needed
+//   3) gap half karo jab tak gap>=1
 void inplacemerging(vector<int> &arr, int& s, int& e){
     int gap= (e+1)/2 +(e+1)%2;
     while(gap>=1){
@@ -36,19 +41,16 @@ void inplacemerging(vector<int> &arr, int& s, int& e){
             }
          }
          if(gap==1){
-            return;
+            return;  // final pass complete
          }
-         gap= (gap/2)+ (gap%2);   
+         gap= (gap/2)+ (gap%2);   // gap reduce   
     }
 }
 
-
-/*
- * mergesort()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : vector<int> &arr, int s, int e
- * Returns : void
- */
+// ── mergesort: divide + in-place gap merge ──────────────────────────────────
+//   1) s>=e -> base case
+//   2) mid pe divide, dono halves sort
+//   3) inplacemerging se merge
 void mergesort(vector<int> &arr, int s, int e){
     if(s>=e){
         return;
@@ -59,17 +61,12 @@ void mergesort(vector<int> &arr, int s, int e){
     inplacemerging(arr,s,e);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Shell Sort Gap Method
- */
+// ── main: in-place merge sort demo ──────────────────────────────────────────
 int main(){
     vector<int>arr{1,2,8,9,12,13,3,4,7,10};
     int s=0, e= arr.size()-1;
     mergesort(arr,s,e);
     cout<< "Array after in place merging is"<< endl;
-    // Iterate over all elements
     for(int i=0; i< arr.size(); i++){
         cout<< arr[i]<< " ";
     }

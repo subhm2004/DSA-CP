@@ -15,12 +15,21 @@
 using namespace std;
 
 
-/*
- * ispossiblesln()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& k, int mid
- * Returns : bool
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// PAINTER PARTITION — K painters, min max time (BS on answer)
+// ────────────────────────────────────────────────────────────────────────────
+// Boards contiguous — har painter ko consecutive boards
+// ispossiblesln(mid): mid time me K painters kaam kar sakte?
+// MIN max time — same book allocation pattern
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── ispossiblesln: mid time feasible? ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 bool ispossiblesln(int *arr, int& size, int& k, int mid){
     int paintercount= 1;
     int boardlenalloc=0;
@@ -42,12 +51,12 @@ bool ispossiblesln(int *arr, int& size, int& k, int mid){
 }
 
 
-/*
- * mintime()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& k
- * Returns : int
- */
+
+// ── mintime: min max time ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int mintime(int *arr, int& size, int& k){
     int s=0;
     int e= accumulate(arr,arr+size, 0);
@@ -67,10 +76,12 @@ int mintime(int *arr, int& size, int& k){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Painter Partition
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[]= {5,10,30,20,15};
     int size= 5; // number of boards= length of array

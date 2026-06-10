@@ -12,11 +12,17 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MERGE TWO SORTED ARRAYS — Two-pointer merge technique
+// ────────────────────────────────────────────────────────────────────────────
+// arr1 aur arr2 dono sorted — chhota element mainarr me
+// Ek khatam hone pe baaki copy
+// Merge sort ka core step — O(n+m) time
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Merge Arrays Sorting
- */
+// ── main: do sorted arrays merge ────────────────────────────────────────────
+//   1) i,j pointers — compare aur smaller pick
+//   2) leftover arr1/arr2 copy
 int main(){
     int arr1[]= {2,4,6};
     int size1= 3;
@@ -36,10 +42,10 @@ int main(){
             j++;
         }
     }
-    while(i<size1){
+    while(i<size1){  // arr1 bacha
         mainarr[k++]= arr1[i++];
     }
-    while(j<size2){
+    while(j<size2){  // arr2 bacha
         mainarr[k++]= arr2[j++];
     }
 

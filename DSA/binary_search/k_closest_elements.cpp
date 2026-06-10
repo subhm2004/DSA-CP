@@ -15,12 +15,21 @@
 using namespace std;
 
 
-/*
- * closestpairs()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int>& nums, int& k, int& target
- * Returns : void
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// K CLOSEST ELEMENTS — Window shrink (Leetcode 658)
+// ────────────────────────────────────────────────────────────────────────────
+// Sorted array — k elements ka window jiska target se distance min
+// h-l>=k tab tak shrink — door wala end hatao
+// Two pointer window technique
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── closestpairs: k closest window ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void closestpairs(vector<int>& nums, int& k, int& target){
     int l=0, h= nums.size()-1;
     while(h-l >=k){
@@ -38,10 +47,12 @@ void closestpairs(vector<int>& nums, int& k, int& target){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for K Closest Elements
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     vector<int>nums= {12,16,22,30,35,39,42,45,48,50,53,55,56};
     int k=4;

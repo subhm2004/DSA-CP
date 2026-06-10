@@ -12,27 +12,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SIEVE OF ERATOSTHENES — 2 se n tak saare primes nikalo
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: isPrime[i]=true se start — har prime ke multiples false karo
+// i*i se start karo (chhote multiples pehle hi mark ho chuke)
+// COMPLEX: Time O(n log log n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * sieveOfEratosthenes()
- * Purpose : Sieve of Eratosthenes — mark multiples of primes.
- * Params  : int n
- * Returns : vector<int>
- */
+// ── sieveOfEratosthenes: boolean sieve se primes list banao ──────────────────
+//   1) isPrime[0..n] sab true — 0,1 ko false (prime nahi)
+//   2) i=2 se sqrt(n) — isPrime[i] true? multiples mark false
+//   3) j = i*i se start — har j += i pe isPrime[j]=false
+//   4) jo indices true bache — primes vector me daalo, return
 vector<int> sieveOfEratosthenes(int n)
 {
     vector<bool> isPrime(n + 1, true);
     vector<int> primes;
 
-    isPrime[0] = isPrime[1] = false; // 0 and 1 are not prime numbers
+    isPrime[0] = isPrime[1] = false; // 0 aur 1 prime nahi hain
 
     for (int i = 2; i * i <= n; i++)
     {
         if (isPrime[i])
         {
             for (int j = i * i; j <= n; j += i)
-                isPrime[j] = false;
+                isPrime[j] = false; // i ka multiple — composite
         }
     }
 
@@ -43,12 +48,9 @@ vector<int> sieveOfEratosthenes(int n)
     return primes;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Sieve Of Eratosthenes
- */
+// ── main: user input pe sieve run karo ─────────────────────────────────────
+//   1) n input lo
+//   2) sieveOfEratosthenes call — primes print karo
 int main()
 {
     int n;

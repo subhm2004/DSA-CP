@@ -12,18 +12,24 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// INVERTED HALF PYRAMID — pehli row sabse zyada stars
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: row i me (n-i) stars — har row ek kam
+// Left-aligned inverted triangle
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Inverted Half Pyramid
- */
+// ── main: inverted half pyramid print ────────────────────────────────────────
+//   1) n input
+//   2) row i: (n-i) stars print
+//   3) newline
 int main() {
     int n;
     cout<< "enter any number"<< endl;
     cin>> n;
     for(int i=0; i<n; i++) {
         for(int j=0; j<n-i; j++) {
-            cout<< "*";
+            cout<< "*"; // stars ghate hain har row me
         }
         cout<< "\n";
     }

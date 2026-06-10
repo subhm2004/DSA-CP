@@ -12,6 +12,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ASSIGN COOKIES — Chhote greed se match karo
+// ────────────────────────────────────────────────────────────────────────────
+// g = bachcho ki greed (min cookie size chahiye)
+// s = cookie sizes — dono sort karo
+// Sabse chhote bachche ko sabse chhoti sufficient cookie do
+// Cookie chhoti hai to j++ (badi cookie try) — bachcha wait nahi karta
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── findContentChildren: max khush bachche count ───────────────────────────
+//   1) g aur s dono sort — chhota pehle
+//   2) two pointers i (child), j (cookie)
+//   3) s[j] >= g[i] -> happy++, dono aage
+//   4) warna sirf j++ — badi cookie dhundho
 int findContentChildren(vector<int> &g, vector<int> &s) {
     sort(g.begin(), g.end());
     sort(s.begin(), s.end());
@@ -21,11 +35,12 @@ int findContentChildren(vector<int> &g, vector<int> &s) {
             happy++;
             i++;
         }
-        j++;
+        j++; // cookie hamesha aage badhti hai
     }
     return happy;
 }
 
+// ── main: g={1,2,3}, s={1,1} -> 1 child ────────────────────────────────────
 int main() {
     vector<int> g = {1,2,3}, s = {1,1};
     cout << findContentChildren(g, s) << endl; // 1

@@ -12,6 +12,18 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// SORTED DLL → BALANCED BST
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Sorted doubly linked list se balanced BST banao.
+//
+// Approach: Recursive mid pick (like sorted array BST)
+//   - n/2 left subtree, current node root, n/2 right subtree
+//
+// Complexity: Time O(n log n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,12 +36,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Returns : Node*
- */
+// ── CreateTree: DFS input tree ──
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -43,13 +50,7 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * levelorderTraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelorderTraversal: BFS ──
 void levelorderTraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -75,13 +76,11 @@ void levelorderTraversal(Node* root){
     }
 }
 
-
-/*
- * DLLconversionBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* head, int n
- * Returns : Node*
- */
+// ── DLLconversionBST: sorted DLL → balanced BST ──
+//   1) n <= 0 → NULL
+//   2) Left half = (n/2)-1 nodes recursively
+//   3) Current head = root, head advance
+//   4) Right half = n/2 nodes recursively
 Node* DLLconversionBST(Node* head, int n){
     if(n<=0 || head== NULL){
         return NULL;
@@ -90,18 +89,13 @@ Node* DLLconversionBST(Node* head, int n){
     Node* root= head;
     root-> left= lefttree;
     if(head!= NULL){
-        head= head-> right;
+        head= head-> right;  // DLL me aage badho
     }
     
     root-> right= DLLconversionBST(head, n/2);
     return root;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Dll To Bst Construction
- */
+// ── main: placeholder entry ──
 int main(){
-
 }

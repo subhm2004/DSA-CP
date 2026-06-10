@@ -19,7 +19,10 @@ public:
     const ll RADIX_2 = 27;
     const ll MOD_2 = 1e9 + 33;
 
-    // 🔹 Compute hash pair for a string of length m
+    // compute_hash — do alag mod/base se hash pair banao (collision kam karne ke liye).
+    // Step 1: Right-to-left scan — har char ko dono bases ke saath weighted add.
+    // Step 2: factor1 *= RADIX_1, factor2 *= RADIX_2 — position weights badhao.
+    // Step 3: {hash1, hash2} return — dono match hon tab hi true match maanenge.
     pair<ll, ll> compute_hash(const string &str, ll m)
     {
         ll hash_1 = 0, hash_2 = 0;
@@ -36,7 +39,11 @@ public:
         return {hash_1, hash_2};
     }
 
-    // 🔹 Rabin–Karp function to find first occurrence of pattern in text
+    // Rabin_karp — double hash rolling window se pehla pattern match dhundho.
+    // Step 1: MAX_WEIGHT aur pattern hash pair precompute karo (dono mods).
+    // Step 2: Window slide karo — purana char hatao, naya add (rolling update).
+    // Step 3: Dono hash match ho to turant index return (verification usually skip).
+    // Step 4: Koi match na ho to -1 return.
     int Rabin_karp(string text, string pattern)
     {
         ll n = text.size();
@@ -77,7 +84,7 @@ public:
     }
 };
 
-// 🧪 Driver Code with multiple test cases
+// main — test cases pe double-hash Rabin_karp chalao; pehla match index print karo.
 int main()
 {
     ios::sync_with_stdio(false);

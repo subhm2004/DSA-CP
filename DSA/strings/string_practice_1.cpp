@@ -13,18 +13,22 @@
 #include <string>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// STRING PRACTICE — adjacent duplicate remove + substring remove
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: stack-style ans string + find/erase for substring removal
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * duplicate()
- * Purpose : Hash set or sorting to find duplicates.
- * Returns : void
- */
+// ── duplicate: for-loop se adjacent duplicates hatao ───────────────────────
+//   1) str traverse — ans ka last == current? pop_back
+//   2) warna push_back
+//   3) final ans print — LeetCode 1047 style
 void duplicate() {
     string str = "abbaca";
     string ans = "";
     for(int i=0; i< str.length(); i++) {
         if(ans.length() > 0 && str[i] == ans[ans.length()-1]) {
-            ans.pop_back();
+            ans.pop_back(); // pair cancel
         }
         else {
             ans.push_back(str[i]);
@@ -33,30 +37,24 @@ void duplicate() {
     cout<< ans<< endl;
 }
 
-
-/*
- * removepart()
- * Purpose : Standard DSA solution for this problem.
- * Returns : void
- */
+// ── removepart: target substring repeatedly erase ────────────────────────────
+//   1) str me "abc" dhoondo find se
+//   2) while loop — mila to erase(i, 3)
+//   3) cleaned str print
 void removepart() {
     string str = "daabcbaabcbc";
     string target = "abc";
     int i=0;
     while(i < str.length()) {
-        if(str.find(target)) {
-            str.erase(i,3);
+        if(str.find(target)) { // target mila?
+            str.erase(i,3); // 3 chars erase
         }
     }
     cout<< str;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for String Practice 1
- */
+// ── main: removepart demo ────────────────────────────────────────────────────
+//   1) removepart() call karo
 int main() {
     removepart();
 }

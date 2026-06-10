@@ -13,6 +13,19 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// LARGEST BST SUBTREE — Sabse bada valid BST subtree
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Binary tree me sabse bada subtree jo valid BST ho?
+//
+// Approach: Post-order DFS — har node pe (size, min, max, isValid) return
+//   - Valid BST: left.max < root < right.min
+//   - ans = max valid size across tree
+//
+// Complexity: Time O(n)  |  Space O(h)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,15 +37,14 @@ class Node{
         this-> right= NULL;
     }
 };
+
 class NodeData{
     public:
     int size;
     int minval;
     int maxval;
     bool validBST;
-    NodeData(){
-
-    }
+    NodeData(){}
     NodeData(int size, int min, int max, bool valid){
         this-> size= size;
         minval= min;
@@ -41,13 +53,11 @@ class NodeData{
     }
 };
 
-
-/*
- * findlargest()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, int& ans
- * Returns : NodeData
- */
+// ── findlargest: post-order BST info collect ──
+//   1) NULL → size 0, valid true, min=INT_MAX, max=INT_MIN
+//   2) Left/right info merge
+//   3) Current valid? left.max < root < right.min
+//   4) Valid ho to ans update
 NodeData findlargest(Node* root, int& ans){
     if(root== NULL){
         NodeData temp (0,INT_MAX, INT_MIN, true);
@@ -63,19 +73,12 @@ NodeData findlargest(Node* root, int& ans){
         currNode.validBST= true;
     }
     if(currNode.validBST){
-        ans= max(ans, currNode.size);
+        ans= max(ans, currNode.size);  // largest valid BST size
     }
     return currNode;
-
 }
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: insert ──
 Node* CreateBST(Node* root, int data){
     if(root== NULL){
         root= new Node(data);
@@ -89,13 +92,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * TakeInput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── TakeInput: loop insert ──
 void TakeInput(Node* root){
     int data;
     cout<< "Enter data"<< endl;
@@ -107,15 +104,9 @@ void TakeInput(Node* root){
     }
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Largest Bst Subtree
- */
+// ── main: largest BST subtree size ──
 int main(){
     Node* root= NULL;
     int ans=0;
     findlargest(root, ans);
-
 }

@@ -13,14 +13,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MERGE SORT — Divide & Conquer stable sort
+// ────────────────────────────────────────────────────────────────────────────
+// Array todo, dono halves sort, phir merge
+// mergearray: temp left/right, two-pointer merge
+// Guaranteed O(n log n) — worst case bhi same
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * mergearray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int *arr, int s, int e
- * Returns : void
- */
+// ── mergearray: sorted halves merge karo ────────────────────────────────────
+//   1) left/right temp arrays copy
+//   2) chhota element arr[index] me
+//   3) leftover copy
 void mergearray(int *arr, int s, int e){
     int mid= s+(e-s)/2;
     int size1= mid-s+1;
@@ -28,13 +32,11 @@ void mergearray(int *arr, int s, int e){
     int size2= e-mid;
     int *right= new int[size2];
     int k= s;
-    // Iterate over all elements
     for(int i=0;i< size1; i++){
         left[i]= arr[k];
         k++;
     }
     k= mid+1;
-    // Iterate over all elements
     for(int i=0;i< size2; i++){
         right[i]= arr[k];
         k++;
@@ -62,13 +64,10 @@ void mergearray(int *arr, int s, int e){
     }
 }
 
-
-/*
- * mergesort()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int *arr, int s, int e
- * Returns : void
- */
+// ── mergesort: recursively sort karo ────────────────────────────────────────
+//   1) s>=e base case
+//   2) mid split, dono halves sort
+//   3) mergearray se jodo
 void mergesort(int *arr, int s, int e){
     if(s>=e){
         return;
@@ -80,17 +79,12 @@ void mergesort(int *arr, int s, int e){
 
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Merge Sort
- */
+// ── main: merge sort demo ───────────────────────────────────────────────────
 int main(){
     int arr[]= {23,2,11,4,1,33,10};
     int size= 7;
     int s=0, e= size-1;
     mergesort(arr,s,e);
-    // Iterate over all elements
     for(int i=0; i<size; i++){
         cout<< arr[i]<< " ";
     }

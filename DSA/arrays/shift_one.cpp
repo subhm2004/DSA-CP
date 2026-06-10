@@ -13,17 +13,20 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SHIFT ARRAY RIGHT BY 1 — last element front pe aata hai
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: last element save karo, right se left shift karo, arr[0] = saved
+// shifttwo() — 2 steps shift (TODO stub)
+// COMPLEX: Time O(n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * shiftone()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── shiftone: ek step right circular shift ─────────────────────────────────
+//   1) temp1 = arr[size-1] save karo
+//   2) j = size-1 se 0 tak — arr[j] = arr[j-1] shift
+//   3) arr[0] = temp1 — last element front pe
 void shiftone(int arr[], int size) {
     int temp1 = arr[size-1];
-    // Iterate over all elements
     for(int j= size-1; j>=0; j--) {
         arr[j] = arr[j-1];
     }
@@ -31,12 +34,10 @@ void shiftone(int arr[], int size) {
 }
 
 
-/*
- * shifttwo()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── shifttwo: do step right shift (abhi stub) ──────────────────────────────
+//   1) last two elements save karo
+//   2) poori array 2 positions shift
+//   3) front pe dono place karo
 void shifttwo(int arr[], int size) {
     int a = arr[size-1];
     int b = arr[size-2];
@@ -44,14 +45,9 @@ void shifttwo(int arr[], int size) {
 }
 
 
-/*
- * printarray()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array print karo ───────────────────────────────────────────
+//   1) i=0 se size tak elements print
 void printarray(int arr[] ,int size) {
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
     }
@@ -59,10 +55,9 @@ void printarray(int arr[] ,int size) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Shift One
- */
+// ── main: shiftone demo ────────────────────────────────────────────────────
+//   1) array declare, shiftone call
+//   2) shifted array print
 int main() {
     int arr[] = { 10,20,30,40,50,60};
     int size = 6;

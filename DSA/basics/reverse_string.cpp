@@ -13,13 +13,18 @@
 #include <string.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// REVERSE STRING — two pointers se in-place reverse
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: i=start, j=end — swap ch[i] aur ch[j], andar badhao
+// getline se string input, strlen se length
+// COMPLEX: Time O(n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * reversestring()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : char ch[100]
- * Returns : void
- */
+// ── reversestring: char array reverse karo ─────────────────────────────────
+//   1) cin.getline se string input
+//   2) i=0, j=strlen-1 — two pointer swap
+//   3) i++, j-- — poori string reverse in-place
 void reversestring(char ch[100]) {
     cout<< "enter any string" << endl;
     cin.getline(ch,100);
@@ -32,12 +37,8 @@ void reversestring(char ch[100]) {
 }
 
 
-/*
- * printstr()
- * Purpose : Standard DSA solution for this problem.
- * Params  : char ch[100]
- * Returns : void
- */
+// ── printstr: reversed string print ────────────────────────────────────────
+//   1) strlen tak har character print
 void printstr(char ch[100]) {
     for(int i=0; i<strlen(ch); i++) {
         cout<< ch[i];
@@ -45,10 +46,9 @@ void printstr(char ch[100]) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Reverse String
- */
+// ── main: input, reverse, print ────────────────────────────────────────────
+//   1) char array declare
+//   2) reversestring + printstr
 int main() {
     char ch[100];   
     reversestring( ch);

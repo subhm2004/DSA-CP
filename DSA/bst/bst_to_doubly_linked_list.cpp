@@ -13,6 +13,19 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST → SORTED DOUBLY LINKED LIST
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST ko in-place sorted circular DLL me convert karo.
+//
+// Approach: Reverse inorder (right → root → left)
+//   - Har node ko head ke left me link karo
+//   - Result: ascending sorted DLL
+//
+// Complexity: Time O(n)  |  Space O(h) recursion
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,12 +38,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Returns : Node*
- */
+// ── CreateTree: generic tree build (DFS input) ──
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -44,13 +52,7 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * levelorderTraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelorderTraversal: BFS print ──
 void levelorderTraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -76,18 +78,17 @@ void levelorderTraversal(Node* root){
     }
 }
 
-
-/*
- * converttoDLL()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, Node* &head
- * Returns : void
- */
+// ── converttoDLL: reverse inorder se sorted DLL ──
+//   1) NULL return
+//   2) Pehle right subtree (bade values)
+//   3) root->right = head, head->left = root
+//   4) head = root
+//   5) Phir left subtree
 void converttoDLL(Node* root, Node* &head){
     if(root== NULL){
         return;
     }
-    converttoDLL(root-> right, head);
+    converttoDLL(root-> right, head);  // right pehle = reverse inorder
     root-> right= head;
     if(head!= NULL){
         head-> left= root;
@@ -96,13 +97,7 @@ void converttoDLL(Node* root, Node* &head){
     converttoDLL(root-> left, head);
 }
 
-
-/*
- * printLL()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* head
- * Returns : void
- */
+// ── printLL: DLL forward print ──
 void printLL(Node* head){
     cout<< "Printing double linkedlist"<< endl;
     Node* temp= head;
@@ -113,15 +108,10 @@ void printLL(Node* head){
     cout<< endl;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst To Doubly Linked List
- */
+// ── main: tree → DLL convert ──
 int main(){
     Node* root= CreateTree();
     levelorderTraversal(root);
     Node* head= NULL;
     converttoDLL(root, head);
-
 }

@@ -10,4 +10,16 @@
  * ============================================================================
  */
 
-
+// ════════════════════════════════════════════════════════════════════════════
+// K-GROUP REVERSAL — har k nodes ka block reverse karo
+// ────────────────────────────────────────────────────────────────────────────
+// prev/current/next pointers se k nodes reverse
+// har group ke baad prev link update — agle group se connect
+// remaining < k nodes → as-is chhod do (LeetCode variant)
+// ════════════════════════════════════════════════════════════════════════════
+//
+// ── reverseKGroup (planned): ───────────────────────────────────────────────
+//   1) count k nodes available? nahi → return head
+//   2) k nodes reverse — prev/current/next pointer swap
+//   3) reversed block ka tail → agle group se link
+//   4) recurse/repeat next group ke liye

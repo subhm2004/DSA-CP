@@ -15,12 +15,21 @@
 using namespace std;
 
 
-/*
- * oddoccurence()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int>& arr
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// SINGLE ELEMENT — Odd occurrence in sorted pairs (Leetcode 540)
+// ────────────────────────────────────────────────────────────────────────────
+// Pairs me same element — single wala alag
+// mid even/odd se decide kaunsa half me single hai
+// BS on index — O(log n)
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── oddoccurence: single element BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int oddoccurence(vector<int>& arr) {
     int s=0, e= arr.size()-1;
     int mid= s+(e-s)/2;
@@ -49,10 +58,12 @@ int oddoccurence(vector<int>& arr) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Odd Occurrence Binary Search
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     vector<int>arr= {10,10,5,5,2,2,5,5,20,20,10,10,11,11,1};
     int ans= oddoccurence(arr);

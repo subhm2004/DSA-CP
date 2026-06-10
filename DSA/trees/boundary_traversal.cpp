@@ -14,6 +14,20 @@
 #include <queue>
 #include <map>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BOUNDARY TRAVERSAL — Tree ki outer perimeter print
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Anti-clockwise boundary: left edge + leaves + right edge (reverse)
+//
+// Approach: 3 parts
+//   1) Left boundary (top-down, leaves skip)
+//   2) All leaf nodes (left to right)
+//   3) Right boundary (bottom-up, leaves skip)
+//
+// Complexity: Time O(n)  |  Space O(h)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -26,12 +40,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── CreateTree: recursive build ──
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -45,18 +54,15 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * leftboundary()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── leftboundary: left edge top-down (leaves skip) ──
+//   1) NULL return
+//   2) Leaf pe ruk jao (leaves alag print honge)
+//   3) Print root, left prefer karo warna right
 void leftboundary(Node* root){
     if(root== NULL){
         return;
     }
-    if(root-> left == NULL && root-> right== NULL){ // leaf node pr aagye
+    if(root-> left == NULL && root-> right== NULL){ // leaf — skip
         return;
     }
     cout<< root-> data<< " ";
@@ -68,13 +74,9 @@ void leftboundary(Node* root){
     }
 }
 
-
-/*
- * rightboundary()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── rightboundary: right edge bottom-up (leaves skip) ──
+//   1) Pehle recurse, phir print (reverse order)
+//   2) Right prefer, warna left
 void rightboundary(Node* root){
     if(root== NULL){
         return;
@@ -84,21 +86,16 @@ void rightboundary(Node* root){
     }
     if(root-> right!= NULL){
         rightboundary(root-> right);
-
     }
     else {
         rightboundary(root-> left);
     }
-    cout<< root-> data<< " ";
+    cout<< root-> data<< " ";  // post-order style print
 }
 
-
-/*
- * leafboundary()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── leafboundary: saari leaves left-to-right ──
+//   1) Leaf detect → print
+//   2) Left pehle, phir right
 void leafboundary(Node* root){
     if(root== NULL){
         return;
@@ -110,13 +107,10 @@ void leafboundary(Node* root){
     leafboundary(root-> right);
 }
 
-
-/*
- * boundarytraversal()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── boundarytraversal: teen parts combine ──
+//   1) Left boundary
+//   2) Leaves
+//   3) Right boundary (reverse)
 void boundarytraversal(Node* root){
     if(root== NULL){
         return;
@@ -131,11 +125,7 @@ void boundarytraversal(Node* root){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Boundary Traversal
- */
+// ── main: boundary print ──
 int main(){
     Node* root= CreateTree();
     boundarytraversal(root);

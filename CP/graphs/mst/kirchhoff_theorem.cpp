@@ -1,34 +1,28 @@
-/*
- * ============================================================================
- * TOPIC    : Kirchhoff's Matrix Tree Theorem
- * FILE     : kirchhoff_theorem.cpp
- * PROBLEM  : Count spanning trees of a connected undirected graph
- * APPROACH : Laplacian L = D − A → delete one row/col → determinant
- * REF      : https://cp-algorithms.com/graph/kirchhoff-theorem.html
- * COMPLEX  : Time: O(n³)  |  Space: O(n²)
- * ============================================================================
- *
- * THEOREM (1847)
- * --------------
- * L = D − A  (Laplacian)
- *   D[u][u] = degree of u (multi-edges + self-loops count)
- *   A[u][v] = number of edges between u and v
- *
- * Any cofactor of L equals # of spanning trees.
- * Practical: remove last row & column → det(minor) = answer.
- *
- * See kirchhoff_theorem.md for theory, circuit law link, when to use.
- * ============================================================================
- */
+// ════════════════════════════════════════════════════════════════════════════
+// KIRCHHOFF'S MATRIX TREE THEOREM — Spanning Trees Count
+// ────────────────────────────────────────────────────────────────────────────
+// Connected undirected graph me kitne spanning trees hain?
+//
+// Laplacian L = D − A
+//   D[u][u] = degree(u)   (multi-edges + self-loops count)
+//   A[u][v] = u aur v ke beech kitni edges
+//
+// Koi bhi ek row/column hatao → minor ka determinant = # spanning trees
+// Time: O(n³) determinant  |  Space: O(n²)
+// Ref: https://cp-algorithms.com/graph/kirchhoff-theorem.html
+// ════════════════════════════════════════════════════════════════════════════
 
 #include <bits/stdc++.h>
 using namespace std;
 
 struct Kirchhoff {
     int n;
-    vector<vector<long long>> laplacian;
+    vector<vector<long long>> laplacian; // L = D - A matrix
 
-    // Build Laplacian from undirected edge list (multi-edges allowed)
+    // Edge list se Laplacian banao (multi-edges allowed)
+    // ── Constructor: edge list se Laplacian matrix L = D - A banao ────────
+    // Step 1: adj[][] me edge count, deg[] me degree count karo.
+    // Step 2: laplacian[i][i] = deg[i], laplacian[i][j] = -adj[i][j].
     Kirchhoff(int n_, const vector<pair<int, int>> &edges) : n(n_) {
         vector<vector<long long>> adj(n, vector<long long>(n, 0));
         vector<long long> deg(n, 0);
@@ -48,7 +42,7 @@ struct Kirchhoff {
         }
     }
 
-    // Build directly from adjacency matrix (A[u][v] = edge count)
+    // Adjacency matrix se directly build (A[u][v] = edge count)
     static Kirchhoff fromAdjacency(const vector<vector<long long>> &adj) {
         int n = (int)adj.size();
         Kirchhoff k(n, {});
@@ -64,7 +58,7 @@ struct Kirchhoff {
         return k;
     }
 
-    // (n−1)×(n−1) minor — delete row/col `skip`
+    // (n−1)×(n−1) minor — row/col `skip` wali hata do (default: last row/col)
     vector<vector<long long>> minor(int skip = -1) const {
         if (skip < 0) skip = n - 1;
         vector<vector<long long>> m(n - 1, vector<long long>(n - 1));
@@ -79,10 +73,11 @@ struct Kirchhoff {
         return m;
     }
 
-    // Exact integer determinant — Bareiss algorithm (fraction-free), O(n³)
+    // ── Exact integer determinant — Bareiss (fraction-free), O(n³) ─────────
     static long long determinant(vector<vector<long long>> a) {
         int n = (int)a.size();
         if (n == 0) return 1;
+        // Bareiss algorithm — fraction-free determinant, exact integer result
         long long prev = 1;
         for (int k = 0; k < n - 1; k++) {
             for (int i = k + 1; i < n; i++) {
@@ -95,7 +90,7 @@ struct Kirchhoff {
         return abs(a[n - 1][n - 1]);
     }
 
-    // Determinant modulo MOD (contest default)
+    // Modular exponentiation — determinantMod me inverse ke liye
     static long long modPow(long long a, long long e, long long mod) {
         long long r = 1;
         a %= mod;
@@ -107,17 +102,18 @@ struct Kirchhoff {
         return r;
     }
 
+    // ── Determinant mod MOD — Gaussian elimination style ───────────────────
     static long long determinantMod(vector<vector<long long>> a, long long mod) {
         int n = (int)a.size();
         if (n == 0) return 1;
         long long det = 1;
         for (int col = 0; col < n; col++) {
             int row = col;
-            while (row < n && a[row][col] % mod == 0) row++;
+            while (row < n && a[row][col] % mod == 0) row++; // pivot dhundho
             if (row == n) return 0;
             if (row != col) {
                 swap(a[row], a[col]);
-                det = (mod - det) % mod;
+                det = (mod - det) % mod; // row swap -> det sign flip
             }
             det = det * a[col][col] % mod;
             long long inv = modPow(a[col][col], mod - 2, mod);
@@ -132,11 +128,13 @@ struct Kirchhoff {
         return det;
     }
 
+    // Exact count — minor ka determinant
     long long countSpanningTreesExact() const {
         if (n <= 1) return 0;
         return determinant(minor());
     }
 
+    // Modulo count — contests me MOD = 1e9+7 common
     long long countSpanningTreesMod(long long mod) const {
         if (n <= 1) return 0;
         auto m = minor();
@@ -160,7 +158,7 @@ int main() {
         cout << "Triangle (3-cycle): " << k.countSpanningTreesExact() << " trees  (expected 3)\n";
     }
 
-    // Demo 2: complete graph K4 → 4^(4-2) = 16 (Cayley)
+    // Demo 2: complete K4 → Cayley: 4^(4-2) = 16
     {
         int n = 4;
         vector<pair<int, int>> edges;
@@ -171,7 +169,7 @@ int main() {
         cout << "Complete K4:        " << k.countSpanningTreesExact() << " trees  (expected 16)\n";
     }
 
-    // Demo 3: path 1-2-3-4 → 1 tree only
+    // Demo 3: path P4 → sirf 1 tree
     {
         int n = 4;
         vector<pair<int, int>> edges = {{0, 1}, {1, 2}, {2, 3}};
@@ -179,7 +177,7 @@ int main() {
         cout << "Path P4:            " << k.countSpanningTreesExact() << " tree   (expected 1)\n";
     }
 
-    // Demo 4: modular count K6 mod 1e9+7
+    // Demo 4: K6 mod 1e9+7 — Cayley check 6^4 = 1296
     {
         int n = 6;
         vector<pair<int, int>> edges;
@@ -191,7 +189,6 @@ int main() {
         cout << "Complete K6 mod MOD:" << k.countSpanningTreesMod(MOD)
              << "  (6^4 = 1296)\n";
 
-        // Cayley: n^(n-2) for K_n
         long long cayley = 1;
         for (int i = 0; i < n - 2; i++) cayley = cayley * n % MOD;
         cout << "Cayley formula check:" << cayley << "\n";

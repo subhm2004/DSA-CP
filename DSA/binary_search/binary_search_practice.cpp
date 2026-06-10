@@ -19,12 +19,20 @@
 
 
 
-/*
- * firstocc()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY SEARCH PRACTICE — Saare BS patterns ek file me
+// ────────────────────────────────────────────────────────────────────────────
+// First/last occ, missing, peak, pivot, sqrt, quotient, k-diff
+// Interview prep — har pattern alag function
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── firstocc: first occ ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int firstocc(int *arr, int& size, int& target){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -46,12 +54,12 @@ int firstocc(int *arr, int& size, int& target){
 }
 
 
-/*
- * lastocc()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── lastocc: last occ ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int lastocc(int *arr, int& size, int& target){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -73,12 +81,12 @@ int lastocc(int *arr, int& size, int& target){
 }
 
 
-/*
- * missingelement()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size
- * Returns : int
- */
+
+// ── missingelement: missing ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int missingelement(int *arr, int& size){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -98,12 +106,12 @@ int missingelement(int *arr, int& size){
 }
 
 
-/*
- * peakelement()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size
- * Returns : int
- */
+
+// ── peakelement: peak ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int peakelement(int *arr, int& size){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -120,12 +128,12 @@ int peakelement(int *arr, int& size){
 }
 
 
-/*
- * pivotindex()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int* arr, int& size
- * Returns : int
- */
+
+// ── pivotindex: pivot ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int pivotindex(int* arr, int& size){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -150,12 +158,12 @@ int pivotindex(int* arr, int& size){
 }
 
 
-/*
- * search()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── search: rotated search ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int search(int *arr, int& size, int& target){
     int s=0, e= size-1;
     int index= pivotindex(arr,size);
@@ -168,12 +176,12 @@ int search(int *arr, int& size, int& target){
 }
 
 
-/*
- * sqrt()
- * Purpose : Binary search — eliminate half the search space each step.
- * Params  : int& n
- * Returns : int
- */
+
+// ── sqrt: sqrt ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int sqrt(int& n){
     int s=0, e= n;
     int mid= s+(e-s)/2;
@@ -192,12 +200,12 @@ int sqrt(int& n){
 }
 
 
-/*
- * quotient()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int& dividend, int& divisor
- * Returns : int
- */
+
+// ── quotient: quotient ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int quotient(int& dividend, int& divisor){
     int s=0, e= dividend;
     int mid= s+(e-s)/2;
@@ -216,12 +224,12 @@ int quotient(int& dividend, int& divisor){
 }
 
 
-/*
- * nearlysorted()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── nearlysorted: nearly sorted ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int nearlysorted(int *arr, int& size, int& target){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -247,12 +255,12 @@ int nearlysorted(int *arr, int& size, int& target){
 }
 
 
-/*
- * kdiffpairs()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& k
- * Returns : int
- */
+
+// ── kdiffpairs: k-diff ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int kdiffpairs(int *arr, int& size, int& k){
     sort(arr,arr+size);
     int i=0;
@@ -278,12 +286,12 @@ int kdiffpairs(int *arr, int& size, int& k){
 }
 
 
-/*
- * binarysearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int s, int e, int target
- * Returns : int
- */
+
+// ── binarysearch: BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(int *arr, int& size, int s, int e, int target){
     int mid= s+(e-s)/2;
     while(s<=e){
@@ -302,12 +310,12 @@ int binarysearch(int *arr, int& size, int s, int e, int target){
 }
 
 
-/*
- * findpairs()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& k
- * Returns : int
- */
+
+// ── findpairs: pairs ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int findpairs(int *arr, int& size, int& k){
     set<pair<int,int>>ans;
     // Iterate over all elements
@@ -320,10 +328,12 @@ int findpairs(int *arr, int& size, int& k){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Search Practice
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
 
     int n=66;

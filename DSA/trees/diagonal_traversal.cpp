@@ -14,6 +14,20 @@
 #include <queue>
 #include <map>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// DIAGONAL TRAVERSAL — ↘ diagonal lines me nodes print
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Tree ko diagonal (top-left to bottom-right) lines me traverse karo.
+//
+// Approach: Modified BFS
+//   - Right child same diagonal pe rehta hai
+//   - Left child nayi diagonal start karta hai
+//   - Queue me sirf left children, temp right se slide
+//
+// Complexity: Time O(n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -26,12 +40,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── CreateTree: recursive build ──
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -45,13 +54,10 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * levelorder()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelorder: diagonal traversal (modified BFS) ──
+//   1) Queue me left children store, temp right chain follow
+//   2) Har node print, left push, right pe slide
+//   3) Right khatam → queue se agla diagonal start
 void levelorder(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -64,22 +70,18 @@ void levelorder(Node* root){
         }       
         cout<< temp-> data<< " ";
         if(temp-> left!= NULL){
-            q.push(temp-> left);
+            q.push(temp-> left);  // left = nayi diagonal
         }
         if(temp-> right!= NULL){
-            temp= temp-> right;
+            temp= temp-> right;   // right = same diagonal continue
         }
         else {
-            temp= NULL;
+            temp= NULL;          // diagonal khatam, queue se agla
         }
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Diagonal Traversal
- */
+// ── main: diagonal print demo ──
 int main(){
     Node* root= CreateTree();
     cout<< "printing diagonal traversal"<< endl;

@@ -1,29 +1,33 @@
+// ════════════════════════════════════════════════════════════════════════════
+// ADJACENCY MATRIX → ADJACENCY LIST CONVERSION
+// ────────────────────────────────────────────────────────────────────────────
+// Matrix me adjMatrix[i][j] = edge weight (INT_MAX = no edge)
+// List me har node i ke liye list of {neighbor, weight} pairs
+//
+// unordered_map use kiya hai taaki sparse graphs me memory bache
+// ════════════════════════════════════════════════════════════════════════════
+
 // #include <iostream>
 // #include <vector>
 // #include <climits> // for INF
 // using namespace std;
-
+//
 // vector<vector<pair<int, int>>> matrixToAdjacencyList(int V, const vector<vector<int>> &adjMatrix)
 // {
-//     // Initialize an adjacency list
 //     vector<vector<pair<int, int>>> adjList(V);
-
-//     // Traverse the adjacency matrix and convert it to adjacency list
 //     for (int i = 0; i < V; i++)
 //     {
 //         for (int j = 0; j < V; j++)
 //         {
-//             // If there is an edge (i.e., weight is not INF), add it to the adjacency list
 //             if (adjMatrix[i][j] != INT_MAX)
 //             {
 //                 adjList[i].push_back({j, adjMatrix[i][j]});
 //             }
 //         }
 //     }
-
 //     return adjList;
 // }
-
+//
 // void printAdjList(const vector<vector<pair<int, int>>> &adjList)
 // {
 //     for (int i = 0; i < adjList.size(); i++)
@@ -36,36 +40,33 @@
 //         cout << endl;
 //     }
 // }
-
+//
 // int main()
 // {
-//     int V = 5; // Number of vertices
-
-//     // Adjacency matrix representation of a graph
+//     int V = 5;
 //     vector<vector<int>> adjMatrix = {
 //         {INT_MAX, 10, INT_MAX, INT_MAX, 20},
 //         {INT_MAX, INT_MAX, 5, INT_MAX, INT_MAX},
 //         {INT_MAX, INT_MAX, INT_MAX, 2, INT_MAX},
 //         {INT_MAX, INT_MAX, INT_MAX, INT_MAX, 1},
 //         {INT_MAX, 7, INT_MAX, INT_MAX, INT_MAX}};
-
-//     // Convert adjacency matrix to adjacency list
 //     vector<vector<pair<int, int>>> adjList = matrixToAdjacencyList(V, adjMatrix);
-
-//     // Print the adjacency list
 //     cout << "Adjacency List:" << endl;
 //     printAdjList(adjList);
-
 //     return 0;
 // }
 #include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <list>
-#include <climits> // For INT_MAX
+#include <climits>
 using namespace std;
 
-// Function: Adjacency matrix ko unordered_map-based adjacency list me convert karega
+// Step 1: Empty unordered_map adjList banao — sparse storage ke liye.
+// Step 2: Har row i aur column j par check karo — adjMatrix[i][j] != INT_MAX matlab edge hai.
+// Step 3: Edge mile to adjList[i].push_back({j, weight}) karo.
+// Step 4: Sirf existing edges store hongi — memory bachti hai sparse graphs mein.
+// Step 5: Converted adjacency list return karo.
 unordered_map<int, list<pair<int, int>>> matrixToAdjList(int V, const vector<vector<int>> &adjMatrix)
 {
     unordered_map<int, list<pair<int, int>>> adjList;
@@ -75,15 +76,18 @@ unordered_map<int, list<pair<int, int>>> matrixToAdjList(int V, const vector<vec
         for (int j = 0; j < V; j++)
         {
             if (adjMatrix[i][j] != INT_MAX)
-            {                                               // Agar edge exist karti hai
-                adjList[i].push_back({j, adjMatrix[i][j]}); // {neighbor, weight} add karo
+            {
+                adjList[i].push_back({j, adjMatrix[i][j]});
             }
         }
     }
     return adjList;
 }
 
-// Function: Adjacency list print karega
+// Step 1: adjList ki har node entry iterate karo.
+// Step 2: Node number print karo, colon lagao.
+// Step 3: Har neighbor ke liye (neighbor, weight) pair print karo.
+// Step 4: Har node ke baad newline — conversion verify karne ke liye.
 void printAdjList(const unordered_map<int, list<pair<int, int>>> &adjList)
 {
     for (const auto &node : adjList)
@@ -99,9 +103,8 @@ void printAdjList(const unordered_map<int, list<pair<int, int>>> &adjList)
 
 int main()
 {
-    int V = 5; // Number of vertices
+    int V = 5;
 
-    // Adjacency matrix representation of a graph
     vector<vector<int>> adjMatrix = {
         {INT_MAX, 10, INT_MAX, INT_MAX, 20},
         {INT_MAX, INT_MAX, 5, INT_MAX, INT_MAX},
@@ -109,10 +112,8 @@ int main()
         {INT_MAX, INT_MAX, INT_MAX, INT_MAX, 1},
         {INT_MAX, 7, INT_MAX, INT_MAX, INT_MAX}};
 
-    // Convert adjacency matrix to unordered_map-based adjacency list
     unordered_map<int, list<pair<int, int>>> adjList = matrixToAdjList(V, adjMatrix);
 
-    // Print adjacency list
     cout << "Adjacency List:\n";
     printAdjList(adjList);
 

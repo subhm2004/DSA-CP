@@ -12,6 +12,16 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST SEARCH — Target dhundho, min/max nikalo
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST me value search karo; minimum aur maximum bhi nikalo.
+//
+// Approach: BST property exploit — target < root → left, warna right
+// Complexity: Time O(h)  |  Space O(h) recursion
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,13 +34,10 @@ class Node{
     }
 };
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: insert karke BST maintain ──
+//   1) NULL → naya node
+//   2) data > root → right me insert
+//   3) Warna left me insert
 Node* CreateBST(Node* root, int data){
     if(root== NULL){
         root= new Node(data);
@@ -45,13 +52,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * takinginput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takinginput: -1 tak values insert ──
 void takinginput(Node* &root){
     int data;
     cout<< "Enter data"<< endl;
@@ -63,13 +64,11 @@ void takinginput(Node* &root){
     }
 }
 
-
-/*
- * searchInBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int target
- * Returns : bool
- */
+// ── searchInBST: target hai ya nahi ──
+//   1) NULL → false
+//   2) Match → true
+//   3) target < root → left search
+//   4) Warna right search
 bool searchInBST(Node* root, int target){
     if(root== NULL){
         return false;
@@ -85,13 +84,10 @@ bool searchInBST(Node* root, int target){
     }
 }
 
-
-/*
- * FindMinimum()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : int
- */
+// ── FindMinimum: leftmost node ki value ──
+//   1) NULL → -1
+//   2) Jab tak left hai, left jao
+//   3) Leaf left = minimum
 int FindMinimum(Node* root){
     if(root== NULL){
         return -1;
@@ -102,13 +98,7 @@ int FindMinimum(Node* root){
     return root-> data;
 }
 
-
-/*
- * FindMaxNode()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : int
- */
+// ── FindMaxNode: rightmost node ki value ──
 int FindMaxNode(Node* root){
     if(root== NULL){
         return -1;
@@ -119,12 +109,7 @@ int FindMaxNode(Node* root){
     return root-> data;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst Search
- */
+// ── main: BST build, min/max print ──
 int main(){
     Node* root= NULL;
     takinginput(root);
@@ -132,5 +117,4 @@ int main(){
     int ans2= FindMaxNode(root);
     cout<< "Minimum Value: "<< ans<< endl;
     cout<< "Maximum Value: "<< ans2<< endl;
-
 }

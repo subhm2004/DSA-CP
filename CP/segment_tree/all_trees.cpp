@@ -2,6 +2,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// COMMON PARAMS (saari recursive functions me ye baar baar aate hain) — ek baar samajh le:
+//
+//   idx -> tree array me current node ka index (root = 0)
+//          left child  = 2*idx + 1
+//          right child = 2*idx + 2
+//   l   -> current node jis segment ka maalik hai uska LEFT  end (actual array index)
+//   r   -> current node jis segment ka maalik hai uska RIGHT end (actual array index)
+//          matlab ye node array ke [l, r] hisse ko represent karta hai
+//   ql  -> QUERY/UPDATE ka left end  (user ne jo range maangi uska start)
+//   qr  -> QUERY/UPDATE ka right end (user ne jo range maangi uska end)
+//   pos -> point update/query me jis single index pe kaam karna hai wo
+//   m   -> mid = (l + r) / 2  -> [l, r] ko do halves me todne wala point
+//
+// Har recursion me node [l, r] vs query [ql, qr] ke 3 case hote hain:
+//   1) NO overlap   -> node poori tarah query ke bahar (qr < l || r < ql) -> identity return
+//   2) FULL overlap -> node poori tarah query ke andar (ql <= l && r <= qr) -> seedha node ki value
+//   3) PARTIAL      -> thoda andar thoda bahar -> dono bachho me recurse karke combine karo
+// ════════════════════════════════════════════════════════════════════════════
+
 // ========================== Variation 1 ===========================
 /*
     SegmentTree1:
@@ -16,68 +36,68 @@ class SegmentTree1
     vector<int> tree; // segment tree ka array
     int n;            // original array ka size
 
-    // segment tree build karne ka function
+    // ── build: array se sum segment tree bottom-up banao ──
+    //   1) Base case l==r → leaf hai, tree[idx] = arr[l] set karo
+    //   2) mid se segment ko left [l,m] aur right [m+1,r] me todo
+    //   3) Dono bachho ko recursively build karo
+    //   4) Parent ka sum = left child sum + right child sum
     void build(vector<int> &arr, int idx, int l, int r)
     {
-        // agar leaf node hai toh direct value assign karo
         if (l == r)
         {
             tree[idx] = arr[l];
             return;
         }
         int m = (l + r) / 2;
-        // left subtree build karo
         build(arr, 2 * idx + 1, l, m);
-        // right subtree build karo
         build(arr, 2 * idx + 2, m + 1, r);
-        // parent node me dono ka sum rakho
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    // kisi ek index par value update karne ka function
+    // ── update: position pos ki value val se replace karo ──
+    //   1) pos <= mid hai to left child me jao, warna right me
+    //   2) Leaf (l==r) pe pahunch ke tree[idx] = val set karo
+    //   3) Wapsi pe har ancestor ka sum = left + right refresh karo
     void update(int idx, int l, int r, int pos, int val)
     {
-        // agar leaf node hai toh value update karo
         if (l == r)
         {
             tree[idx] = val;
             return;
         }
         int m = (l + r) / 2;
-        // jis side pos hai usi side update karo
         if (pos <= m)
             update(2 * idx + 1, l, m, pos, val);
         else
             update(2 * idx + 2, m + 1, r, pos, val);
-        // parent node ka sum update karo
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    // range sum query ka function
+    // ── query: range [ql,qr] ka sum nikalo ──
+    //   1) Case 1 NO overlap (qr<l || r<ql) → 0 return (sum identity)
+    //   2) Case 2 FULL overlap (ql<=l && r<=qr) → seedha tree[idx] return
+    //   3) Case 3 PARTIAL → dono bachho ka sum jod ke return
     int query(int idx, int l, int r, int ql, int qr)
     {
-        // agar query range se bahar hai toh 0 return karo
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        // agar pura overlap hai toh value return karo
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
             return tree[idx];
-        int m = (l + r) / 2;
-        // left aur right dono side query karo
+        int m = (l + r) / 2;  // Case 3
         return query(2 * idx + 1, l, m, ql, qr) + query(2 * idx + 2, m + 1, r, ql, qr);
     }
 
 public:
-    // constructor: tree build karo
+    // ── SegmentTree1: constructor — point update + range sum tree ──
+    //   1) n = arr.size(), tree vector 4*n size allocate
+    //   2) Root idx=0 se poori array [0, n-1] par build() call karo
     SegmentTree1(vector<int> &arr)
     {
         n = arr.size();
         tree.resize(4 * n);
         build(arr, 0, 0, n - 1);
     }
-    // public update function
     void update(int pos, int val) { update(0, 0, n - 1, pos, val); }
-    // public query function
     int query(int l, int r) { return query(0, 0, n - 1, l, r); }
 };
 
@@ -95,67 +115,71 @@ class SegmentTree2
     vector<int> tree, lazy; // tree aur lazy array
     int n;
 
-    // lazy propagation ka push function
+    // ── push: pending lazy ko apply karo aur bachho tak pass karo ──
+    //   1) Agar lazy[idx]==0 hai to kuch nahi — implicitly skip
+    //   2) tree[idx] me lazy * (r-l+1) add karo — poore segment me apply
+    //   3) Leaf nahi hai to lazy dono bachho ke lazy me += lazy[idx]
+    //   4) Apna lazy clear karo — ab pending apply ho chuka hai
     void push(int idx, int l, int r)
     {
-        // agar lazy value hai toh usko propagate karo
         if (lazy[idx])
         {
-            tree[idx] += (r - l + 1) * lazy[idx]; // current segment me value add karo
+            tree[idx] += (r - l + 1) * lazy[idx];
             if (l != r)
             {
-                // agar leaf nahi hai toh children me lazy value bhejo
                 lazy[2 * idx + 1] += lazy[idx];
                 lazy[2 * idx + 2] += lazy[idx];
             }
-            lazy[idx] = 0; // apni lazy value clear karo
+            lazy[idx] = 0;
         }
     }
 
-    // range update function
+    // ── updateRange: range [ql,qr] ke har element me val add karo ──
+    //   1) Pehle push() — current node ka pending lazy apply karo
+    //   2) Case 1 NO overlap → return. Case 2 FULL → lazy lagao + push
+    //   3) Case 3 PARTIAL → dono bachho me recurse karo
+    //   4) Wapsi pe tree[idx] = left sum + right sum refresh (point query variant me optional)
     void updateRange(int idx, int l, int r, int ql, int qr, int val)
     {
-        push(idx, l, r); // pehle lazy propagate karo
-        // agar overlap nahi hai toh kuch mat karo
-        if (qr < l || r < ql)
+        push(idx, l, r);
+        if (qr < l || r < ql)  // Case 1
             return;
-        // agar pura overlap hai toh lazy value add karo aur propagate karo
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2: full overlap
         {
             lazy[idx] += val;
             push(idx, l, r);
             return;
         }
-        int m = (l + r) / 2;
-        // left aur right dono side update karo
+        int m = (l + r) / 2;  // Case 3
         updateRange(2 * idx + 1, l, m, ql, qr, val);
         updateRange(2 * idx + 2, m + 1, r, ql, qr, val);
-        // parent node ka sum update karo
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    // point query function
+    // ── pointQuery: index pos ki current value kya hai ──
+    //   1) Raaste me har node pe push() — pending lazy apply hota rahe
+    //   2) pos <= mid → left child, warna right child me jao
+    //   3) Leaf (l==r) pe pahunch ke tree[idx] return — yahi final value hai
     int pointQuery(int idx, int l, int r, int pos)
     {
-        push(idx, l, r); // lazy propagate karo
+        push(idx, l, r);
         if (l == r)
             return tree[idx];
         int m = (l + r) / 2;
-        // jis side pos hai usi side query karo
         return (pos <= m) ? pointQuery(2 * idx + 1, l, m, pos) : pointQuery(2 * idx + 2, m + 1, r, pos);
     }
 
 public:
-    // constructor: tree aur lazy array initialize karo
+    // ── SegmentTree2: constructor — range update + point query tree ──
+    //   1) n = size store, tree aur lazy dono 4*n size allocate
+    //   2) Lazy 0 se init — shuru me koi pending add nahi (empty tree)
     SegmentTree2(int size)
     {
         n = size;
         tree.resize(4 * n);
         lazy.resize(4 * n);
     }
-    // public range update
     void update(int l, int r, int val) { updateRange(0, 0, n - 1, l, r, val); }
-    // public point query
     int query(int pos) { return pointQuery(0, 0, n - 1, pos); }
 };
 
@@ -173,7 +197,10 @@ class SegmentTree3
     vector<int> tree, lazy;
     int n;
 
-    // lazy propagation ka function
+    // ── push: pending lazy apply karo aur bachho tak pass karo ──
+    //   1) lazy[idx]!=0 ho to tree[idx] me lazy*(segment size) add karo
+    //   2) Leaf nahi hai to lazy dono bachho ke lazy me += lazy[idx]
+    //   3) Apna lazy 0 kar do — pending ab apply ho chuka hai
     void push(int idx, int l, int r)
     {
         if (lazy[idx])
@@ -188,37 +215,47 @@ class SegmentTree3
         }
     }
 
-    // range update function
+    // ── updateRange: range [ql,qr] me val add karo ──
+    //   1) push() se pehle pending clear karo
+    //   2) Case 1 NO overlap → return. Case 2 FULL → lazy += val, push
+    //   3) Case 3 PARTIAL → dono bachho me recurse
+    //   4) Wapsi pe parent sum refresh — range query ke liye zaroori hai
     void updateRange(int idx, int l, int r, int ql, int qr, int val)
     {
         push(idx, l, r);
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
         {
             lazy[idx] += val;
             push(idx, l, r);
             return;
         }
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         updateRange(2 * idx + 1, l, m, ql, qr, val);
         updateRange(2 * idx + 2, m + 1, r, ql, qr, val);
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
 
-    // range sum query function
+    // ── rangeQuery: range [ql,qr] ka sum nikalo ──
+    //   1) push() se current node ki value sahi karo
+    //   2) Case 1 NO overlap → 0. Case 2 FULL → tree[idx]
+    //   3) Case 3 PARTIAL → dono bachho ka sum jodo
     int rangeQuery(int idx, int l, int r, int ql, int qr)
     {
         push(idx, l, r);
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
             return tree[idx];
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         return rangeQuery(2 * idx + 1, l, m, ql, qr) + rangeQuery(2 * idx + 2, m + 1, r, ql, qr);
     }
 
 public:
+    // ── SegmentTree3: constructor — range update + range sum tree ──
+    //   1) n = size, tree aur lazy 4*n size allocate
+    //   2) Lazy 0 init — empty tree, baad me range updates se bharega
     SegmentTree3(int size)
     {
         n = size;
@@ -238,11 +275,20 @@ public:
     Complexity: Build O(n), Update O(log n) (per version), Query O(log n)
     Note: Memory thoda jyada lagta hai, lekin har update ke liye purana data safe rehta hai.
 */
+// Yaha array-based (2*idx+1) ke bajaye POINTER-based nodes use hote hain,
+// kyunki har update pe sirf raaste ke O(log n) naye nodes bante hain aur
+// baaki purane nodes share ho jaate hain (isi se purana version safe rehta hai).
 struct Node
 {
-    int val;            // is segment ka sum
-    Node *left, *right; // left aur right child
+    int val;
+    Node *left, *right;
+    // ── Node (leaf): ek element ki value store karo ──
+    //   1) val = v set karo, left/right nullptr (leaf ke koi bacche nahi)
     Node(int v) : val(v), left(nullptr), right(nullptr) {}
+    // ── Node (internal): do bachho se parent banao ──
+    //   1) left aur right pointers set karo
+    //   2) val = left->val + right->val (sum merge)
+    //   3) nullptr child ho to skip (safe guard)
     Node(Node *l, Node *r) : left(l), right(r), val(0)
     {
         if (l)
@@ -254,7 +300,11 @@ struct Node
 class PersistentSegmentTree
 {
     int n;
-    // tree build karne ka function
+    // ── build: version 0 ka poora tree recursively banao ──
+    //   1) Base case l==r → naya leaf Node(arr[l]) return
+    //   2) mid se segment ko do halves me todo
+    //   3) Left aur right subtree recursively build karo
+    //   4) Naya internal Node(left, right) return — sum auto-merge
     Node *build(vector<int> &arr, int l, int r)
     {
         if (l == r)
@@ -262,7 +312,11 @@ class PersistentSegmentTree
         int m = (l + r) / 2;
         return new Node(build(arr, l, m), build(arr, m + 1, r));
     }
-    // update karne par naya node banta hai (purana safe rehta hai)
+    // ── update: path-copy se naya node chain banao ──
+    //   1) Leaf (l==r) → bilkul naya Node(val), purana leaf reuse nahi
+    //   2) pos left me → naya left banao, right PURANA node->right reuse
+    //   3) pos right me → left PURANA reuse, naya right banao
+    //   4) Sirf O(log n) naye nodes — baaki purane subtrees share hote hain
     Node *update(Node *node, int l, int r, int pos, int val)
     {
         if (l == r)
@@ -273,30 +327,40 @@ class PersistentSegmentTree
         else
             return new Node(node->left, update(node->right, m + 1, r, pos, val));
     }
-    // range sum query
+    // ── query: kisi version ke root se range [ql,qr] ka sum ──
+    //   1) Case 1 NO overlap (qr<l || r<ql) → 0 return
+    //   2) Case 2 FULL overlap (ql<=l && r<=qr) → node->val return
+    //   3) Case 3 PARTIAL → left sum + right sum combine
     int query(Node *node, int l, int r, int ql, int qr)
     {
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
             return node->val;
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         return query(node->left, l, m, ql, qr) + query(node->right, m + 1, r, ql, qr);
     }
 
 public:
-    vector<Node *> versions; // har version ka root yahan store hota hai
+    vector<Node *> versions;
+    // ── PersistentSegmentTree: constructor — version 0 banao ──
+    //   1) n = arr.size() store karo
+    //   2) build() se original array ka tree banao
+    //   3) versions[0] = us tree ka root pointer
     PersistentSegmentTree(vector<int> &arr)
     {
         n = arr.size();
         versions.push_back(build(arr, 0, n - 1));
     }
-    // naya version banao
+    // ── updateVersion: base version se naya version banao ──
+    //   1) versions[version] ka root lo
+    //   2) update() se path-copy karke naya root banao
+    //   3) Naya root versions me push — purana version safe rehta hai
     void updateVersion(int version, int pos, int val)
     {
         versions.push_back(update(versions[version], 0, n - 1, pos, val));
     }
-    // kisi version par query karo
+    // ── query: kisi version par range [l,r] ka sum ──
     int query(int version, int l, int r)
     {
         return query(versions[version], 0, n - 1, l, r);
@@ -316,6 +380,10 @@ class SegmentTreeBinarySearch
 {
     vector<int> tree;
     int n;
+    // ── build: prefix-sum segment tree bottom-up banao ──
+    //   1) Leaf pe tree[idx] = arr[l]
+    //   2) Internal pe left + right child ka sum parent me store
+    //   3) Poori array [0, n-1] par recursively build
     void build(vector<int> &arr, int idx, int l, int r)
     {
         if (l == r)
@@ -328,7 +396,11 @@ class SegmentTreeBinarySearch
         build(arr, 2 * idx + 2, m + 1, r);
         tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
     }
-    // binary search style me index find karo
+    // ── find: pehla index jahan prefix sum >= x ho ──
+    //   1) Agar is segment ka sum < x → -1 (yaha answer nahi milega)
+    //   2) Leaf pe pahunch → yahi wo index hai, return l
+    //   3) Left child ka sum >= x → answer left me hai, left me jao
+    //   4) Warna left poora kha lo, bachi requirement (x - leftSum) right me dhoondo
     int find(int idx, int l, int r, int x)
     {
         if (tree[idx] < x)
@@ -342,12 +414,14 @@ class SegmentTreeBinarySearch
     }
 
 public:
+    // ── SegmentTreeBinarySearch: constructor — prefix tree build ──
     SegmentTreeBinarySearch(vector<int> &arr)
     {
         n = arr.size();
         tree.resize(4 * n);
         build(arr, 0, 0, n - 1);
     }
+    // Wrapper: pehla index jahan prefix sum >= x
     int findPrefixGE(int x) { return find(0, 0, n - 1, x); }
 };
 
@@ -369,7 +443,11 @@ class SegmentTreeBeats
     vector<Node> tree;
     int n;
 
-    // do nodes ko merge karne ka function
+    // ── merge: do child nodes ko parent me combine karo (Beats ke liye) ──
+    //   1) sum = a.sum + b.sum (simple addition)
+    //   2) Agar dono ka max1 same → count add, max2 = max of second maxes
+    //   3) Agar a.max1 > b.max1 → max1=a, max2=max(a.max2, b.max1)
+    //   4) Warna ulta — b ka max1 bada hai
     Node merge(Node a, Node b)
     {
         Node res;
@@ -395,7 +473,9 @@ class SegmentTreeBeats
         return res;
     }
 
-    // tree build karne ka function
+    // ── build: array se Beats tree banao ──
+    //   1) Leaf pe max1=arr[l], max2=-1, cnt=1, sum=arr[l]
+    //   2) Internal pe dono bachho ko build karke merge() se parent banao
     void build(vector<int> &a, int idx, int l, int r)
     {
         if (l == r)
@@ -409,7 +489,11 @@ class SegmentTreeBeats
         tree[idx] = merge(tree[2 * idx + 1], tree[2 * idx + 2]);
     }
 
-    // lazy propagation jaisa push function
+    // ── push: parent ka max cap bachho tak utaaro ──
+    //   1) Dono bachho pe check karo — agar child.max1 > parent.max1
+    //   2) Child ke max1 wale cnt elements ko parent.max1 pe cap karo
+    //   3) Sum se (purana max1 - naya cap) * cnt ghatao
+    //   4) Child.max1 = parent.max1 set karo
     void push(int idx, int l, int r)
     {
         for (int child : {2 * idx + 1, 2 * idx + 2})
@@ -422,7 +506,10 @@ class SegmentTreeBeats
         }
     }
 
-    // range min update function
+    // ── updateMin: range [ql,qr] ke har element ko min(element, x) banao ──
+    //   1) BREAK: no overlap ya max1<=x (koi element x se bada nahi)
+    //   2) TAG: full overlap + max2<x → sirf max1 wale ko x pe cap, O(1)
+    //   3) Warna push + dono bachho me recurse + merge se parent refresh
     void updateMin(int idx, int l, int r, int ql, int qr, int x)
     {
         if (tree[idx].max1 <= x || qr < l || r < ql)
@@ -441,6 +528,7 @@ class SegmentTreeBeats
     }
 
 public:
+    // ── SegmentTreeBeats: constructor — conditional min update tree ──
     SegmentTreeBeats(vector<int> &a)
     {
         n = a.size();
@@ -467,7 +555,11 @@ class MergeSortTree
     vector<vector<int>> tree;
     int n;
 
-    // tree build karne ka function
+    // ── build: har segment me sorted array store karo ──
+    //   1) Leaf pe tree[idx] = {a[l]} — ek element ka sorted array
+    //   2) Internal pe dono bachho ko build karo
+    //   3) merge() se dono sorted arrays ko jod ke ek sorted array banao
+    //   4) Parent me ye merged sorted array store — O(n log n) total build
     void build(vector<int> &a, int idx, int l, int r)
     {
         if (l == r)
@@ -478,25 +570,28 @@ class MergeSortTree
         int m = (l + r) / 2;
         build(a, 2 * idx + 1, l, m);
         build(a, 2 * idx + 2, m + 1, r);
-        // left aur right ko merge karke sorted array banao
         merge(tree[2 * idx + 1].begin(), tree[2 * idx + 1].end(),
               tree[2 * idx + 2].begin(), tree[2 * idx + 2].end(),
               back_inserter(tree[idx]));
     }
 
-    // range me x se kam kitne hain wo count karo
+    // ── query: range [ql,qr] me x se kam kitne elements ──
+    //   1) Case 1 NO overlap → 0 return
+    //   2) Case 2 FULL overlap → lower_bound se x ki position = count of < x
+    //   3) Case 3 PARTIAL → dono bachho ki count jod ke return
     int query(int idx, int l, int r, int ql, int qr, int x)
     {
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2: sorted array pe binary search
             return lower_bound(tree[idx].begin(), tree[idx].end(), x) - tree[idx].begin();
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         return query(2 * idx + 1, l, m, ql, qr, x) +
                query(2 * idx + 2, m + 1, r, ql, qr, x);
     }
 
 public:
+    // ── MergeSortTree: constructor — sorted arrays wala seg tree ──
     MergeSortTree(vector<int> &a)
     {
         n = a.size();
@@ -523,7 +618,10 @@ class SegmentTree2D
     vector<vector<int>> tree;
     int n, m;
 
-    // y direction me build karo
+    // ── buildY: ek X-node ke andar column (Y) dimension pe tree banao ──
+    //   1) Column leaf (ly==ry): X leaf ho to mat[lx][ly], warna X-bachho ka sum
+    //   2) Column internal: do column-bachho ko build karke sum merge
+    //   3) tree[idxX][idxY] me us column-segment ka sum store hota hai
     void buildY(int idxX, int idxY, int lx, int rx, int ly, int ry, vector<vector<int>> &mat)
     {
         if (ly == ry)
@@ -540,7 +638,10 @@ class SegmentTree2D
         tree[idxX][idxY] = tree[idxX][2 * idxY + 1] + tree[idxX][2 * idxY + 2];
     }
 
-    // x direction me build karo
+    // ── buildX: row (X) dimension pe outer tree banao ──
+    //   1) X internal ho to pehle dono row-bachho ko recursively build karo
+    //   2) Phir is X-node ke liye poori column range [0, m-1] par buildY chalao
+    //   3) Har X-node ke paas ek poora nested Y-tree hota hai
     void buildX(int idxX, int lx, int rx, vector<vector<int>> &mat)
     {
         if (lx != rx)
@@ -553,6 +654,10 @@ class SegmentTree2D
     }
 
 public:
+    // ── SegmentTree2D: constructor — matrix se 2D seg tree banao ──
+    //   1) n=rows, m=cols store karo
+    //   2) tree = 4*n rows × 4*m cols ka 2D array allocate
+    //   3) buildX(0, 0, n-1) se root se poora tree build karo
     SegmentTree2D(vector<vector<int>> &mat)
     {
         n = mat.size();
@@ -577,7 +682,10 @@ class SegmentTreeString
     vector<vector<int>> tree;
     int n;
 
-    // tree build karne ka function
+    // ── build: string se char-frequency segment tree banao ──
+    //   1) Leaf pe sirf s[l]-'a' wale slot me 1, baaki 26 slots 0
+    //   2) Internal pe har char (0..25) ke liye left+right count jodo
+    //   3) Har node ek 26-size frequency array hai
     void build(const string &s, int idx, int l, int r)
     {
         if (l == r)
@@ -592,18 +700,22 @@ class SegmentTreeString
             tree[idx][i] = tree[2 * idx + 1][i] + tree[2 * idx + 2][i];
     }
 
-    // kisi character ki frequency query karo
+    // ── query: range [ql,qr] me character c ki frequency ──
+    //   1) Case 1 NO overlap → 0 return
+    //   2) Case 2 FULL overlap → seedha tree[idx][c] return
+    //   3) Case 3 PARTIAL → dono bachho ki frequency jod ke return
     int query(int idx, int l, int r, int ql, int qr, int c)
     {
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
             return tree[idx][c];
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         return query(2 * idx + 1, l, m, ql, qr, c) + query(2 * idx + 2, m + 1, r, ql, qr, c);
     }
 
 public:
+    // ── SegmentTreeString: constructor — char frequency tree ──
     SegmentTreeString(const string &s)
     {
         n = s.size();
@@ -630,7 +742,10 @@ class SegmentTreeBitwise
     vector<int> tree;
     int n;
 
-    // tree build karne ka function
+    // ── build: array se XOR segment tree banao ──
+    //   1) Leaf pe tree[idx] = a[l]
+    //   2) Internal pe left XOR ^ right XOR parent me store
+    //   3) XOR associative hai isliye range query me combine easy hai
     void build(vector<int> &a, int idx, int l, int r)
     {
         if (l == r)
@@ -644,18 +759,22 @@ class SegmentTreeBitwise
         tree[idx] = tree[2 * idx + 1] ^ tree[2 * idx + 2];
     }
 
-    // range XOR query function
+    // ── query: range [ql,qr] ka XOR nikalo ──
+    //   1) Case 1 NO overlap → 0 return (XOR identity: x^0=x)
+    //   2) Case 2 FULL overlap → seedha tree[idx] return
+    //   3) Case 3 PARTIAL → left XOR ^ right XOR combine
     int query(int idx, int l, int r, int ql, int qr)
     {
-        if (qr < l || r < ql)
+        if (qr < l || r < ql)  // Case 1
             return 0;
-        if (ql <= l && r <= qr)
+        if (ql <= l && r <= qr)  // Case 2
             return tree[idx];
-        int m = (l + r) / 2;
+        int m = (l + r) / 2;  // Case 3
         return query(2 * idx + 1, l, m, ql, qr) ^ query(2 * idx + 2, m + 1, r, ql, qr);
     }
 
 public:
+    // ── SegmentTreeBitwise: constructor — XOR range query tree ──
     SegmentTreeBitwise(vector<int> &a)
     {
         n = a.size();

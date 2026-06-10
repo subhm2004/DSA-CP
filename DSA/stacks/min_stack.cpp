@@ -13,77 +13,56 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-class minStack{
-    vector<pair<int,int>>sp;
-    
-    
-    /*
-     * push()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push(int data){
-        if(sp.empty()){
-            pair<int,int>p;
-            p.first= data;
-            p.second= data;
-            // Opening bracket — push onto stack
+
+// ════════════════════════════════════════════════════════════════════════════
+// MIN STACK — O(1) mein minimum element bhi return karo
+// ────────────────────────────────────────────────────────────────────────────
+// har entry pair {value, minSoFar} — push pe running min track
+// pop/top/min sab O(1) — extra space for min history
+// ════════════════════════════════════════════════════════════════════════════
+
+class minStack {
+    vector<pair<int, int>> sp;
+
+    // ── push: value + current min store karo ─────────────────────────────────
+    //   1) empty → {data, data} push
+    //   2) warna min(prevMin, data) ke saath push
+    void push(int data) {
+        if (sp.empty()) {
+            pair<int, int> p;
+            p.first = data;
+            p.second = data;             // pehla element hi min bhi
             sp.push_back(p);
-        }
-        else {
-            pair<int,int>p;
-            int prevmin= sp.back().second;
-            p.second= min(prevmin, data);
-            p.first= data;
-            // Opening bracket — push onto stack
+        } else {
+            pair<int, int> p;
+            int prevmin = sp.back().second;
+            p.second = min(prevmin, data); // running minimum track
+            p.first = data;
             sp.push_back(p);
         }
     }
-    
-    
-    /*
-     * pop()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void pop(){
-        if(!sp.empty()){
-            sp.pop_back();
+
+    // ── pop: top element hatao ───────────────────────────────────────────────
+    void pop() {
+        if (!sp.empty()) {
+            sp.pop_back();                 // pair hatao — min auto update
         }
     }
-    
-    
-    /*
-     * topvalue()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int topvalue(){
-        if(!sp.empty()){
+
+    // ── topvalue: current top element ──────────────────────────────────────────
+    int topvalue() {
+        if (!sp.empty()) {
             return sp.back().first;
         }
     }
-    
-    
-    /*
-     * getmin()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int getmin(){
-        if(!sp.empty()){
-            return sp.back().second;
+
+    // ── getmin: stack ka minimum element O(1) ────────────────────────────────
+    int getmin() {
+        if (!sp.empty()) {
+            return sp.back().second;       // stored min — turant mil jayega
         }
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Min Stack
- */
-int main(){
-   
-
+int main() {
 }

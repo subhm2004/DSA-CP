@@ -1,13 +1,15 @@
+// ════════════════════════════════════════════════════════════════════════════
+// UNION-FIND (DISJOINT SET UNION) — Path Compression + Union by Size/Rank
+// ────────────────────────────────────────────────────────────────────────────
+// Disjoint sets ko efficiently handle karta hai
+// FIND = element ka representative dhundho  |  UNION = do sets merge karo
+// Applications: cycle detection, Kruskal MST, connected components
+// Time: O(α(n)) per op  |  Space: O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 #include <iostream>
 #include <vector>
 using namespace std;
-
-/*
-UNION-FIND (DISJOINT SET UNION) DATA STRUCTURE
-- Ye data structure disjoint sets ko efficiently handle karta hai
-- Main operations: FIND (kisi element ka representative dhundna) aur UNION (do sets ko merge karna)
-- Applications: Cycle detection, Kruskal's algorithm, connected components, etc.
-*/
 
 class Union_find
 {
@@ -16,7 +18,10 @@ class Union_find
     vector<int> rank;   // Rank array - tree ki height track karta hai (union by rank ke liye)
 
 public:
-    // Constructor - initial setup karta hai sabhi arrays ka
+    // Step 1: parent, size, rank arrays ko n size ka resize karo.
+    // Step 2: size[i] = 1 — har node apne aap ek set; rank[i] = 0.
+    // Step 3: parent[i] = i for all i — shuru mein n alag disjoint sets.
+    // Step 4: Ab UNION operations se sets merge honge.
     Union_find(int n)
     {
         parent.resize(n);  // Parent array ko n size ka banao
@@ -30,8 +35,11 @@ public:
         }
     }
 
-    // FIND function with PATH COMPRESSION optimization
-    // Ye function kisi element x ka ultimate parent/representative return karta hai
+    // Step 1: Agar x == parent[x] hai to x khud root hai — return x.
+    // Step 2: Warna recursively parent chain follow karo find(parent[x]) se.
+    // Step 3: PATH COMPRESSION: return parent[x] = find(parent[x]) — saare nodes direct root ko point.
+    // Step 4: Future find calls O(α(n)) ≈ constant time ho jayenge.
+    // Step 5: Root return karo — ye element ke set ka representative hai.
     int find(int x)
     {
         // Base case: agar x khud apna parent hai, matlab ye root/representative hai
@@ -50,8 +58,11 @@ public:
         */
     }
 
-    // UNION BY SIZE optimization
-    // Chhote set ko bade set mein merge karta hai to avoid deep trees
+    // Step 1: find(x) aur find(y) se dono ke roots nikalo — x_parent, y_parent.
+    // Step 2: Same root ho to already same set — return, kuch nahi karna.
+    // Step 3: Bada size wale root ke neeche chhota attach karo — tree flat rehti hai.
+    // Step 4: Merge ke baad size[root] += size[other] — total set size update.
+    // Step 5: Equal size ho to koi ek root banao, size add karo, rank++ optional.
     void UNION_BY_SIZE(int x, int y)
     {
         int x_parent = find(x); // x ka ultimate representative dhundo
@@ -85,8 +96,11 @@ public:
         }
     }
 
-    // UNION BY RANK optimization
-    // Tree ki height (rank) ke basis par merge karta hai
+    // Step 1: x aur y ke roots find() se nikalo.
+    // Step 2: Same root → already connected, return.
+    // Step 3: Chhoti rank wale tree ko badi rank wale ke parent banao — height control.
+    // Step 4: Equal rank ho to ek ko root banao aur rank[root]++ — height ek level badhi.
+    // Step 5: Union by rank se tree height O(log n) bound rehti hai.
     void UNION_BY_RANK(int x, int y)
     {
         int x_parent = find(x); // x ka ultimate representative dhundo
@@ -119,8 +133,10 @@ public:
         }
     }
 
-    // UTILITY FUNCTION: Connected components count karta hai
-    // Ye check karta hai kitne alag-alag groups/sets hain
+    // Step 1: components = 0 initialize karo.
+    // Step 2: Har index i par check — parent[i] == i matlab i ek root/set leader hai.
+    // Step 3: Har root ke liye components++ — ek alag connected group count hua.
+    // Step 4: Poori parent array scan karke total disjoint sets return karo.
     int countComponents()
     {
         int components = 0; // Components counter initialize karo

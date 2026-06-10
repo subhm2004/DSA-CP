@@ -12,15 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ALTERNATE SWAP — har pair (i, i+1) ko swap karo
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: i = 0, 2, 4... pe jao — adjacent elements swap karo
+// Last element ke saath special case handle karo
+// COMPLEX: Time O(n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printarray()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array elements print karo ──────────────────────────────────
+//   1) i=0 se size tak loop
+//   2) har arr[i] space-separated print
 void printarray(int arr[], int size) {
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i] << " ";
     }
@@ -29,14 +32,11 @@ void printarray(int arr[], int size) {
 
 
 
-/*
- * alterswap()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── alterswap: alternate positions pe swap karo ────────────────────────────
+//   1) i ko 0, 2, 4... pe badhao (i += 2)
+//   2) last element special case — sirf print
+//   3) warna arr[i] aur arr[i+1] swap karke print
 void alterswap(int arr[], int size) {
-    // Iterate over all elements
     for(int i=0; i<=size-1; i=i+2) {
         if(arr[i] == arr[size-1]) {
                 cout<< arr[i]<< " ";
@@ -52,10 +52,9 @@ void alterswap(int arr[], int size) {
     }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Alternate Swap
- */
+// ── main: pehle print, phir swap karke print ───────────────────────────────
+//   1) array declare, printarray se original dikhao
+//   2) alterswap call — swapped pairs print
 int main() {
     int arr[] = {1,2,3,5,6,7,8 ,9};
     int size = 8;

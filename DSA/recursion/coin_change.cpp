@@ -14,42 +14,40 @@
 #include <limits.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// COIN CHANGE (Recursion) — Minimum coins se target banavo
+// ────────────────────────────────────────────────────────────────────────────
+// Har coin try karo — target-arr[i] ke liye recurse
+// Base: target==0 -> 0 coins; target<0 -> invalid (INT_MAX)
+// Min over all coins + 1 — unbounded (same coin dobara use)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * minimumcoins()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int *arr, int& size, int target
- * Returns : int
- */
+// ── minimumcoins: target banane ke minimum coins ──────────────────────────────
+//   1) target==0 -> 0 coins chahiye
+//   2) target<0 -> invalid, INT_MAX return
+//   3) har coin pe recurse — mini = min(mini, 1 + mincoins(target-coin))
+//   4) saare coins try karke minimum return
 int minimumcoins(int *arr, int& size, int target){
-    // Base case: target reached — 0 coins needed
     if(target==0){
-        return 0;
+        return 0;  // exact ban gaya — koi coin nahi chahiye
     }
-    // Invalid: target went negative — return INF
     if(target<0){  //target mhi bn skta aur out of bound chla gya
         return INT_MAX;
     }
     int mini = INT_MAX;
 
-    // Iterate over all elements
     for(int i=0; i<size; i++){
-        // Recurse: use coin arr[i], solve for (target - arr[i])
-        int ans= minimumcoins(arr,size,target-arr[i]);
+        int ans= minimumcoins(arr,size,target-arr[i]);  // coin arr[i] use kiya
          cout<< "ans is:" << ans<< endl;
          if(ans!= INT_MAX){
-         mini = min(mini, ans+1);
+         mini = min(mini, ans+1);  // +1 current coin ke liye
          cout<< "mini is:"<< mini<< endl;
     }
  }
     return mini;     
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Coin Change
- */
+// ── main: coins {1,2,3}, target 5 ────────────────────────────────────────────
 int main() {
     int arr[] = {1,2,3};
     int size= 3;

@@ -13,18 +13,24 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PAIR SUM — vector me do elements jinka sum = target
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: nested loop — har pair (i,j) check karo j=i+1 se
+// arr[i]+arr[j]==sum ho to pair print — brute force O(n²)
+// COMPLEX: Time O(n²)  |  Space O(n) for vector
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Pair Sum Vector
- */
+// ── main: vector input, pair with sum 9 dhundho ──────────────────────────
+//   1) n lo, vector<int> arr(n) se dynamic array banao
+//   2) elements input karo
+//   3) nested loop i,j — sum==9 wale pairs print
 int main() {
     int n;
     cout<< "enter size of array"<< endl;
     cin>> n;
     vector<int> arr(n);
     cout<< "enter the elements of dynamic array"<< endl;
-    // Iterate over all elements
     for(int i=0; i< arr.size(); i++) {
         cin>> arr[i];
     }

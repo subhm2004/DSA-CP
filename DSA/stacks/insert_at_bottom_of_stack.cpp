@@ -14,72 +14,56 @@
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// INSERT AT BOTTOM — element stack ke sabse neeche daalo
+// ────────────────────────────────────────────────────────────────────────────
+// iterative: aux stack mein transfer, insert, wapas transfer
+// recursive: pop sab, base pe insert, wapas push
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * insertatbottom()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : stack<int> &sp, stack<int> &st, int& element
- * Returns : void
- */
-void insertatbottom(stack<int> &sp, stack<int> &st, int& element){
-    while(!sp.empty()){
-        st.push(sp.top());
-        // Matching bracket — pop from stack
-        sp.pop();    
+// ── insertatbottom: iterative — aux stack se bottom insert ─────────────────
+//   1) sp se sab st mein transfer (pop/push)
+//   2) element st mein push (bottom position)
+//   3) st se sab wapas sp mein
+void insertatbottom(stack<int> &sp, stack<int> &st, int &element) {
+    while (!sp.empty()) {
+        st.push(sp.top());                 // temp stack mein shift
+        sp.pop();
     }
-    st.push(element);
-    while(!st.empty()){
-        // Opening bracket — push onto stack
-        sp.push(st.top());
+    st.push(element);                      // bottom pe naya element
+    while (!st.empty()) {
+        sp.push(st.top());                 // wapas original stack mein
         st.pop();
     }
 }
 
-
-/*
- * insertrec()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : stack<int> &sp, int& element, int temp
- * Returns : void
- */
-void insertrec(stack<int> &sp, int& element, int temp){
-    if(sp.empty()){
-        // Opening bracket — push onto stack
+// ── insertrec: recursive bottom insert ─────────────────────────────────────
+//   1) empty → element push (base case)
+//   2) pop, recurse, temp push — unwind
+void insertrec(stack<int> &sp, int &element, int temp) {
+    if (sp.empty()) {
         sp.push(element);
         return;
     }
-    // Matching bracket — pop from stack
     sp.pop();
-    insertrec(sp,element, sp.top());
-    // Opening bracket — push onto stack
-    sp.push(temp);
+    insertrec(sp, element, sp.top());
+    sp.push(temp);                         // restore — element wapas stack pe
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Insert At Bottom Of Stack
- */
-int main(){
-    int element= 5;
-    stack<int>sp;
-    // Opening bracket — push onto stack
+int main() {
+    int element = 5;
+    stack<int> sp;
     sp.push(10);
-    // Opening bracket — push onto stack
     sp.push(20);
-    // Opening bracket — push onto stack
     sp.push(30);
-    // Opening bracket — push onto stack
     sp.push(40);
-    // Opening bracket — push onto stack
     sp.push(50);
-    stack<int>st;
-    int temp= sp.top();
-    insertatbottom(sp,st,element);
-    cout<< "Stack is : "<< endl;
-    while(!sp.empty()){
-        cout<< sp.top()<< endl;
-        // Matching bracket — pop from stack
+    stack<int> st;
+    int temp = sp.top();
+    insertatbottom(sp, st, element);
+    cout << "Stack is : " << endl;
+    while (!sp.empty()) {
+        cout << sp.top() << endl;
         sp.pop();
     }
 }

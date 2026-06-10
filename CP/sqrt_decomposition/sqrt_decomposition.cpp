@@ -1,30 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SQRT DECOMPOSITION — Range Sum Query + Point Update
+// ────────────────────────────────────────────────────────────────────────────
+// Idea: array ko ~sqrt(n) size ke blocks me todo. Har block ka sum pehle se
+// store karo (blockSum). Range query me:
+//   1) left partial block  -> elements ek-ek karke jodo
+//   2) beech ke full blocks -> seedha blockSum use karo (fast)
+//   3) right partial block -> elements ek-ek karke jodo
+//
+// Params:
+//   blockSize  -> har block me kitne elements (~sqrt(n))
+//   blockSum[b]-> block b ke saare elements ka sum
+//   idx/blockSize -> element idx kaunse block me hai
+//
+// Complexity: Build O(n) | Query O(sqrt n) | Update O(1)
+// ════════════════════════════════════════════════════════════════════════════
+
 class SQRT_Decomposition
 {
 private:
-    vector<int> arr;      // Original array
-    vector<int> blockSum; // Sum of each block
-    int n;                // Size of array
-    int blockSize;        // Size of each block
+    vector<int> arr;      // original array
+    vector<int> blockSum; // har block ka precomputed sum
+    int n;                // array size
+    int blockSize;        // ~sqrt(n)
 
 public:
-    // Constructor: initialize with array
+    // ── Constructor: array lo, blocks banao, har block ka sum nikaalo ───────
+    //   1) arr copy karo, n = size, blockSize ≈ sqrt(n)+1
+    //   2) numBlocks = ceil(n/blockSize) — kitne blocks banenge
+    //   3) har element ko uske block ke blockSum me add karo (preprocess)
+    //   4) ab har block ka sum pehle se ready — query me fast use hoga
     SQRT_Decomposition(const vector<int> &input)
     {
         arr = input;
         n = arr.size();
-        blockSize = (int)sqrt(n + 0.0) + 1;          // block size ≈ √n
-        int numBlocks = ceil((double)n / blockSize); // Using ceil for number of blocks
-        blockSum.assign(numBlocks, 0);               // initialize block sums
+        blockSize = (int)sqrt(n + 0.0) + 1;
+        int numBlocks = ceil((double)n / blockSize);
+        blockSum.assign(numBlocks, 0);
 
-        // Preprocessing: calculate sum of each block
+        // preprocessing: har element ko uske block ke sum me add karo
         for (int i = 0; i < n; i++)
             blockSum[i / blockSize] += arr[i];
     }
 
-    // Query: sum of range [left, right]
+    // ── query: range [left, right] ka sum nikalo ─────────────────────────────
+    //   1) leftBlock aur rightBlock nikalo — same block hai ya alag?
+    //   2) same block -> seedha left se right elements jodo
+    //   3) alag block -> left partial + middle full blocks (blockSum) + right partial
+    //   4) total return — O(sqrt n) worst case
     int query(int left, int right)
     {
         int total = 0;
@@ -34,22 +59,22 @@ public:
 
         if (leftBlock == rightBlock)
         {
-            // Case: left and right in the same block
+            // dono same block me -> seedha elements jodo
             for (int i = left; i <= right; ++i)
                 total += arr[i];
         }
         else
         {
-            // 1️⃣ Left partial block
+            // 1) left partial block (left se us block ke end tak)
             int leftEnd = (leftBlock + 1) * blockSize - 1;
             for (int i = left; i <= leftEnd; ++i)
                 total += arr[i];
 
-            // 2️⃣ Full blocks in the middle
+            // 2) beech ke poori blocks -> seedha blockSum use karo
             for (int b = leftBlock + 1; b <= rightBlock - 1; ++b)
                 total += blockSum[b];
 
-            // 3️⃣ Right partial block
+            // 3) right partial block (right block ke start se right tak)
             int rightStart = rightBlock * blockSize;
             for (int i = rightStart; i <= right; ++i)
                 total += arr[i];
@@ -58,7 +83,10 @@ public:
         return total;
     }
 
-    // Update element at index idx to newValue
+    // ── update: index 'idx' ki value 'newValue' se replace karo ──────────────
+    //   1) block = idx / blockSize — kaunsa block affect hua
+    //   2) blockSum me purani value hatao, nayi add karo (delta update)
+    //   3) arr[idx] = newValue — O(1) point update
     void update(int idx, int newValue)
     {
         int block = idx / blockSize;
@@ -66,7 +94,9 @@ public:
         arr[idx] = newValue;
     }
 
-    // Helper function to print current state (for debugging)
+    // ── printState: debug ke liye array + block sums print karo ──────────────
+    //   1) poori arr print, blockSize dikhao
+    //   2) har block ka precomputed sum print — verify karne ke liye
     void printState()
     {
         cout << "Array: ";
@@ -82,43 +112,32 @@ public:
 
 int main()
 {
-    // -------------------------------
-    // 1️⃣ Multiple example arrays
-    // -------------------------------
     vector<vector<int>> arrays = {
         {5, 3, 8, 6, 2, 7, 4, 1, 9, 10},
         {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
         {10, 20, 30, 40, 50, 60}};
 
-    // -------------------------------
-    // 2️⃣ Queries and updates for each array
-    // -------------------------------
     vector<vector<pair<int, int>>> allQueries = {
-        {{0, 4}, {3, 8}, {5, 9}},  // queries for first array
-        {{0, 5}, {2, 6}, {0, 10}}, // queries for second array
-        {{1, 3}, {0, 5}}           // queries for third array
+        {{0, 4}, {3, 8}, {5, 9}},
+        {{0, 5}, {2, 6}, {0, 10}},
+        {{1, 3}, {0, 5}}
     };
 
     vector<vector<pair<int, int>>> allUpdates = {
-        {{3, 20}},  // update arr[3] = 20 for first array
-        {{0, 100}}, // update arr[0] = 100 for second array
-        {{5, 99}}   // update arr[5] = 99 for third array
+        {{3, 20}},
+        {{0, 100}},
+        {{5, 99}}
     };
 
-    // -------------------------------
-    // 3️⃣ Process each array
-    // -------------------------------
     for (int idx = 0; idx < arrays.size(); ++idx)
     {
         cout << "\n=== Array " << idx + 1 << " ===\n";
         vector<int> arr = arrays[idx];
         SQRT_Decomposition sqrtDecomp(arr);
 
-        // Print initial state
         sqrtDecomp.printState();
         cout << "\n";
 
-        // Run queries
         cout << "Initial queries:\n";
         for (auto q : allQueries[idx])
         {
@@ -127,7 +146,6 @@ int main()
                  << sqrtDecomp.query(left, right) << "\n";
         }
 
-        // Run updates
         cout << "\nUpdates:\n";
         for (auto u : allUpdates[idx])
         {
@@ -136,7 +154,6 @@ int main()
             sqrtDecomp.update(pos, newVal);
         }
 
-        // Queries again after updates
         cout << "\nQueries after updates:\n";
         for (auto q : allQueries[idx])
         {

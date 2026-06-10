@@ -12,30 +12,37 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SOLID DIAMOND — upar growing pyramid + neeche inverted pyramid
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: pehla loop stars badhata hai, doosra ghataata hai
+// Dono centered — spaces se align, solid stars
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Soliddiamond
- */
+// ── main: solid diamond pattern print ────────────────────────────────────────
+//   1) n input — half height
+//   2) upper: (n-1-i) spaces + stars (n-i se n)
+//   3) lower: i spaces + stars (i se n)
+//   4) newline har row
 int main() {
     int n;
     cout<< "enter any number"<< endl;
     cin>> n;
     for(int i=0; i<n; i++) {
         for(int j=0; j< n-1-i; j++) {
-            cout<< " ";
+            cout<< " "; // upper spaces
         }
         for(int j=n-i-1; j< n; j++) {
-            cout<< "* ";
+            cout<< "* "; // growing stars
         }
         cout<< "\n";
     }
     for(int i=0; i<n; i++) {
         for(int j=0; j<i; j++) {
-            cout<< " ";
+            cout<< " "; // lower spaces
         }
         for(int j=i; j<n; j++) {
-            cout<< "* ";
+            cout<< "* "; // shrinking stars
         }
         cout<< "\n";
     }

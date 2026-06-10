@@ -12,13 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MERGE SORT (Recursion) — Divide & Conquer sorting
+// ────────────────────────────────────────────────────────────────────────────
+// Array ko half me todo — dono halves sort, phir merge
+// merge(): left/right temp arrays banao, two-pointer merge
+// Base: s>=e -> single element, already sorted
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * merge()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int* arr, int s, int e
- * Returns : void
- */
+// ── merge: sorted halves [s,mid] aur [mid+1,e] merge ────────────────────────
+//   1) left aur right temp arrays copy karo
+//   2) two-pointer se chhota element arr[k] me
+//   3) leftover left/right copy karo
 void merge(int* arr, int s, int e) {
     int mid = (s+e)/2;
     int length1 = mid-s+1;
@@ -49,36 +54,29 @@ void merge(int* arr, int s, int e) {
             k++;
         }       
     }
-    while(i< length1) {
+    while(i< length1) {  // left bacha
         arr[k++] = left[i++];
     }
-    while(j< length2) {
+    while(j< length2) {  // right bacha
         arr[k++] = right[j++];
     }
 }
 
-
-/*
- * mergesort()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int* arr, int s, int e
- * Returns : void
- */
+// ── mergesort: divide, sort halves, merge ───────────────────────────────────
+//   1) s>=e -> base case return
+//   2) mid nikalo, left half sort, right half sort
+//   3) merge(arr, s, e) — sorted halves jodo
 void mergesort(int* arr, int s, int e) {   
     if(s>=e) {
         return;
     }
     int mid = s+(e-s)/2;
-    mergesort(arr, s, mid);
-    mergesort(arr, mid+1, e);
+    mergesort(arr, s, mid);      // left half
+    mergesort(arr, mid+1, e);    // right half
     merge(arr, s,e);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Merge Sort Recursion
- */
+// ── main: merge sort demo ───────────────────────────────────────────────────
 int main() {
     int arr[] = {12,4,2,1,5};
     int size = 5;
@@ -87,7 +85,6 @@ int main() {
     cout<< "Name: Vanshika Aggarwal"<< endl;
     cout<< "Roll No. 22001003138"<< endl;
     cout<< "sorted array is "<< endl;
-    // Iterate over all elements
     for(int i=0; i< size; i++) {
         cout<< arr[i]<< " ";
     }

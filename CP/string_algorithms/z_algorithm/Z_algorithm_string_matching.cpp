@@ -4,10 +4,11 @@ class Z_Algorithm
 {
 public:
     /*
-        Function: compute_z_array
-        Purpose: Computes Z-array for the given string s.
-                 z[i] = length of the longest substring starting from i
-                        that matches the prefix of s.
+        compute_z_array — Z-array banao: z[i] = prefix se match ki lambai index i se.
+        Step 1: [l,r] = current Z-box; i=1 se scan — z[0] hamesha 0 rehta hai.
+        Step 2: Agar i <= r to z[i] = min(r-i+1, z[i-l]) se reuse (naive skip).
+        Step 3: While loop se match extend: s[z[i]] == s[i+z[i]] jab tak badhao.
+        Step 4: Agar i+z[i]-1 > r to naya Z-box [i, i+z[i]-1] set karo.
     */
     vector<int> compute_z_array(const string &s)
     {
@@ -36,11 +37,11 @@ public:
     }
 
     /*
-        Function: search
-        Purpose: Finds all occurrences of `pattern` inside `text`
-                 using Z-algorithm.
-        Returns: A vector containing all starting indices (0-based)
-                 where pattern is found in text.
+        search — pattern ke saare text occurrences Z-algorithm se dhundho.
+        Step 1: combined = pattern + '$' + text — '$' separator collision avoid karta hai.
+        Step 2: combined ka Z-array banao compute_z_array se.
+        Step 3: jahan z[i] == pattern.length, wahan full pattern match — text index = i - pLen - 1.
+        Step 4: Saare match positions vector me collect karke return.
     */
     vector<int> search(const string &text, const string &pattern)
     {
@@ -67,7 +68,7 @@ public:
     }
 };
 
-/* ---------------- MAIN FUNCTION ---------------- */
+/* main — 5 test cases pe Z-algorithm search chalao; match indices print karo. */
 int main()
 {
     Z_Algorithm zAlgo; // Create object of class

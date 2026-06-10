@@ -1,9 +1,23 @@
+// ════════════════════════════════════════════════════════════════════════════
+// ALL PATHS SOURCE → TARGET (BFS approach)
+// ────────────────────────────────────────────────────────────────────────────
+// Directed acyclic graph mein node 0 se node n-1 tak saari possible paths
+// nikaalne ka BFS template. Har queue entry ek partial path hai.
+// LC 797 - All Paths From Source to Target
+// ════════════════════════════════════════════════════════════════════════════
+
 #include <bits/stdc++.h>
 using namespace std;
 
 class Solution
 {
 public:
+    // ── bfs: adjacency list se saari paths BFS se collect karo ───────────────
+    // Step 1: Queue mein seedha {0} push karo — BFS partial paths se start hoti hai.
+    // Step 2: Front se path nikalo; last node agar n-1 hai to result mein save karo.
+    // Step 3: Warna har neighbor ke liye path ka copy banao, neighbor append karo, queue mein daalo.
+    // Step 4: Har queue entry ek alag partial path hai — BFS level-wise saari routes expand karti hai.
+    // Step 5: Jab queue khali ho jaye tab saari source-to-target paths result mein collect ho chuki hoti hain.
     void bfs(vector<vector<int>> &graph, vector<vector<int>> &result)
     {
         int n = graph.size();
@@ -26,12 +40,17 @@ public:
                 {
                     vector<int> newPath = path;
                     newPath.push_back(neighbor);
-                    q.push(newPath);
+                    q.push(newPath); // naya path queue mein — BFS level-wise expand
                 }
             }
         }
     }
 
+    // ── allPathsSourceTarget: wrapper jo result return karta hai ─────────────
+    // Step 1: Empty result vector banao.
+    // Step 2: Internal bfs() ko graph aur result pass karo — paths fill ho jayengi.
+    // Step 3: BFS complete hone ke baad result directly return karo.
+    // Step 4: Ye wrapper LeetCode-style API deta hai — caller ko BFS details jaanne ki zaroorat nahi.
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>> &graph)
     {
         vector<vector<int>> result;
@@ -57,6 +76,15 @@ int main()
     return 0;
 }
 
+/*
+ * NOTE: Neeche DFS version bhi hai reference ke liye — compile avoid karne ke liye
+ * block comment mein rakha hai. Same file mein do Solution classes compile nahi hongi.
+ *
+ * ── DFS approach (backtracking) ──
+ * DFS se har path explore karo, target pe pahunch ke save karo, phir backtrack.
+ */
+
+#if 0
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -91,7 +119,6 @@ public:
     }
 };
 
-// Example Usage
 int main()
 {
     Solution sol;
@@ -107,3 +134,4 @@ int main()
 
     return 0;
 }
+#endif

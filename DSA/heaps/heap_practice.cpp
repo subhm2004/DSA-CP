@@ -11,6 +11,16 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// HEAP CLASS PRACTICE — Insert, delete, heapify, buildHeap
+// ────────────────────────────────────────────────────────────────────────────
+// 1-indexed array: arr[1..size], parent=i/2, left=2i, right=2i+1
+// Insert: bubble up — parent se swap jab parent chhota ho
+// Delete root: last element root pe, bubble down (largest child se swap)
+// buildHeap: last non-leaf se heapify (O(n))
+// ════════════════════════════════════════════════════════════════════════════
+
 class Heap{
     public:
     int size;
@@ -21,14 +31,12 @@ class Heap{
         this-> size=0;
         this-> arr= new int[capacity];
     }
-    
-    
-    /*
-     * insert()
-     * Purpose : priority_queue for O(log n) min/max access.
-     * Params  : int data
-     * Returns : void
-     */
+
+    // ── insert: max-heap me element add ────────────────────────────────────
+    //   1) overflow check
+    //   2) size++, arr[size]=data, index=size
+    //   3) parent < current ho to swap, index=parent
+    //   4) parent >= current pe break — heap property OK
     void insert(int data){
         if(size== capacity){
             cout<< "Heap overflow"<< endl;
@@ -48,26 +56,19 @@ class Heap{
             }
         }
     }
-    
-    
-    /*
-     * printHeap()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Returns : void
-     */
+
+    // ── printHeap: arr[1..size] print ──────────────────────────────────────
     void printHeap(){
-        // Iterate over all elements
         for(int i=1; i<=size; i++){
             cout<< arr[i]<< " ";
         }
     }
-    
-    
-    /*
-     * deleteHeap()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Returns : int
-     */
+
+    // ── deleteHeap: root extract aur heapify down ──────────────────────────
+    //   1) ans=arr[1], arr[1]=arr[size], size--
+    //   2) index=1 se niche: left/right me sabse bada dhundho
+    //   3) largest != index -> swap, index=largest
+    //   4) warna break — ans return (deleted max)
     int deleteHeap(){
         int ans= arr[1];
         arr[1]= arr[size];
@@ -94,14 +95,11 @@ class Heap{
         }
         return ans;
     }
-    
-    
-    /*
-     * Heapify()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Params  : int arr[], int i, int size
-     * Returns : void
-     */
+
+    // ── Heapify: arr[i] ko max-heap property ke liye fix ──────────────────
+    //   1) left/right children se largest dhundho
+    //   2) largest != index -> swap, recursively Heapify
+    //   3) leaf/subtree OK pe return
     void Heapify(int arr[], int i, int size){
         int index= i;
         int leftIndex= 2*index;
@@ -119,14 +117,11 @@ class Heap{
             Heapify(arr,index,size);
         }
     }
-    
-    
-    /*
-     * buildHeap()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Params  : int n
-     * Returns : void
-     */
+
+    // ── buildHeap: array ko max-heap banao ─────────────────────────────────
+    //   1) i=n/2 se 1 tak (last internal node se root tak)
+    //   2) left/right se largest pick, swap agar zaroori
+    //   3) swap ke baad Heapify call — subtree fix
     void buildHeap(int n){
 
         for(int i= n/2; i>=1; i--){
@@ -150,11 +145,7 @@ class Heap{
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Heap Practice
- */
+// ── main: insert values aur print heap ───────────────────────────────────────
 int main(){
     Heap h(10);
     h.insert(10);

@@ -27,8 +27,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// ── O(n) — iterative (CP-Algo default, works for all n, k) ───────────────────
-// Returns 1-indexed survivor
+// ════════════════════════════════════════════════════════════════════════════
+// JOSEPHUS PROBLEM — circle mein har k-th eliminate, survivor kaun?
+// ────────────────────────────────────────────────────────────────────────────
+// n log 1..n circle mein, har k-th person hatao, last bacha = answer
+// DP: J(n,k) = (J(n-1,k) + k) % n — 0-indexed position
+// Multiple approaches: O(n) iterative, O(k log n) fast, O(1) for k=2
+// Brute simulate sirf small n verify ke liye
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── josephusOn: O(n) iterative — 1-indexed survivor ───────────────────────
+//   1) res = 0 (0-indexed J(1,k) = 0 se build)
+//   2) i=1 se n: res = (res + k) % i — recurrence apply
+//   3) har step pe circle size badhti hai
+//   4) res + 1 return — 1-indexed answer
 int josephusOn(int n, int k) {
     int res = 0; // J(0,*) unused; building up from J(1,k)=0 in 0-index
     for (int i = 1; i <= n; i++)
@@ -36,12 +48,20 @@ int josephusOn(int n, int k) {
     return res + 1;
 }
 
-// ── O(n) — recursive (1-indexed CP-Algo snippet) ─────────────────────────────
+// ── josephusRecursive: O(n) recursion — 1-indexed ─────────────────────────
+//   1) base: n==1 -> survivor 1
+//   2) smaller circle ka answer: josephusRecursive(n-1, k)
+//   3) (ans + k - 1) % n + 1 — 1-indexed shift
+//   4) recurrence top-down
 int josephusRecursive(int n, int k) {
     return n > 1 ? (josephusRecursive(n - 1, k) + k - 1) % n + 1 : 1;
 }
 
-// ── O(k log n) — skip batches when k << n (0-indexed internally) ─────────────
+// ── josephusFast: O(k log n) — 0-indexed, batches skip ────────────────────
+//   1) n==1 -> 0; k==1 -> n-1 (last person)
+//   2) k > n: recurse n-1, (res + k) % n
+//   3) removed = n/k people ek saath hatao
+//   4) smaller problem + position adjust (res fix)
 int josephusFast(int n, int k) {
     if (n == 1) return 0;
     if (k == 1) return n - 1;
@@ -57,19 +77,29 @@ int josephusFast(int n, int k) {
     return res;
 }
 
+// ── josephusFast1Indexed: fast method ka 1-indexed wrapper ────────────────
+//   1) josephusFast(n, k) call — 0-indexed result
+//   2) +1 karke 1-indexed return
 int josephusFast1Indexed(int n, int k) {
     return josephusFast(n, k) + 1;
 }
 
-// ── O(1) — closed form for k = 2 (Flavius Josephus original) ───────────────
-// J(n,2) = 1 + 2 * (n - 2^floor(log2 n))
+// ── josephusK2: O(1) closed form jab k = 2 ────────────────────────────────
+//   1) n==1 -> 1 return
+//   2) highestPower = largest 2^p <= n (__builtin_clz se)
+//   3) formula: 1 + 2*(n - highestPower)
+//   4) Flavius Josephus original case
 int josephusK2(int n) {
     if (n == 1) return 1;
     int highestPower = 1 << (31 - __builtin_clz(n)); // largest 2^p <= n
     return 1 + 2 * (n - highestPower);
 }
 
-// ── Brute simulation — O(n²), for verifying small n only ─────────────────────
+// ── josephusSimulate: brute O(n²) — small n verify ke liye ────────────────
+//   1) circle vector 1..n banao
+//   2) idx se har k-th person erase (circular index)
+//   3) ek bacha tab tak repeat
+//   4) circle[0] return — last survivor
 int josephusSimulate(int n, int k) {
     vector<int> circle(n);
     iota(circle.begin(), circle.end(), 1);
@@ -81,6 +111,11 @@ int josephusSimulate(int n, int k) {
     return circle[0];
 }
 
+// ── main: multiple methods se test cases verify ─────────────────────────────
+//   1) known (n,k,expected) test cases define
+//   2) O(n), O(k log n), simulate compare karo
+//   3) k=2 pe closed form bhi check
+//   4) recursion check alag print
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);

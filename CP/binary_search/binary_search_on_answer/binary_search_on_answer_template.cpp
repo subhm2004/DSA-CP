@@ -17,18 +17,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY SEARCH ON ANSWER — Template
+// ────────────────────────────────────────────────────────────────────────────
+// Answer space [lo, hi] pe binary search — array pe nahi!
+// isPossible(mid) monotonic hona chahiye (false...false true...true ya ulta)
+// MIN answer: possible ho to ans=mid, aur chhota dhundho (hi=mid-1)
+// MAX answer: possible ho to ans=mid, aur bada dhundho (lo=mid+1)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── isPossible: mid answer valid hai ya nahi (problem-specific) ───────────
+//   1) yahan example: mid^2 >= 50
+//   2) real problems me greedy/simulation check lagao
 bool isPossible(int mid) {
-    // Replace with problem-specific check
     return mid * mid >= 50;
 }
 
+// ── binarySearchOnAnswerMin: sabse chhota valid answer ──────────────────────
+//   1) mid possible -> ans update, left me aur chhota dhundho (hi=mid-1)
+//   2) impossible -> lo=mid+1 (bada answer chahiye)
+//   3) ans return — minimum feasible X
 int binarySearchOnAnswerMin(int lo, int hi) {
     int ans = -1;
     while (lo <= hi) {
         int mid = lo + (hi - lo) / 2;
         if (isPossible(mid)) {
             ans = mid;
-            hi = mid - 1; // minimize answer
+            hi = mid - 1;
         } else {
             lo = mid + 1;
         }
@@ -36,13 +51,16 @@ int binarySearchOnAnswerMin(int lo, int hi) {
     return ans;
 }
 
+// ── binarySearchOnAnswerMax: sabse bada valid answer ────────────────────────
+//   1) mid possible -> ans update, right me aur bada dhundho (lo=mid+1)
+//   2) impossible -> hi=mid-1
 int binarySearchOnAnswerMax(int lo, int hi) {
     int ans = -1;
     while (lo <= hi) {
         int mid = lo + (hi - lo) / 2;
         if (isPossible(mid)) {
             ans = mid;
-            lo = mid + 1; // maximize answer
+            lo = mid + 1;
         } else {
             hi = mid - 1;
         }

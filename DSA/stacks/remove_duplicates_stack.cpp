@@ -15,59 +15,50 @@
 #include <string>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// REMOVE ADJACENT DUPLICATES — stack se same chars cancel karo
+// ────────────────────────────────────────────────────────────────────────────
+// char aaye → top same hai to pop, warna push
+// end mein stack reverse karke print — original order
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * reversestack()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : stack<char>&st
- * Returns : void
- */
-void reversestack(stack<char>&st){
-    stack<char>sp;
-    while(!st.empty()){
-        // Opening bracket — push onto stack
-        sp.push(st.top());
+// ── reversestack: stack ko print order mein dikhao ─────────────────────────
+//   1) temp stack mein sab transfer — LIFO reverse
+//   2) temp se print karte hue pop
+void reversestack(stack<char> &st) {
+    stack<char> sp;
+    while (!st.empty()) {
+        sp.push(st.top());                 // transfer — order reverse hoga
         st.pop();
     }
-    while(!sp.empty()){
-        cout<< sp.top();
-        // Matching bracket — pop from stack
+    while (!sp.empty()) {
+        cout << sp.top();
         sp.pop();
     }
 }
 
-
-/*
- * removeduplicates()
- * Purpose : Hash set or sorting to find duplicates.
- * Params  : string& str, stack<char>&st
- * Returns : void
- */
-void removeduplicates(string& str, stack<char>&st){
-    int i=0;
+// ── removeduplicates: adjacent same chars hatao ────────────────────────────
+//   1) pehla char push
+//   2) agla char: top same → pop (cancel), warna push
+//   3) end tak scan
+//   4) result stack print
+void removeduplicates(string &str, stack<char> &st) {
+    int i = 0;
     st.push(str[i]);
     i++;
-    while(i<str.length()){
-        if(!st.empty() && str[i]== st.top()){
-            st.pop();
+    while (i < str.length()) {
+        if (!st.empty() && str[i] == st.top()) {
+            st.pop();                      // duplicate — cancel karo
+        } else {
+            st.push(str[i]);               // naya char — stack pe rakho
         }
-        else {
-            st.push(str[i]);
-        }
-        i++;    
+        i++;
     }
-    reversestack(st); 
-       
+    reversestack(st);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Remove Duplicates Stack
- */
-int main(){
+int main() {
     string str = "azxxzy";
-    stack<char>st;
-    removeduplicates(str,st);
-
+    stack<char> st;
+    removeduplicates(str, st);
 }

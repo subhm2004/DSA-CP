@@ -15,51 +15,51 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// REVERSE FIRST K QUEUE ELEMENTS — stack se k elements reverse
+// ────────────────────────────────────────────────────────────────────────────
+// pehle k elements queue se stack mein (LIFO reverse)
+// stack se wapas queue rear pe push
+// baaki n-k elements rotate — front se rear
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * reversekgrp()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : queue<int>&q, int& n, int &k
- * Returns : void
- */
-void reversekgrp(queue<int>&q,int& n, int &k){
-    stack<int>st;
-    int rem= n-k;
-    while(k--){
-        st.push(q.front());
-        q.pop();     
+// ── reversekgrp: queue ke pehle k elements reverse ─────────────────────────
+//   1) k elements front se pop → stack push
+//   2) stack se pop → queue rear push (reversed)
+//   3) remaining n-k elements rotate (front→rear)
+void reversekgrp(queue<int> &q, int &n, int &k) {
+    stack<int> st;
+    int rem = n - k;
+    while (k--) {
+        st.push(q.front());                // dequeue front — stack mein store
+        q.pop();
     }
-    while(!st.empty()){
-        q.push(st.top());
+    while (!st.empty()) {
+        q.push(st.top());                  // enqueue rear — reversed order
         st.pop();
     }
-    while(rem--){
+    while (rem--) {
         int temp = q.front();
         q.pop();
-        q.push(temp);
+        q.push(temp);                      // rotate — baaki elements peeche
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Reverse K Queue Elements
- */
-int main(){
-    queue<int>q;
+int main() {
+    queue<int> q;
     q.push(10);
     q.push(20);
     q.push(30);
     q.push(40);
     q.push(50);
     q.push(60);
-    int n= q.size();
+    int n = q.size();
     int k;
-    cout<< "enter k"<< endl;
-    cin>> k;
-    reversekgrp(q,n,k);
-    while(!q.empty()){
-        cout<< q.front()<< " ";
+    cout << "enter k" << endl;
+    cin >> k;
+    reversekgrp(q, n, k);
+    while (!q.empty()) {
+        cout << q.front() << " ";
         q.pop();
     }
 }

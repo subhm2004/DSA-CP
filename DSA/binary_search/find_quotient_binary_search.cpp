@@ -14,12 +14,21 @@
 using namespace std;
 
 
-/*
- * quotient()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int& dividend, int& divisor
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// QUOTIENT VIA BS — Divide without / operator (Leetcode 29)
+// ────────────────────────────────────────────────────────────────────────────
+// mid*divisor compare dividend se
+// mid*divisor <= dividend -> ans=mid, s=mid+1
+// Floor quotient return
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── quotient: quotient BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int quotient(int& dividend, int& divisor){
     int s=0, e= dividend;
     int mid= s+(e-s)/2;
@@ -41,10 +50,12 @@ int quotient(int& dividend, int& divisor){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Find Quotient Binary Search
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int dividend, divisor;
     cout<< "enter dividend"<< endl;

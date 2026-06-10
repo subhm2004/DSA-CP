@@ -13,182 +13,131 @@
 #include <iostream>
 #include <limits.h>
 using namespace std;
-class Stack{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// TWO STACKS IN ONE ARRAY — top1 left se, top2 right se grow
+// ────────────────────────────────────────────────────────────────────────────
+// top1=-1 (left empty), top2=size (right empty)
+// full jab top2 == top1+1 — beech mein jagah khatam
+// ════════════════════════════════════════════════════════════════════════════
+
+class Stack {
+public:
     int *arr;
     int top1;
     int top2;
     int size;
-    Stack(int size){
-        this-> size = size;
-        arr= new int[size];
-        this-> top1= -1;
-        this-> top2= size;
+    Stack(int size) {
+        this->size = size;
+        arr = new int[size];
+        this->top1 = -1;                   // stack1 left end — abhi empty
+        this->top2 = size;                 // stack2 right end — abhi empty
     }
-    
-    
-    /*
-     * isEmpty()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isEmpty(){
-        if(top1== -1 && top2== size){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
-    
-    /*
-     * isFull()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isFull(){
-        if(top2 == top1+1){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
-    
-    /*
-     * push1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push1(int data){
-        if(top2== top1+1){
-            cout<< "Stack Overflow"<< endl;
-        }
-        else {
-            top1++;
-            arr[top1]= data;
 
+    // ── isEmpty: dono stacks khali? ─────────────────────────────────────────
+    //   1) top1==-1 aur top2==size → true
+    bool isEmpty() {
+        if (top1 == -1 && top2 == size) {
+            return true;
+        } else {
+            return false;
         }
     }
-    
-    
-    /*
-     * push2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push2(int data){
-        if(top2== top1+1){
-            cout<< "Stack Overflow"<< endl;
-        }
-        else{
-            top2--;
-            arr[top2]= data;
+
+    // ── isFull: array bhar gaya? ─────────────────────────────────────────────
+    //   1) top2 == top1+1 → dono stacks touch ho gaye
+    bool isFull() {
+        if (top2 == top1 + 1) {
+            return true;
+        } else {
+            return false;
         }
     }
-    
-    
-    /*
-     * pop1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void pop1(){
-        if(top1 == -1 ){
-            cout<< "Stack Underflow"<< endl;
-        }
-        else {
-            top1--;
+
+    // ── push1: stack1 (left) mein push ───────────────────────────────────────
+    //   1) overflow check
+    //   2) top1++ aur arr[top1]=data
+    void push1(int data) {
+        if (top2 == top1 + 1) {
+            cout << "Stack Overflow" << endl;
+        } else {
+            top1++;                        // left stack grow — index badhao
+            arr[top1] = data;
         }
     }
-    
-    
-    /*
-     * pop2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void pop2(){
-        if(top2== size){
-            cout<< "Stack Underflow"<< endl;
-        }
-        else {
-            top2++;
+
+    // ── push2: stack2 (right) mein push ──────────────────────────────────────
+    //   1) overflow check
+    //   2) top2-- aur arr[top2]=data
+    void push2(int data) {
+        if (top2 == top1 + 1) {
+            cout << "Stack Overflow" << endl;
+        } else {
+            top2--;                        // right stack grow — index ghatao
+            arr[top2] = data;
         }
     }
-    
-    
-    /*
-     * gettop1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int gettop1(){
-        if(top1== -1){
-            cout<< "Stack1 Underflow"<< endl;
+
+    // ── pop1: stack1 se pop ──────────────────────────────────────────────────
+    //   1) underflow check
+    //   2) top1--
+    void pop1() {
+        if (top1 == -1) {
+            cout << "Stack Underflow" << endl;
+        } else {
+            top1--;                        // left stack shrink
+        }
+    }
+
+    // ── pop2: stack2 se pop ──────────────────────────────────────────────────
+    //   1) underflow check
+    //   2) top2++
+    void pop2() {
+        if (top2 == size) {
+            cout << "Stack Underflow" << endl;
+        } else {
+            top2++;                        // right stack shrink
+        }
+    }
+
+    // ── gettop1: stack1 ka top element ───────────────────────────────────────
+    int gettop1() {
+        if (top1 == -1) {
+            cout << "Stack1 Underflow" << endl;
             return INT_MIN;
-        }
-        else {
+        } else {
             return arr[top1];
         }
     }
-    
-    
-    /*
-     * gettop2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : int
-     */
-    int gettop2(){
-        if(top2== size){
-            cout<< "Stack2 Underflow"<< endl;
+
+    // ── gettop2: stack2 ka top element ───────────────────────────────────────
+    int gettop2() {
+        if (top2 == size) {
+            cout << "Stack2 Underflow" << endl;
             return INT_MIN;
-        }
-        else {
+        } else {
             return arr[top2];
         }
     }
-    
-    
-    /*
-     * print()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void print(){
-        cout<< "Top1: "<< top1<< endl;
-        cout<< "Top2: "<< top2<< endl;
-        // Iterate over all elements
-        for(int i=0; i< size; i++){
-            cout<< arr[i]<< " ";
+
+    // ── print: array state dikhao ────────────────────────────────────────────
+    void print() {
+        cout << "Top1: " << top1 << endl;
+        cout << "Top2: " << top2 << endl;
+        for (int i = 0; i < size; i++) {
+            cout << arr[i] << " ";
         }
-        cout<< endl;
-    }   
+        cout << endl;
+    }
 };
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Two Stacks In Array
- */
-int main(){
+int main() {
     Stack sp(6);
-    // Opening bracket — push onto stack
-    sp.push1(10);
-    // Opening bracket — push onto stack
-    sp.push2(20);
-    // Opening bracket — push onto stack
+    sp.push1(10);                          // left stack push
+    sp.push2(20);                          // right stack push
     sp.push1(30);
-    // Opening bracket — push onto stack
     sp.push2(40);
-    // Opening bracket — push onto stack
     sp.push1(50);
-    // Opening bracket — push onto stack
     sp.push2(60);
     sp.print();
 }

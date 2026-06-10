@@ -16,9 +16,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// CATALAN NUMBERS — C_n
+// ────────────────────────────────────────────────────────────────────────────
+// DP: C[i] = sum_{j=0}^{i-1} C[j] * C[i-1-j]  (divide array into left+right)
+// Formula: C_n = C(2n,n) / (n+1) = (2n)! / ((n+1)! * n!)
+// COMPLEX: DP O(n²)  |  formula O(1) agar fact precomputed
+// ════════════════════════════════════════════════════════════════════════════
+
 const long long MOD = 1e9 + 7;
 
-long long catalanDP(int n) {
+// ── catalanDP: bottom-up Catalan table ──
+//   1) c[0] = 1 — empty structure (0 pairs, 0 nodes)
+//   2) har i ke liye j split karo: left size j, right size i-1-j
+//   3) c[i] += c[j] * c[i-1-j] — dono independent choices multiply
+//   Example: n=3 → C_3 = 5 valid parentheses: ((()) (()()) (())() ()(()) ()()()
+long long catalanDP(int n)
+{
     vector<long long> c(n + 1, 0);
     c[0] = 1;
 
@@ -29,9 +43,12 @@ long long catalanDP(int n) {
     return c[n];
 }
 
-long long modPow(long long a, long long b) {
+// ── modPow: a^b mod MOD — formula method ke liye (n+1) ka inverse ──
+long long modPow(long long a, long long b)
+{
     long long res = 1;
-    while (b) {
+    while (b)
+    {
         if (b & 1)
             res = res * a % MOD;
         a = a * a % MOD;
@@ -40,12 +57,16 @@ long long modPow(long long a, long long b) {
     return res;
 }
 
-long long catalanFormula(int n, const vector<long long> &fact, const vector<long long> &invFact) {
-    // C_n = C(2n, n) - C(2n, n-1) = fact[2n] * invFact[n] * invFact[n] * inv(n+1)
+// ── catalanFormula: direct formula se C_n (fact tables chahiye) ──
+//   C_n = fact[2n] * invFact[n]² * inv(n+1)
+//   inv(n+1) = (n+1)^(MOD-2) mod MOD
+long long catalanFormula(int n, const vector<long long> &fact, const vector<long long> &invFact)
+{
     return fact[2 * n] * invFact[n] % MOD * invFact[n] % MOD * modPow(n + 1, MOD - 2) % MOD;
 }
 
-int main() {
+int main()
+{
     int n = 5;
     cout << "Catalan C_" << n << " (DP) = " << catalanDP(n) << endl;
 

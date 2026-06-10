@@ -9,50 +9,46 @@
  * ============================================================================
  */
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Array Basics 3
- */
-int main() {
-    int arr[]= {1,0,0,0,1,1};
-    int size = 6;
-    int j=0;
-     int k=0;
-     // Iterate over all elements
-     for(int i=0; i< size; i++) {
-        if(arr[i]== 1) {
-            j++;
-        }
-        else {
-            k++;
-        }
-     }
-     cout<< "number of 1's are "<< j<< endl;
-     cout<< "number of 0's are "<< k<< endl;
-     return 0;
-}*/
 #include <iostream>
+#include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// FIND LARGEST ELEMENT — poori array scan karke max nikalo
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: largest ko arr[0] maan ke har element se compare karo
+// Bada mila to largest update — classic linear max scan
+// COMPLEX: Time O(n)  |  Space O(n) input ke liye
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Array Basics 3
- */
+// ── main: user input array me largest element dhundho ──────────────────────
+//   1) n lo, vector size n se array bharo
+//   2) largest = arr[0] se start, har i pe compare
+//   3) arr[i] > largest ho to update karo
+//   4) final largest print karo
 int main() {
     int n;
-    cout<< "enter the size of array"<< endl;
-    cin>> n;
-    int arr[n];
-    cout<< "enter the elemnets of array"<< endl;
-    for(int i=0; i<n; i++) {
-        cin>> arr[i];
+    cout << "enter the size of array" << endl;
+    cin >> n;
+
+    if (n <= 0) {
+        cout << "invalid size" << endl;
+        return 0;
     }
+
+    vector<int> arr(n);
+    cout << "enter the elements of array" << endl;
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
     int largest = arr[0];
-    for(int i=0; i<n; i++) {
-        if(arr[i]> largest) {
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > largest) {
             largest = arr[i];
         }
     }
-    cout<< "largest element is "<< largest<< endl;
-    }
+
+    cout << "largest element is " << largest << endl;
+    return 0;
+}

@@ -11,173 +11,120 @@
 
 #include <iostream>
 using namespace std;
-class Stack{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// TWO STACKS IN ARRAY (VARIANT) — left/right growth with cleanup on pop
+// ────────────────────────────────────────────────────────────────────────────
+// top1 left se badhta, top2 right se ghata
+// pop pe arr[index]=-1 mark — slot free visual
+// ════════════════════════════════════════════════════════════════════════════
+
+class Stack {
+public:
     int *arr;
     int size;
     int top1;
     int top2;
-    Stack(int size){
-        this-> size= size;
-        this-> arr= new int[size];
-        this-> top1 = -1;
-        this-> top2= size;
+    Stack(int size) {
+        this->size = size;
+        this->arr = new int[size];
+        this->top1 = -1;
+        this->top2 = size;
     }
-    
-    
-    /*
-     * isempty1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isempty1(){
-        if(top1 == -1){
-            cout<< "stack1 is empty"<< endl;
+
+    // ── isempty1: left stack khali? ──────────────────────────────────────────
+    bool isempty1() {
+        if (top1 == -1) {
+            cout << "stack1 is empty" << endl;
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * isempty2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isempty2(){
-        if(top2== size){
-            cout<< "stack2 is empty"<< endl;
+
+    // ── isempty2: right stack khali? ─────────────────────────────────────────
+    bool isempty2() {
+        if (top2 == size) {
+            cout << "stack2 is empty" << endl;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * isfull()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : bool
-     */
-    bool isfull(){
-        if( top2 - top1 == 1){
+
+    // ── isfull: dono stacks touch ho gaye? ───────────────────────────────────
+    bool isfull() {
+        if (top2 - top1 == 1) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * push1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push1(int data){
-        if(isfull()){
-            cout<< "stack is full, can't push"<< endl;
+
+    // ── push1: left stack mein push ──────────────────────────────────────────
+    void push1(int data) {
+        if (isfull()) {
+            cout << "stack is full, can't push" << endl;
             return;
-        }
-        else {
+        } else {
             top1++;
-            arr[top1]= data;
+            arr[top1] = data;              // left grow — index badhao
         }
     }
-    
-    
-    /*
-     * push2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Params  : int data
-     * Returns : void
-     */
-    void push2(int data){
-        if(isfull()){
-            cout<< "stack is full, can't push"<< endl;
+
+    // ── push2: right stack mein push ─────────────────────────────────────────
+    void push2(int data) {
+        if (isfull()) {
+            cout << "stack is full, can't push" << endl;
             return;
-        }
-        else {
+        } else {
             top2--;
-            arr[top2]= data;
+            arr[top2] = data;              // right grow — index ghatao
         }
     }
-    
-    
-    /*
-     * pop1()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void pop1(){
-        if(isempty1()){
-            cout<< "stack is empty, can't delete "<< endl;
+
+    // ── pop1: left stack se pop ──────────────────────────────────────────────
+    void pop1() {
+        if (isempty1()) {
+            cout << "stack is empty, can't delete " << endl;
             return;
-        }
-        else {
-            arr[top1]= -1;
+        } else {
+            arr[top1] = -1;                // slot mark free
             top1--;
         }
     }
-    
-    
-    /*
-     * pop2()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void pop2(){
-        if(isempty2()){
-            cout<< "stack is empty, can't delete"<< endl;
+
+    // ── pop2: right stack se pop ─────────────────────────────────────────────
+    void pop2() {
+        if (isempty2()) {
+            cout << "stack is empty, can't delete" << endl;
             return;
-        }
-        else {
-            arr[top2]= -1;
-            top2++;
+        } else {
+            arr[top2] = -1;
+            top2++;                        // right shrink
         }
     }
-    
-    
-    /*
-     * print()
-     * Purpose : LIFO stack — push on open, pop on match.
-     * Returns : void
-     */
-    void print(){
-        cout<< "top1: "<< top1<< endl;
-        cout<< "top2: "<< top2<< endl;
-        // Iterate over all elements
-        for(int i=0; i< size; i++){
-            cout<< arr[i]<< " ";
+
+    // ── print: array state ───────────────────────────────────────────────────
+    void print() {
+        cout << "top1: " << top1 << endl;
+        cout << "top2: " << top2 << endl;
+        for (int i = 0; i < size; i++) {
+            cout << arr[i] << " ";
         }
-        cout<< endl;
+        cout << endl;
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Two Stacks Array Variant
- */
-int main(){
+int main() {
     Stack sp(8);
-    // Opening bracket — push onto stack
     sp.push1(10);
-    // Opening bracket — push onto stack
     sp.push1(20);
-    // Opening bracket — push onto stack
     sp.push2(30);
-    // Opening bracket — push onto stack
     sp.push2(40);
     sp.pop1();
     sp.pop2();
     sp.pop1();
     sp.pop1();
     sp.print();
-
-
 }

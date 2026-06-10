@@ -14,54 +14,48 @@
 #include <deque>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SLIDING WINDOW FIRST NEGATIVE — deque se window negatives track
+// ────────────────────────────────────────────────────────────────────────────
+// deque mein negative indices store — front = window ka pehla negative
+// window slide → purane index bahar, naye negative push_back
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printfirstnegative()
- * Purpose : FIFO queue — enqueue rear, dequeue front.
- * Params  : int *arr, int& size, int&k
- * Returns : void
- */
-void printfirstnegative(int *arr, int& size, int&k){
-    deque<int>dq; // store the index of negative number
-    for(int i=1; i<=k; i++){
-        if(arr[i]<0){
-            dq.push_back(i);
+// ── printfirstnegative: har window ka pehla negative print ─────────────────
+//   1) pehli window (size k) ke negatives deque mein
+//   2) har slide: front expired? pop_front
+//   3) naya negative → push_back index
+//   4) deque.front() se answer print
+void printfirstnegative(int *arr, int &size, int &k) {
+    deque<int> dq;                         // negative element ke indices
+    for (int i = 1; i <= k; i++) {
+        if (arr[i] < 0) {
+            dq.push_back(i);               // negative index store
         }
     }
-    // Iterate over all elements
-    for(int i=k+1; i<=size; i++){
-        if(dq.empty()){
-        cout<< 0<< " ";
+    for (int i = k + 1; i <= size; i++) {
+        if (dq.empty()) {
+            cout << 0 << " ";
+        } else {
+            cout << arr[dq.front()] << " "; // window ka pehla negative
         }
-        else {
-        cout<< arr[dq.front()]<< " ";
+        if (i - dq.front() >= k) {
+            dq.pop_front();                // window se bahar — index hatao
         }
-        if(i-dq.front()>=k){
-            dq.pop_front();
-        }
-        if(arr[i]<0){
-            dq.push_back(i);
+        if (arr[i] < 0) {
+            dq.push_back(i);               // naya negative window mein
         }
     }
-    if(dq.empty()){
-        cout<< 0<< " ";
-    }
-    else {
-        cout<< arr[dq.front()]<< " ";
+    if (dq.empty()) {
+        cout << 0 << " ";
+    } else {
+        cout << arr[dq.front()] << " ";
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Sliding Window Maximum
- */
-int main(){
-    int arr[]= {2,-5,4,-1,-2,0,5};
-    int size= 7;
-    int k=3; // window size
-    printfirstnegative(arr,size,k);
-
-
-
+int main() {
+    int arr[] = {2, -5, 4, -1, -2, 0, 5};
+    int size = 7;
+    int k = 3;                             // window size
+    printfirstnegative(arr, size, k);
 }

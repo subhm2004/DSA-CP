@@ -13,6 +13,20 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BUILD TREE — Inorder + Postorder se reconstruct
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Postorder (L,R,Root) + Inorder se tree banao.
+//
+// Approach: Recursive
+//   - Postorder[last] = root (post_index backward)
+//   - Inorder me root dhundho → left/right split
+//   - Pehle RIGHT build (postorder me root ke baad right aata hai)
+//
+// Complexity: Time O(n²)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,13 +39,7 @@ class Node{
     }
 };
 
-
-/*
- * levelordertraversal()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS print ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -56,15 +64,8 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * searchpostorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : int inorder[], int size, int target
- * Returns : int
- */
+// ── searchpostorder: inorder me target ki index ──
 int searchpostorder(int inorder[], int size, int target){
-    // Iterate over all elements
     for(int i=0; i< size; i++){
         if(inorder[i]== target){
             return i;
@@ -73,13 +74,12 @@ int searchpostorder(int inorder[], int size, int target){
     return -1;
 }
 
-
-/*
- * inpostcreatetree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : int postorder[], int inorder[], int size, int &post_index, int inorder_start, int inorder_end
- * Returns : Node*
- */
+// ── inpostcreatetree: inorder+postorder se tree ──
+//   1) Base: invalid range → NULL
+//   2) postorder[post_index] = root, post_index--
+//   3) Inorder me position dhundho
+//   4) Pehle RIGHT subtree (post_index backward)
+//   5) Phir LEFT subtree
 Node* inpostcreatetree(int postorder[], int inorder[], int size, int &post_index, int inorder_start, int inorder_end){
     if(post_index <0 || inorder_start> inorder_end){
         return NULL;
@@ -93,11 +93,7 @@ Node* inpostcreatetree(int postorder[], int inorder[], int size, int &post_index
     return root;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Build Tree Inorder Postorder
- */
+// ── main: sample build demo ──
 int main(){
     int postorder[]= {8,6,12,4,10,2};
     int inorder[]= {8,12,6,2,10,4};

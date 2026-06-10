@@ -14,12 +14,21 @@
 using namespace std;
 
 
-/*
- * nearlysorted()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// NEARLY SORTED SEARCH — Element max 1 position off
+// ────────────────────────────────────────────────────────────────────────────
+// mid, mid-1, mid+1 teen check — target ho sakta hai
+// arr[mid]>target -> e=mid-2; else s=mid+2
+// Modified BS — skip 2 steps
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── nearlysorted: nearly sorted BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int nearlysorted(int *arr, int& size, int& target){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -45,10 +54,12 @@ int nearlysorted(int *arr, int& size, int& target){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Search Nearly Sorted
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[]={20, 10, 30, 50, 40, 70, 60};
     int size= 7;

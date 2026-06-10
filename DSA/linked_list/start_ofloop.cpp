@@ -13,203 +13,163 @@
 #include <iostream>
 #include <map>
 using namespace std;
-class Node{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// CYCLE DETECTION & REMOVAL — Floyd's tortoise-hare + hash map variant
+// ────────────────────────────────────────────────────────────────────────────
+// slow 1 step, fast 2 step — meet → cycle hai
+// phase 2: slow=head, dono 1 step → cycle start
+// remove: slow/fast next pointers align karke loop tod do
+// ════════════════════════════════════════════════════════════════════════════
+
+class Node {
+public:
     int data;
-    Node* next;
-    Node(){
-        this-> data= 0;
-        this-> next= NULL;
+    Node *next;
+    Node() {
+        this->data = 0;
+        this->next = NULL;
     }
-    Node(int data){
-        this-> data= data;
-        this-> next= NULL;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
     }
 };
 
-
-/*
- * loopstarting()
- * Purpose : Floyd's slow/fast pointers detect cycle.
- * Params  : Node* &head
- * Returns : int
- */
-int loopstarting (Node* &head){
-    map< Node*, bool> table;
-    Node* temp= head;
-    while(temp!= NULL){
-        if(table[temp]== false){
-            table[temp]= true;
+// ── loopstarting: hash map se cycle start dhundho ──────────────────────────
+int loopstarting(Node *&head) {
+    map<Node *, bool> table;
+    Node *temp = head;
+    while (temp != NULL) {
+        if (table[temp] == false) {
+            table[temp] = true;
+        } else {
+            return temp->data;             // pehle visit — cycle start
         }
-        else {
-            return temp-> data;
-        }
-        temp= temp-> next;
+        temp = temp->next;
     }
     return -1;
 }
 
-
-/*
- * insertathead()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* &head, Node* &tail, int data
- * Returns : void
- */
-void insertathead(Node* &head, Node* &tail, int data){
-    if(head== NULL){
-        Node* newnode= new Node(data);
-        head= newnode;
-        tail= newnode;
-    }
-    else{
-        Node* newnode = new Node(data);
-        newnode-> next= head;
-        head= newnode;
+// ── insertathead: head pe insert ───────────────────────────────────────────
+void insertathead(Node *&head, Node *&tail, int data) {
+    if (head == NULL) {
+        Node *newnode = new Node(data);
+        head = newnode;
+        tail = newnode;
+    } else {
+        Node *newnode = new Node(data);
+        newnode->next = head;
+        head = newnode;
     }
 }
 
-
-/*
- * insertattail()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* &head, Node* &tail, int data
- * Returns : void
- */
-void insertattail(Node* &head, Node* &tail, int data){
-    if(head== NULL){
-        Node* newnode= new Node(data);
-        head= newnode;
-        tail= newnode;
-    }
-    else {
-        Node* newnode= new Node(data);
-        tail-> next= newnode;
+// ── insertattail: tail pe insert ───────────────────────────────────────────
+void insertattail(Node *&head, Node *&tail, int data) {
+    if (head == NULL) {
+        Node *newnode = new Node(data);
+        head = newnode;
+        tail = newnode;
+    } else {
+        Node *newnode = new Node(data);
+        tail->next = newnode;              // tail ka next — cycle banane ke liye
         tail = newnode;
     }
-
 }
 
-
-/*
- * traversal()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* &head
- * Returns : void
- */
-void traversal(Node* &head){
-    Node* temp= head;
-    while(temp!= NULL){
-        cout<< temp-> data<< " -> ";
-        temp= temp-> next;
+// ── traversal: list print ──────────────────────────────────────────────────
+void traversal(Node *&head) {
+    Node *temp = head;
+    while (temp != NULL) {
+        cout << temp->data << " -> ";
+        temp = temp->next;
     }
     cout << endl;
 }
 
-
-/*
- * checkloop()
- * Purpose : Floyd's slow/fast pointers detect cycle.
- * Params  : Node* &head
- * Returns : bool
- */
-bool checkloop(Node* &head){
-    Node* slow= head;
-    Node* fast= head;
-    while(fast!= NULL){
-        fast= fast-> next;
-        if(fast!= NULL){
-            fast= fast-> next;
-            slow= slow-> next;
+// ── checkloop: Floyd's — cycle hai ya nahi? ────────────────────────────────
+bool checkloop(Node *&head) {
+    Node *slow = head;
+    Node *fast = head;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;             // fast 2 step — hare
+            slow = slow->next;             // slow 1 step — tortoise
         }
-        if(fast== slow){
-            return true;
+        if (fast == slow) {
+            return true;                   // meet → cycle confirmed
         }
     }
     return false;
 }
 
-
-/*
- * startingpoint()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* &head
- * Returns : Node*
- */
-Node* startingpoint(Node* &head){
-    Node* slow= head;
-    Node* fast= head;
-    while(fast!= NULL){
-        fast= fast-> next;
-        if(fast!= NULL){
-            fast = fast-> next;
-            slow = slow-> next;
+// ── startingpoint: cycle entry node dhundho ────────────────────────────────
+//   1) slow/fast se meeting point
+//   2) slow = head; dono 1-1 step
+//   3) meet = cycle start node
+Node *startingpoint(Node *&head) {
+    Node *slow = head;
+    Node *fast = head;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;
+            slow = slow->next;
         }
-        if(fast == slow){
+        if (fast == slow) {
             break;
         }
     }
-    if(fast == NULL){
-        return  NULL;
+    if (fast == NULL) {
+        return NULL;
     }
-    slow = head;
-    while(fast != slow){
-        slow= slow-> next;
-        fast= fast-> next;
+    slow = head;                           // phase 2 — head se start
+    while (fast != slow) {
+        slow = slow->next;
+        fast = fast->next;                 // dono 1 step — entry pe milenge
     }
     return slow;
 }
 
-
-/*
- * removeloop()
- * Purpose : Floyd's slow/fast pointers detect cycle.
- * Params  : Node* &head
- * Returns : void
- */
-void removeloop(Node* &head){
-    Node* slow= head;
-    Node* fast= head;
-    while(fast!= NULL){
-        fast= fast-> next;
-        if(fast!= NULL){
-            fast= fast-> next;
-            slow= slow-> next;
+// ── removeloop: cycle tod do ───────────────────────────────────────────────
+void removeloop(Node *&head) {
+    Node *slow = head;
+    Node *fast = head;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;
+            slow = slow->next;
         }
-        if(fast== slow){
+        if (fast == slow) {
             break;
         }
     }
-    if(fast== NULL){
-        cout<< "NO LOOP PRESENT"<< endl;
+    if (fast == NULL) {
+        cout << "NO LOOP PRESENT" << endl;
     }
-    slow= head;
-    while(slow-> next!= fast-> next){
-        slow= slow-> next;
-        fast= fast-> next;
+    slow = head;
+    while (slow->next != fast->next) {
+        slow = slow->next;
+        fast = fast->next;
     }
-    fast-> next = NULL;
-    cout<< "loop removed"<< endl;
+    fast->next = NULL;                     // loop break — next pointer NULL
+    cout << "loop removed" << endl;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Start Ofloop
- */
-int main(){
-    Node* head = NULL;
-    Node* tail= NULL;
-    insertathead(head,tail,12);
-    insertathead(head,tail,10);
-    insertathead(head,tail,8);
-    insertathead(head,tail,6);
-    insertathead(head,tail,4);
-    insertathead(head,tail,2);
+int main() {
+    Node *head = NULL;
+    Node *tail = NULL;
+    insertathead(head, tail, 12);
+    insertathead(head, tail, 10);
+    insertathead(head, tail, 8);
+    insertathead(head, tail, 6);
+    insertathead(head, tail, 4);
+    insertathead(head, tail, 2);
     traversal(head);
-    tail-> next= head-> next-> next-> next;
-    cout<< startingpoint(head)-> data<< endl;
+    tail->next = head->next->next->next;   // cycle create — tail se mid link
+    cout << startingpoint(head)->data << endl;
     removeloop(head);
     traversal(head);
-
 }

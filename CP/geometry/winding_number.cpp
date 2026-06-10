@@ -11,16 +11,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// WINDING NUMBER — Point in polygon (robust)
+// ────────────────────────────────────────────────────────────────────────────
+// Polygon point ke around kitni baar "wind" karta hai count karo
+// winding == 0 -> bahar, non-zero -> andar (concave pe bhi sahi)
+// Ray casting se zyada robust edge/vertex cases pe
+// ════════════════════════════════════════════════════════════════════════════
+
 struct Point
 {
     double x, y;
 };
 
-// ------------------------------------------------
-// Winding Number Algorithm
-// Polygon ke around point kitni baar "wind" hota hai
-// 0 = bahar, non-zero = andar
-// ------------------------------------------------
+// ── windingNumber: point P polygon ke andar hai? ────────────────────────────
+//   1) har edge (A,B) ke liye upward/downward crossing check
+//   2) upward cross + P left of edge -> winding++
+//   3) downward cross + P right of edge -> winding--
+//   4) non-zero winding = andar
 int windingNumber(vector<Point> &polygon, Point P)
 {
     int n = polygon.size();
@@ -58,9 +66,7 @@ int windingNumber(vector<Point> &polygon, Point P)
     return winding; // 0 = outside, non-zero = inside
 }
 
-// ------------------------------------------------
-// Helper — Result print karo
-// ------------------------------------------------
+// ── checkPoint: test point print karo ───────────────────────────────────────
 void checkPoint(vector<Point> &polygon, Point P, string name)
 {
     int w = windingNumber(polygon, P);

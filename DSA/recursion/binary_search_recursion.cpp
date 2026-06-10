@@ -12,35 +12,36 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY SEARCH (Recursion) — Sorted array me target
+// ────────────────────────────────────────────────────────────────────────────
+// Range [i, j] — mid nikalo, half eliminate karo
+// arr[mid] > target -> left half; arr[mid] < target -> right half
+// Base: i>j -> -1 (not found)
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * binarysearch()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int i, int j, int& target
- * Returns : int
- */
+// ── binarysearch: recursive BS on sorted array ──────────────────────────────
+//   1) i>j -> target nahi mila, return -1
+//   2) mid = i + (j-i)/2 — overflow safe
+//   3) arr[mid]==target -> return mid+1 (1-indexed answer)
+//   4) arr[mid]>target -> left half; arr[mid]<target -> right half
 int binarysearch(int arr[], int& size, int i, int j, int& target) {
     if(i>j) {
-        return -1;
+        return -1;  // search space khatam
     }
     int mid = i + (j-i)/2;
     if(arr[mid] == target) {
         return mid+1;
     }
     if(arr[mid] > target) {
-        return binarysearch(arr , size, i, mid-1,target );
+        return binarysearch(arr , size, i, mid-1,target );  // left half
     }
     if(arr[mid] < target) {
-        return binarysearch(arr, size, mid+1, j, target);
+        return binarysearch(arr, size, mid+1, j, target);  // right half
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Search Recursion
- */
+// ── main: sorted array pe BS demo ───────────────────────────────────────────
 int main() {
     int arr[] = {12,23,34,45,56,57} ;
     int size = 6;

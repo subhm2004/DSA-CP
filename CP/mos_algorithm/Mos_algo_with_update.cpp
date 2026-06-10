@@ -1,44 +1,69 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Ye class Mo's Algorithm with Updates ko implement karta hai
+// ════════════════════════════════════════════════════════════════════════════
+// MO'S ALGORITHM WITH UPDATES (Mo's + Time Pointer)
+// ────────────────────────────────────────────────────────────────────────────
+// Normal Mo's sirf static array pe kaam karta hai. Yaha queries ke saath-saath
+// point updates bhi hain. Isliye teen pointers maintain karte hain:
+//
+//   cur_l, cur_r -> current range [cur_l, cur_r] in array
+//   cur_t        -> kitne updates apply ho chuke hain (time pointer)
+//
+// Har query me ek extra field 't' hoti hai — "is query ke time tak kitne updates
+// apply hone chahiye". Jab query process karte hain to:
+//   - pehle range adjust karo (add/remove)
+//   - phir cur_t ko q.t tak le jao (updates apply ya undo)
+//
+// Sorting: block on l, odd-even on r, phir t ascending (same l-block + same r)
+// Complexity: ~O((Q + U) * N^(2/3)) with proper block sizing
+// ════════════════════════════════════════════════════════════════════════════
+
 class Mos_Algorithm_With_Updates
 {
 private:
-    vector<int> arr;         // Original array
-    int BLOCK_SIZE;          // Block size for Mo's algorithm = sqrt(n)
-    int cur_l, cur_r, cur_t; // Current left, right pointers and time (updates applied)
-    long long cur_sum;       // Current sum of range [cur_l, cur_r]
+    vector<int> arr;
+    int BLOCK_SIZE;
+    int cur_l, cur_r, cur_t;  // current range + kitne updates apply hue
+    long long cur_sum;
 
 public:
-    // Query structure
+    // Query: range [l,r], original index, aur kitne updates apply karne hain (t)
     struct Query
     {
-        int l, r; // Range [l,r]
-        int idx;  // Query ka original index
-        int t;    // Kitne updates apply hue us query ke time tak
+        int l, r;
+        int idx;
+        int t;
     };
 
-    // Update structure
+    // Update: index pe value badalna + undo ke liye purani value yaad rakhna
     struct Update
     {
-        int idx;     // Kaunsa index update ho raha hai
-        int new_val; // Naya value
-        int old_val; // Purana value (undo ke liye)
+        int idx;
+        int new_val;
+        int old_val;
     };
 
-    // Constructor
+    // ── Mos_Algorithm_With_Updates: constructor — pointers aur sum init ──
+    //   1) input array copy karo member 'arr' me
+    //   2) BLOCK_SIZE = max(1, sqrt(n)) set karo — Mo's block width (empty array safe)
+    //   3) cur_l=0, cur_r=-1 rakho — shuru me empty range (koi element include nahi)
+    //   4) cur_t=0 aur cur_sum=0 — abhi koi update apply nahi, sum bhi zero
     Mos_Algorithm_With_Updates(const vector<int> &input)
     {
         arr = input;
-        BLOCK_SIZE = max(1, (int)sqrt(arr.size())); // Block size = sqrt(n), 0 se avoid karne ke liye
-        cur_l = 0;                                  // Current range start
-        cur_r = -1;                                 // Current range end (-1 matlab empty range)
-        cur_t = 0;                                  // Updates applied = 0
-        cur_sum = 0;                                // Current sum = 0
+        BLOCK_SIZE = max(1, (int)sqrt(arr.size()));
+        cur_l = 0;
+        cur_r = -1;
+        cur_t = 0;
+        cur_sum = 0;
     }
 
-    // Query comparison function (Mo's ordering)
+    // ── compare: Mo's ordering + time 't' as tiebreaker ──
+    //   1) pehle left block (l / BLOCK_SIZE) se compare — alag blocks me chhota pehle
+    //   2) same block me odd-even r trick: odd me r ascending, even me r descending
+    //   3) agar l-block aur r dono same hain to t ascending — pehle kam updates wali query
+    //   4) ye 3-level sort se range, r, aur time teeno pointers kam bounce karte hain
     bool compare(const Query &a, const Query &b) const
     {
         int block_a = a.l / BLOCK_SIZE;
@@ -46,117 +71,134 @@ public:
 
         if (block_a != block_b)
         {
-            return block_a < block_b; // Alag block me lower block first
+            return block_a < block_b;
         }
 
-        // Same block - alternate ordering odd/even blocks
+        // odd-even r optimization within same left block
         if (block_a & 1)
-        { // odd block
+        {
             if (a.r != b.r)
-                return a.r < b.r; // increasing r
+                return a.r < b.r;
         }
         else
-        { // even block
+        {
             if (a.r != b.r)
-                return a.r > b.r; // decreasing r
+                return a.r > b.r;
         }
 
-        return a.t < b.t; // Agar r bhi same, toh earlier update first
+        // same l-block + same r -> time pointer kam hilane ke liye t ascending
+        return a.t < b.t;
     }
 
-    // Add function - jab index ko range me include karte hai
+    // ── add: index ko current Mo window me include karo ──
+    //   1) arr[idx] ki current value (jo ab tak ke updates reflect karti hai) lo
+    //   2) us value ko cur_sum me add karo
+    //   3) O(1) — sirf ek element range me aaya, running sum update
     void add(int idx)
     {
         cur_sum += arr[idx];
     }
 
-    // Remove function - jab index ko range se remove karte hai
+    // ── remove: index ko current Mo window se bahar nikalo ──
+    //   1) arr[idx] ki current value cur_sum se subtract karo
+    //   2) element ab active range me nahi hai lekin array me value ab bhi hai
+    //   3) O(1) — running sum se element ka contribution hata diya
     void remove(int idx)
     {
         cur_sum -= arr[idx];
     }
 
-    // Update apply / undo function
+    // ── apply_update: ek point update apply karo ya undo karo ──
+    //   1) undo=false -> new_val lagao; undo=true -> purani old_val wapas lagao
+    //   2) agar update wala index current range [cur_l, cur_r] me hai to sum adjust karo:
+    //      pehle purani arr[idx] sum se hatao, phir nayi value sum me add karo
+    //   3) arr[idx] ko nayi value se overwrite karo — aage ke add/remove is value use karenge
+    //   4) range ke bahar index ho to sirf array update — cur_sum affect nahi hota
     void apply_update(const Update &u, bool undo = false)
     {
         int idx = u.idx;
-        int val = undo ? u.old_val : u.new_val; // Undo kar rahe ho ya normal apply
+        int val = undo ? u.old_val : u.new_val;
 
-        // Agar ye index current range me hai, toh sum update karna padega
+        // index active range me hai to sum me purani value hata ke nayi add karo
         if (cur_l <= idx && idx <= cur_r)
         {
-            cur_sum -= arr[idx];
-            cur_sum += val;
+            cur_sum -= arr[idx];  // purani value ka contribution hatao
+            cur_sum += val;       // nayi value ka contribution add karo
         }
-        arr[idx] = val; // Array me actual update
+        arr[idx] = val;  // array permanently update — future add/remove is value use karenge
     }
 
-    // Main function jo queries ko process karta hai
+    // ── process_queries: queries + updates dono offline process karo ──
+    //   1) queries ko compare() se sort karo (l-block, odd-even r, phir t)
+    //   2) har query ke liye pehle range adjust: cur_l/cur_r ko [q.l, q.r] pe lao
+    //   3) phir time pointer adjust: cur_t < q.t pe updates apply, cur_t > q.t pe undo
+    //   4) jab range aur time dono match ho jayein, answers[q.idx] = cur_sum store karo
+    //   5) original idx se answers input order me restore hote hain
     vector<long long> process_queries(vector<Query> &queries, vector<Update> &updates)
     {
-        // Queries ko sort karo Mo's ordering me
         sort(queries.begin(), queries.end(),
              [this](const Query &a, const Query &b)
              {
                  return compare(a, b);
              });
 
-        vector<long long> answers(queries.size()); // Answers store karne ke liye
+        vector<long long> answers(queries.size());
 
-        // Sabhi queries ke liye loop
         for (const auto &q : queries)
         {
-            // Left pointer ko move karo
+            // Step 1: range pointers adjust — Mo's expand/shrink
             while (cur_l > q.l)
-                add(--cur_l); // left expand
+                add(--cur_l);       // left expand
             while (cur_l < q.l)
-                remove(cur_l++); // left shrink
+                remove(cur_l++);    // left shrink
 
-            // Right pointer ko move karo
             while (cur_r < q.r)
-                add(++cur_r); // right expand
+                add(++cur_r);       // right expand
             while (cur_r > q.r)
-                remove(cur_r--); // right shrink
+                remove(cur_r--);    // right shrink
 
-            // Updates ko handle karo
+            // Step 2: time pointer aage badhao — updates apply karo
             while (cur_t < q.t)
-            {                                        // agar updates pending hain
-                apply_update(updates[cur_t], false); // apply next update
+            {
+                apply_update(updates[cur_t], false);
                 cur_t++;
             }
+            // Step 3: time pointer peeche lao — updates undo karo (rollback)
             while (cur_t > q.t)
-            { // agar time backwards move karna hai
+            {
                 cur_t--;
-                apply_update(updates[cur_t], true); // undo update
+                apply_update(updates[cur_t], true);  // last applied update ko reverse karo
             }
 
-            answers[q.idx] = cur_sum; // Current range ka sum store
+            answers[q.idx] = cur_sum;
         }
 
-        return answers; // Sabhi query results return
+        return answers;
     }
 };
 
-// Test function to verify correctness
+// ── test_algorithm: teen test cases se correctness verify karo ──
+//   1) Test 1: basic range queries + do updates — expected sums check karo
+//   2) Test 2: same index pe multiple updates — time pointer rollback test
+//   3) Test 3: edge cases — single element, negative values, partial ranges
+//   4) har test me queries aur updates banao, process_queries chalao, print karo
 void test_algorithm()
 {
     cout << "=== TEST CASE 1: Basic Operations ===\n";
     vector<int> arr1 = {1, 2, 3, 4, 5};
     Mos_Algorithm_With_Updates mo1(arr1);
 
-    // Updates define karo
     vector<Mos_Algorithm_With_Updates::Update> updates1 = {
-        {1, 10, arr1[1]}, // arr[1]: 2 -> 10
-        {3, 20, arr1[3]}  // arr[3]: 4 -> 20
+        {1, 10, arr1[1]},
+        {3, 20, arr1[3]}
     };
 
-    // Queries define karo
     vector<Mos_Algorithm_With_Updates::Query> queries1 = {
-        {0, 2, 0, 0}, // sum[0,2] before updates = 1+2+3 = 6
-        {1, 4, 1, 1}, // sum[1,4] after 1st update = 10+3+4+5 = 22
-        {0, 4, 2, 2}, // sum[0,4] after 2nd update = 1+10+3+20+5 = 39
-        {2, 3, 3, 1}, // sum[2,3] after 1st update = 3+4 = 7
-        {0, 1, 4, 0}  // sum[0,1] before any update = 1+2 = 3
+        {0, 2, 0, 0},
+        {1, 4, 1, 1},
+        {0, 4, 2, 2},
+        {2, 3, 3, 1},
+        {0, 1, 4, 0}
     };
 
     vector<long long> answers1 = mo1.process_queries(queries1, updates1);
@@ -172,17 +214,17 @@ void test_algorithm()
     Mos_Algorithm_With_Updates mo2(arr2);
 
     vector<Mos_Algorithm_With_Updates::Update> updates2 = {
-        {0, 100, arr2[0]}, // arr[0]: 10 -> 100
-        {0, 200, 100},     // arr[0]: 100 -> 200
-        {2, 300, arr2[2]}  // arr[2]: 30 -> 300
+        {0, 100, arr2[0]},
+        {0, 200, 100},
+        {2, 300, arr2[2]}
     };
 
     vector<Mos_Algorithm_With_Updates::Query> queries2 = {
-        {0, 3, 0, 0}, // sum[0,3] t=0 = 10+20+30+40 = 100
-        {0, 3, 1, 1}, // sum[0,3] t=1 = 100+20+30+40 = 190
-        {0, 3, 2, 2}, // sum[0,3] t=2 = 200+20+30+40 = 290
-        {0, 3, 3, 3}, // sum[0,3] t=3 = 200+20+300+40 = 560
-        {1, 2, 4, 2}  // sum[1,2] t=2 = 20+30 = 50
+        {0, 3, 0, 0},
+        {0, 3, 1, 1},
+        {0, 3, 2, 2},
+        {0, 3, 3, 3},
+        {1, 2, 4, 2}
     };
 
     vector<long long> answers2 = mo2.process_queries(queries2, updates2);
@@ -198,17 +240,17 @@ void test_algorithm()
     Mos_Algorithm_With_Updates mo3(arr3);
 
     vector<Mos_Algorithm_With_Updates::Update> updates3 = {
-        {1, 0, arr3[1]},  // arr[1]: -3 -> 0
-        {4, -10, arr3[4]} // arr[4]: 2 -> -10
+        {1, 0, arr3[1]},
+        {4, -10, arr3[4]}
     };
 
     vector<Mos_Algorithm_With_Updates::Query> queries3 = {
-        {0, 0, 0, 0}, // single element: arr[0] = 5
-        {1, 1, 1, 0}, // single element: arr[1] = -3
-        {1, 1, 2, 1}, // single element after update: arr[1] = 0
-        {0, 4, 3, 0}, // full array t=0 = 5-3+7-1+2 = 10
-        {0, 4, 4, 2}, // full array t=2 = 5+0+7-1-10 = 1
-        {2, 4, 5, 1}  // range[2,4] t=1 = 7-1+2 = 8
+        {0, 0, 0, 0},
+        {1, 1, 1, 0},
+        {1, 1, 2, 1},
+        {0, 4, 3, 0},
+        {0, 4, 4, 2},
+        {2, 4, 5, 1}
     };
 
     vector<long long> answers3 = mo3.process_queries(queries3, updates3);
@@ -223,27 +265,9 @@ void test_algorithm()
     cout << "=== All Tests Completed! ===\n";
 }
 
-// ========================== Time Complexity Explanation ===========================
-/*
-    Mo's Algorithm with Updates ki time complexity:
-
-    - Agar sirf queries hoti (no updates): O((Q + N) * sqrt(N)), jahan Q = queries, N = array size.
-    - Agar updates bhi hain (let U = total updates):
-        - Sorting queries: O(Q * log Q)
-        - Har query ke liye:
-            - Left/right pointers move: O(sqrt(N)) (amortized)
-            - Time pointer (updates apply/undo): O(sqrt(U)) (amortized)
-        - Total: O((Q + U) * N^(2/3)) (cube root decomposition ke idea se)
-        - Practical: Har query ke liye O(N^(2/3)) expected, jab blocks ka size N^(2/3) liya jaye.
-
-    - Overall: O((Q + U) * N^(2/3)) (amortized per query), lekin implementation me block size sqrt(N) bhi kaafi cases me fast hota hai.
-
-    - Note: Ye complexity tabhi valid hai jab queries aur updates random order me ho aur block size optimize kiya ho.
-*/
-
-// Main function
+// ── main: test_algorithm() chalao aur program exit karo ──
 int main()
 {
-    test_algorithm(); // Test the Mo's algorithm with updates
+    test_algorithm();
     return 0;
 }

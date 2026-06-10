@@ -1,3 +1,11 @@
+// ════════════════════════════════════════════════════════════════════════════
+// KRUSKAL'S MST + UNION-FIND — Cycle Detection & Connected Components
+// ────────────────────────────────────────────────────────────────────────────
+// Greedy: edges weight se sort → chhoti edge lo jab tak cycle na bane
+// Union-Find se cycle detect: find(u) == find(v) → reject edge
+// Time: O(E log E)  |  Space: O(V + E)
+// ════════════════════════════════════════════════════════════════════════════
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -7,13 +15,6 @@
 
 using namespace std;
 
-/*
-KRUSKAL'S MINIMUM SPANNING TREE ALGORITHM
-- Greedy algorithm hai jo minimum weight ka spanning tree banata hai
-- Union-Find data structure use karta hai cycle detection ke liye
-- Steps: 1) Sort edges by weight 2) Pick smallest edge 3) Check cycle 4) Add if no cycle
-*/
-
 // UnionFind class - disjoint sets handle karta hai aur cycle detection mein help karta hai
 class UnionFind
 {
@@ -21,7 +22,9 @@ public:
     vector<int> parent; // Har element ka parent/representative store karta hai
     vector<int> rank;   // Tree ki height/rank track karta hai optimization ke liye
 
-    // Constructor - initial setup karta hai
+    // Step 1: parent vector size n, rank vector n elements sab 0.
+    // Step 2: Har i ke liye parent[i] = i — initially har node alag set ka leader.
+    // Step 3: n disjoint sets ready — Kruskal/cycle detection ke liye use honge.
     UnionFind(int n) : parent(n), rank(n, 0)
     {
         // Initially har element apna khud ka parent hai (separate sets)
@@ -31,7 +34,10 @@ public:
         }
     }
 
-    // Find function with path compression - element ka ultimate parent return karta hai
+    // Step 1: parent[i] == i ho to i root hai — return i.
+    // Step 2: Warna recursively parent[i] ka root dhundho.
+    // Step 3: PATH COMPRESSION: parent[i] = find(parent[i]) — direct root link.
+    // Step 4: Compressed root return — Kruskal mein har edge par fast cycle check.
     int find(int i)
     {
         // Base case: agar element apna khud ka parent hai
@@ -43,7 +49,11 @@ public:
         return parent[i] = find(parent[i]);
     }
 
-    // Union by rank - do sets ko merge karta hai rank ke basis par
+    // Step 1: find(x) aur find(y) se roots nikalo.
+    // Step 2: Same root → already same component, return.
+    // Step 3: Chhoti rank wale ko badi rank ke neeche attach karo.
+    // Step 4: Equal rank → ek root banao, rank[root]++.
+    // Step 5: MST edge add karte waqt components merge ho jate hain.
     void unionByRank(int x, int y)
     {
         int x_parent = find(x); // x ka ultimate parent
@@ -71,7 +81,10 @@ public:
         }
     }
 
-    // Connected components count karta hai
+    // Step 1: components counter zero se shuru.
+    // Step 2: Har i jahan parent[i]==i — wo ek root/set representative hai.
+    // Step 3: Har root = ek alag connected component.
+    // Step 4: Total count return karo.
     int countComponents()
     {
         int components = 0;
@@ -94,7 +107,9 @@ public:
     // Edge list for Kruskal's algorithm: (u, v, weight)
     vector<tuple<int, int, int>> edges;
 
-    // Graph mein edge add karne ka function
+    // Step 1: adjList[u] mein {v, weight} push karo aur edges vector mein tuple store karo.
+    // Step 2: Undirected graph ho to v->u reverse edge bhi adjList aur edges mein add karo.
+    // Step 3: Kruskal MST edges vector se sort karke process karega.
     void addEdge(int u, int v, int weight, bool directed)
     {
         // Adjacency list mein add karo
@@ -111,7 +126,9 @@ public:
         }
     }
 
-    // Adjacency list ko weights ke saath print karta hai
+    // Step 1: adjList ki har entry iterate karo — node number aur neighbor list.
+    // Step 2: Har neighbor ke saath (neighbor, weight) pair print karo.
+    // Step 3: Debugging ke liye weighted graph structure clearly dikhao.
     void printAdjacencyListWithWeights()
     {
         cout << "Adjacency List with Weights:" << endl;
@@ -127,7 +144,11 @@ public:
         }
     }
 
-    // KRUSKAL'S MST ALGORITHM - Main algorithm!
+    // Step 1: Saari edges ko weight ascending order mein sort karo.
+    // Step 2: UnionFind(n) banao — har node alag component.
+    // Step 3: Har edge (u,v,w) par: find(u) != find(v) → MST mein add, union, weight sum.
+    // Step 4: find(u) == find(v) → cycle banega → edge REJECT karo.
+    // Step 5: Total MST weight return — greedy minimum spanning tree mil gaya.
     int kruskalMST(int n)
     {
         // STEP 1: Saare edges ko weight ke hisaab se sort karo (ascending order)
@@ -168,7 +189,11 @@ public:
         return mstWeight; // Total MST weight return karo
     }
 
-    // Cycle detection function - graph mein cycle hai ya nahi check karta hai
+    // Step 1: Fresh UnionFind banao adjList.size() nodes ke saath.
+    // Step 2: Har edge (u,v) par pehle find(u) == find(v) check karo.
+    // Step 3: Same root → u,v pehle se connected → ye edge cycle banayegi → true return.
+    // Step 4: Warna unionByRank(u,v) — components merge karo next edges ke liye.
+    // Step 5: Saari edges safe → false — undirected graph mein cycle nahi hai.
     bool hasCycle()
     {
         UnionFind uf(adjList.size()); // Fresh Union-Find object
@@ -196,7 +221,10 @@ public:
         return false; // No cycle
     }
 
-    // Connected components count karta hai
+    // Step 1: Fresh UnionFind object banao.
+    // Step 2: Har edge par unionByRank(u,v) — saare connected nodes ek set mein merge.
+    // Step 3: Saari edges process hone ke baad countComponents() call karo.
+    // Step 4: Kitne roots bache = kitne alag connected groups hain graph mein.
     int findConnectedComponents()
     {
         UnionFind uf(adjList.size()); // Fresh Union-Find object

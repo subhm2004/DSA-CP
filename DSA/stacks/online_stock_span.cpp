@@ -14,33 +14,34 @@
 #include <utility>
 #include <stack>
 using namespace std;
-stack<pair<int,int>>st;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ONLINE STOCK SPAN — consecutive days jahan price <= aaj ki price
+// ────────────────────────────────────────────────────────────────────────────
+// monotonic decreasing stack of (price, span) pairs
+// chhoti prices pop → unka span add; naya pair push
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * next()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : int price
- * Returns : int
- */
-int next(int price){
-    int span=1;
-    while(!st.empty() && st.top().first <= price){
-        span= span + st.top().second;
-        st.pop();
+stack<pair<int, int>> st;
+
+// ── next: nayi price ka span return karo ───────────────────────────────────
+//   1) span=1 (aaj ka din)
+//   2) stack top price <= current → pop, span += popped span
+//   3) {price, span} push
+//   4) span return
+int next(int price) {
+    int span = 1;
+    while (!st.empty() && st.top().first <= price) {
+        span = span + st.top().second;     // purane din ka span jodo
+        st.pop();                          // chhoti/equal price hatao
     }
-    st.push({price,span});
+    st.push({price, span});                // current day record
     return span;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Online Stock Span
- */
-int main(){
+int main() {
     int price;
-    cin>> price;
-    int ans= next(price);
-    cout<< ans;
+    cin >> price;
+    int ans = next(price);
+    cout << ans;
 }

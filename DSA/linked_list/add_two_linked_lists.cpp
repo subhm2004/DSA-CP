@@ -12,37 +12,35 @@
 
 #include <iostream>
 using namespace std;
-class Node{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// ADD TWO NUMBERS (LINKED LISTS) — digit-by-digit sum with carry
+// ────────────────────────────────────────────────────────────────────────────
+// dono lists parallel traverse; sum = l1+l2+carry
+// result node banake next pointer link; carry aage le jao
+// ════════════════════════════════════════════════════════════════════════════
+
+class Node {
+public:
     int data;
-    Node* next;
-    Node(){
-        this-> data= 0;
-        this-> next= NULL;
+    Node *next;
+    Node() {
+        this->data = 0;
+        this->next = NULL;
     }
-    Node(int data){
-        this-> data= data;
-        this-> next= NULL;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
     }
 };
 
-
-/*
- * insertathead()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* &head, Node* &tail, int data
- * Returns : void
- */
-void insertathead(Node* &head, Node* &tail, int data){
-    
+// ── insertathead: list build helper (stub) ──────────────────────────────────
+//   1) naya Node(data) banao
+//   2) head/tail update — list construct
+void insertathead(Node *&head, Node *&tail, int data) {
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Add Two Linked Lists
- */
-int main(){
-    Node* head= NULL;
-    Node* tail= NULL;
+int main() {
+    Node *head = NULL;
+    Node *tail = NULL;
 }

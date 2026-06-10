@@ -12,6 +12,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SINGLE NUMBER — sab do baar aate hain, ek sirf ek baar
+// ────────────────────────────────────────────────────────────────────────────
+// XOR property: a ^ a = 0, a ^ 0 = a
+// Same number do baar XOR -> cancel ho jata hai
+// Sirf unique number bachega — wahi answer
+// Extra space nahi — O(1) space, O(n) time
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── singleNumber: woh element jo ek hi baar hai ───────────────────────────
+//   1) ans = 0 initialize
+//   2) har x pe ans ^= x — pairs cancel, unique bachta hai
+//   3) loop ke baad ans = single number
+//   4) ans return
 int singleNumber(vector<int> &nums) {
     int ans = 0;
     for (int x : nums) ans ^= x;

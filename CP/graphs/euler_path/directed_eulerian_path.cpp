@@ -1,12 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// DIRECTED EULERIAN PATH / CIRCUIT — CHECK + PRINT (Hierholzer's Algorithm)
+// ────────────────────────────────────────────────────────────────────────────
+// Pehle existence check (in/out degree rules), phir Hierholzer se actual path
+// construct karo using stack + edge removal from temp adjacency list.
+//
+// Hierholzer idea (directed):
+//   - Start node = jahan outDeg - inDeg == 1 (path case), warna koi bhi node
+//   - Stack pe push karo, jab tak outgoing edges hain next pe jao
+//   - Jab koi edge nahi bachi, node ko path me daalo (backtrack)
+//   - Path reverse karke sahi order me print karo
+// ════════════════════════════════════════════════════════════════════════════
+
 class Graph
 {
 public:
     unordered_map<int, list<int>> adjList;
     unordered_map<int, int> inDegree, outDegree;
 
+    // ── addEdge: directed edge u -> v ──────────────────────────────────────
     void addEdge(int u, int v)
     {
         adjList[u].push_back(v);
@@ -14,11 +28,14 @@ public:
         inDegree[v]++;
     }
 
+    // ── calculateDegrees: adjList traverse karke degrees recompute ───────────
     void calculateDegrees()
     {
+        // Step 1: purane degree maps clear karo
         inDegree.clear();
         outDegree.clear();
 
+        // Step 2: adjList traverse karke har edge ke liye in/out count badhao
         for (auto &i : adjList)
         {
             int src = i.first;
@@ -30,6 +47,7 @@ public:
         }
     }
 
+    // ── DFS: connectivity ke liye ──────────────────────────────────────────
     void DFS(int node, unordered_map<int, bool> &visited)
     {
         visited[node] = true;
@@ -40,6 +58,7 @@ public:
         }
     }
 
+    // ── isConnected: saare edge-wale nodes ek component me? ────────────────
     bool isConnected()
     {
         unordered_map<int, bool> visited;
@@ -68,6 +87,7 @@ public:
         return true;
     }
 
+    // ── hasEulerianPath: in/out degree imbalance check ───────────────────────
     bool hasEulerianPath()
     {
         if (!isConnected())
@@ -89,6 +109,7 @@ public:
         return (startNodes == 0 && endNodes == 0) || (startNodes == 1 && endNodes == 1);
     }
 
+    // ── hasEulerianCircuit: har node pe inDeg == outDeg ──────────────────────
     bool hasEulerianCircuit()
     {
         if (!isConnected())
@@ -103,6 +124,7 @@ public:
         return true;
     }
 
+    // ── findEulerianPathOrCircuit: check + Hierholzer se path print ────────
     void findEulerianPathOrCircuit()
     {
         calculateDegrees();
@@ -126,6 +148,7 @@ public:
         vector<int> path;
         int startNode = -1;
 
+        // Path case: jahan outDeg ek zyada hai wahan se shuru karo
         for (auto &node : adjList)
         {
             if (outDegree[node.first] - inDegree[node.first] == 1)
@@ -136,7 +159,7 @@ public:
         }
 
         if (startNode == -1)
-            startNode = adjList.begin()->first;
+            startNode = adjList.begin()->first;  // circuit case — koi bhi node
 
         stk.push(startNode);
 
@@ -147,17 +170,17 @@ public:
             if (!tempAdj[node].empty())
             {
                 int next = tempAdj[node].front();
-                tempAdj[node].pop_front();
+                tempAdj[node].pop_front();  // edge use kar li — hata do
                 stk.push(next);
             }
             else
             {
-                path.push_back(node);
+                path.push_back(node);  // dead end — path me add karo
                 stk.pop();
             }
         }
 
-        reverse(path.begin(), path.end()); // Using reverse instead of manual iteration
+        reverse(path.begin(), path.end());  // stack se ulta aaya tha
 
         cout << "Eulerian Path/Circuit: ";
         for (int node : path)

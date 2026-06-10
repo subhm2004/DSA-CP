@@ -13,67 +13,50 @@
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// REVERSE STACK — recursion se stack ulta karo
+// ────────────────────────────────────────────────────────────────────────────
+// pop sab → recurse → insertatbottom se wapas daalo
+// bottom insert trick — reversed order maintain
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * insertatbottom()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : stack<int> &sp, int &temp, int &element
- * Returns : void
- */
-void insertatbottom(stack<int> &sp, int &temp, int &element){
-    if(sp.empty()){
-        // Opening bracket — push onto stack
+// ── insertatbottom: element bottom pe daalo (recursive) ────────────────────
+//   1) empty → push element
+//   2) pop, recurse, temp push
+void insertatbottom(stack<int> &sp, int &temp, int &element) {
+    if (sp.empty()) {
         sp.push(element);
         return;
     }
-    // Matching bracket — pop from stack
     sp.pop();
-    insertatbottom(sp,sp.top(),element);
-    // Opening bracket — push onto stack
-    sp.push(temp);
+    insertatbottom(sp, sp.top(), element);
+    sp.push(temp);                         // restore stack order
 }
 
-
-/*
- * reversestack()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : stack<int> &sp, int &temp, int& element
- * Returns : void
- */
-void reversestack(stack<int> &sp, int &temp, int& element){
-    if(sp.empty()){
+// ── reversestack: pura stack reverse ─────────────────────────────────────────
+//   1) top pop, recurse
+//   2) wapas aate waqt insertatbottom
+void reversestack(stack<int> &sp, int &temp, int &element) {
+    if (sp.empty()) {
         return;
     }
-    // Matching bracket — pop from stack
     sp.pop();
-    reversestack(sp,sp.top(), element);
-    insertatbottom(sp,temp,temp);
+    reversestack(sp, sp.top(), element);
+    insertatbottom(sp, temp, temp);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Reverse Stack
- */
-int main(){
+int main() {
     stack<int> sp;
-    // Opening bracket — push onto stack
     sp.push(10);
-    // Opening bracket — push onto stack
     sp.push(20);
-    // Opening bracket — push onto stack
     sp.push(30);
-    // Opening bracket — push onto stack
     sp.push(40);
-    // Opening bracket — push onto stack
     sp.push(50);
-    int temp= sp.top();
-    int element= sp.top();
-    reversestack(sp,temp,element);
-    while(!sp.empty()){
-        cout<< sp.top()<< endl;
-        // Matching bracket — pop from stack
-        sp.pop();
+    int temp = sp.top();
+    int element = sp.top();
+    reversestack(sp, temp, element);
+    while (!sp.empty()) {
+        cout << sp.top() << endl;
+        sp.pop();                          // reversed stack print
     }
 }

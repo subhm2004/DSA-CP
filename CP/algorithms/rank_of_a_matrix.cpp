@@ -1,8 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// RANK OF A MATRIX — Gaussian Elimination (Row Echelon Form)
+// ────────────────────────────────────────────────────────────────────────────
+// Rank = kitni linearly independent rows/columns hain.
+// Har column me pivot dhundho, pivot row normalize karo, baaki rows se eliminate.
+// EPS se floating point zero check (abs(x) > EPS).
+// Complexity: O(n * m * min(n,m))
+// ════════════════════════════════════════════════════════════════════════════
+
 const double EPS = 1E-9;
 
+// ── compute_rank: matrix ka rank nikalo ─────────────────────────────────────
+//   1) har column col pe pivot row dhundho (abs(A[row][col]) > EPS)
+//   2) pivot nahi mila -> column skip (dependent), warna rank++
+//   3) pivot row normalize: A[pivot][j] /= A[pivot][col] for j > col
+//   4) baaki rows se column col eliminate karo (row reduction)
+//   5) pivot row ko row_selected mark karo — dobara use mat karo
 int compute_rank(vector<vector<double>> A)
 {
     int n = A.size(), m = A[0].size();
@@ -13,7 +28,7 @@ int compute_rank(vector<vector<double>> A)
     {
         int pivot_row = -1;
 
-        // Find a pivot row
+        // pivot: is column me pehli unused row jisme non-zero entry ho
         for (int row = 0; row < n; ++row)
         {
             if (!row_selected[row] && abs(A[row][col]) > EPS)
@@ -24,16 +39,16 @@ int compute_rank(vector<vector<double>> A)
         }
 
         if (pivot_row == -1)
-            continue; // No valid pivot in this column
+            continue; // is column me koi independent direction nahi
 
         row_selected[pivot_row] = true;
         rank++;
 
-        // Normalize pivot row
+        // pivot row ko 1 banao (leading coefficient normalize)
         for (int j = col + 1; j < m; ++j)
             A[pivot_row][j] /= A[pivot_row][col];
 
-        // Eliminate current column from all other rows
+        // baaki rows se is column ko zero karo
         for (int row = 0; row < n; ++row)
         {
             if (row != pivot_row && abs(A[row][col]) > EPS)
@@ -55,6 +70,6 @@ int main()
         {1, 2, 1},
         {3, 6, 2}};
 
-    cout << "Rank of the matrix: " << compute_rank(matrix) << endl;
+    cout << "Rank of the matrix: " << compute_rank(matrix) << endl; // expected: 2
     return 0;
 }

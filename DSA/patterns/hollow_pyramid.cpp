@@ -12,25 +12,32 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// HOLLOW PYRAMID — sirf boundary pe stars, andar spaces
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: row i pe (n-1-i) spaces, phir (2*i+1) chars
+// Sirf first aur last position pe '*' — beech me space
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Hollow Pyramid
- */
+// ── main: hollow star pyramid print ──────────────────────────────────────────
+//   1) n input lo
+//   2) har row: leading spaces (n-1-i)
+//   3) inner loop 2*i+1 — j==0 ya j==2*i pe star, warna space
+//   4) newline, next row
 int main() {
     int n;
     cout<< "enter any number"<< endl;
     cin>> n;
     for(int i=0; i<n; i++) {
         for(int j=0; j<n-1-i; j++) {
-            cout<< " ";
+            cout<< " "; // center align ke liye spaces
         }
         for(int j=0; j< 2*i+1; j++) {
             if(j==0 || j== 2*i) {
-                cout<< "*";
+                cout<< "*"; // boundary stars
             }
             else {
-                cout<< " ";
+                cout<< " "; // hollow interior
             }
 
         }

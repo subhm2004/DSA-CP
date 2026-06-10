@@ -1,12 +1,14 @@
-/*
- * ============================================================================
- * TOPIC    : Centroid Decomposition
- * FILE     : centroid_decomposition.cpp
- * PROBLEM  : Decompose tree for distance queries / counting paths
- * APPROACH : Repeatedly remove centroid, process subtrees, recurse
- * COMPLEX  : Build O(n log n)  |  Space: O(n log n)
- * ============================================================================
- */
+// ════════════════════════════════════════════════════════════════════════════
+// CENTROID DECOMPOSITION — Tree ko centroid layers me tod do
+// ────────────────────────────────────────────────────────────────────────────
+// Centroid = aisa node jiska koi bhi subtree size <= n/2 ho.
+// Idea: centroid "hata do" (dead mark), har bache hue component me recurse.
+//
+// Use cases: tree pe distance queries, path counting, "colors on tree" etc.
+// Build time: O(n log n) — har level pe at most n/2 size ka component
+//
+// cdTree = optional centroid tree (parent centroid se connect)
+// ════════════════════════════════════════════════════════════════════════════
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -15,16 +17,18 @@ struct CentroidDecomposition {
     int n;
     vector<vector<int>> adj;
     vector<int> sz, dead;
-    vector<vector<int>> cdTree; // optional: tree of centroids
+    vector<vector<int>> cdTree;
     vector<int> parentCentroid;
 
     CentroidDecomposition(int n) : n(n), adj(n), sz(n), dead(n), cdTree(n), parentCentroid(n, -1) {}
 
+    // ── addEdge: undirected tree edge ──────────────────────────────────────
     void addEdge(int u, int v) {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
 
+    // ── getSize: subtree size compute (dead nodes skip) ────────────────────
     int getSize(int v, int p) {
         sz[v] = 1;
         for (int u : adj[v]) {
@@ -36,7 +40,11 @@ struct CentroidDecomposition {
         return sz[v];
     }
 
+    // ── getCentroid: tree ka centroid dhundo (heavy child avoid karke) ─────
+    // Agar kisi child ka sz > treeSize/2, wahan recurse karo
     int getCentroid(int v, int p, int treeSize) {
+        // Step 1: agar koi child ka subtree > treeSize/2, wahan recurse karo
+        // Centroid wahi node hai jiska koi bhi child subtree half se chhota ho
         for (int u : adj[v]) {
             if (u == p || dead[u])
                 continue;
@@ -46,9 +54,12 @@ struct CentroidDecomposition {
         return v;
     }
 
+    // ── decompose: centroid mark dead, subtrees pe recurse ────────────────
     void decompose(int entry, int pCentroid = -1) {
+        // Step 1: current component ka size aur centroid nikalo
         int treeSize = getSize(entry, -1);
         int c = getCentroid(entry, -1, treeSize);
+        // Step 2: centroid ko dead mark karo, parent centroid tree me jod do
         dead[c] = 1;
         parentCentroid[c] = pCentroid;
 
@@ -57,13 +68,15 @@ struct CentroidDecomposition {
             cdTree[c].push_back(pCentroid);
         }
 
+        // Step 3: har alive subtree me alag se recurse karo
         for (int u : adj[c]) {
             if (!dead[u])
                 decompose(u, c);
         }
     }
 
-    // Example: count nodes within distance K from start (naive on centroid tree)
+    // ── countWithinK: example stub — distance K ke andar nodes count ───────
+    // Full solution me har centroid se distances precompute karte hain
     int countWithinK(int start, int k, int c, int distFromCentroid) {
         if (distFromCentroid > k)
             return 0;
@@ -71,7 +84,6 @@ struct CentroidDecomposition {
         for (int childCentroid : cdTree[c]) {
             if (childCentroid == parentCentroid[c])
                 continue;
-            // In full solution: precompute distances from each centroid
         }
         return res;
     }

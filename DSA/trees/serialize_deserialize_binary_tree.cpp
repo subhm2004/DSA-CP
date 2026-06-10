@@ -12,6 +12,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SERIALIZE / DESERIALIZE — Tree ↔ String conversion
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Binary tree ko string me encode karo aur wapas decode karo.
+//
+// Approach: Preorder DFS + "#" null marker
+//   - Serialize: val,left,right preorder — null = "#,"
+//   - Deserialize: same order se recursively tree rebuild
+//
+// Complexity: Time O(n)  |  Space O(n) string + recursion
+// ════════════════════════════════════════════════════════════════════════════
+
 struct TreeNode {
     int val;
     TreeNode *left, *right;
@@ -20,18 +32,29 @@ struct TreeNode {
 
 class Codec {
 public:
+    // ── serialize: tree → comma-separated preorder string ──
+    //   1) Empty out string
+    //   2) dfsSer preorder me "#" ya val append
+    //   3) Final string return
     string serialize(TreeNode *root) {
         string out;
         dfsSer(root, out);
         return out;
     }
 
+    // ── deserialize: string → tree rebuild ──
+    //   1) Index i = 0 se start
+    //   2) dfsDes recursively node banaye
+    //   3) Root return
     TreeNode *deserialize(string data) {
         int i = 0;
         return dfsDes(data, i);
     }
 
 private:
+    // ── dfsSer: preorder serialize helper ──
+    //   1) NULL → "#," append
+    //   2) Warna val + "," then left, then right
     void dfsSer(TreeNode *node, string &out) {
         if (!node) {
             out += "#,";
@@ -42,9 +65,13 @@ private:
         dfsSer(node->right, out);
     }
 
+    // ── dfsDes: preorder deserialize helper ──
+    //   1) '#' → nullptr, i += 2 skip
+    //   2) Number parse karo (comma tak)
+    //   3) Node banao, left/right recursively
     TreeNode *dfsDes(const string &s, int &i) {
         if (s[i] == '#') {
-            i += 2;
+            i += 2;  // "#," skip
             return nullptr;
         }
         int j = i;
@@ -58,6 +85,7 @@ private:
     }
 };
 
+// ── main: round-trip serialize/deserialize test ──
 int main() {
     TreeNode *root = new TreeNode(1);
     root->left = new TreeNode(2);

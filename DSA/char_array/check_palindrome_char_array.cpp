@@ -13,13 +13,19 @@
 #include <string.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PALINDROME CHECK — char array ulta padho to same?
+// ────────────────────────────────────────────────────────────────────────────
+// Two pointers: i start se, j end se
+// Dono chars match karte jao — middle tak
+// Koi mismatch -> false; i > j ho gaya -> true (palindrome)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * checkpallindrome()
- * Purpose : Standard DSA solution for this problem.
- * Params  : char ch[], int size
- * Returns : bool
- */
+// ── checkpallindrome: char array palindrome hai? ──────────────────────────
+//   1) i = 0 (start), j = strlen(ch) - 1 (end)
+//   2) i <= j tab tak: ch[i] == ch[j] check
+//   3) match -> i++, j--; mismatch -> false return
+//   4) loop complete -> true (palindrome)
 bool checkpallindrome(char ch[], int size){
     int i=0;
     int j= strlen(ch) -1;
@@ -35,11 +41,11 @@ bool checkpallindrome(char ch[], int size){
     return true;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Check Palindrome Char Array
- */
+// ── main: user se input, palindrome check print ───────────────────────────
+//   1) char ch[50] buffer, size = 50
+//   2) cin.getline se string input
+//   3) checkpallindrome call — true/false
+//   4) result print (1 = palindrome, 0 = nahi)
 int main(){
     char ch[50];
     int size= 50;

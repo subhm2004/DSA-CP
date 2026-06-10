@@ -14,12 +14,21 @@
 using namespace std;
 
 
-/*
- * firstocc()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// TOTAL OCCURRENCES — First + Last BS (Leetcode 34)
+// ────────────────────────────────────────────────────────────────────────────
+// firstocc: target mila -> ans=mid, left dhundho (e=mid-1)
+// lastocc: target mila -> ans=mid, right dhundho (s=mid+1)
+// total = last - first + 1
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── firstocc: first index ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int firstocc(int *arr, int& size, int& target) {
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -40,12 +49,12 @@ int firstocc(int *arr, int& size, int& target) {
 }
 
 
-/*
- * lastocc()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── lastocc: last index ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int lastocc(int *arr, int& size, int& target) {
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -66,12 +75,12 @@ int lastocc(int *arr, int& size, int& target) {
 }
 
 
-/*
- * totalocc()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── totalocc: count ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int totalocc(int *arr, int& size, int& target) {
     int c= lastocc(arr, size, target);
     int d= firstocc(arr, size, target);
@@ -80,10 +89,12 @@ int totalocc(int *arr, int& size, int& target) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Total Occurrences
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     int arr[] = {10,20,30,30,30,30,30,40,50,60};
     int size= 10;

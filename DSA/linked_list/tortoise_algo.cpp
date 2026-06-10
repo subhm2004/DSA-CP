@@ -10,37 +10,19 @@
  * APPROACH : Two pointers — slow moves 1 step, fast moves 2 steps
  * COMPLEX  : Time O(n)  |  Space O(1)
  * ============================================================================
- *
- * STEP 1 — Does a cycle exist? (LC 141)
- * -------------------------------------
- *   slow = fast = head
- *   while fast and fast->next:
- *       slow = slow->next          (tortoise — 1 step)
- *       fast = fast->next->next    (hare   — 2 steps)
- *       if slow == fast → cycle exists
- *   If fast reaches null → no cycle
- *
- *   Why it works: inside a cycle of length L, the gap between slow and fast
- *   grows by 1 each round → they must meet within L steps of the cycle.
- *
- * STEP 2 — Where does the cycle start? (LC 142)
- * ---------------------------------------------
- *   After step 1, slow and fast meet at some node G inside the cycle.
- *   Reset slow to head; move BOTH one step at a time.
- *   Meeting point = cycle entry C.
- *
- *   Math (CP-Algo): let a = distance head→C, b = distance C→G.
- *   slowDist = a + b + xL, fastDist = 2·slowDist
- *   ⇒ a = (y − 2x)L − b  →  moving a steps from head and from G both land on C.
- *
- * BONUS — Middle node (LC 876)
- * -----------------------------
- *   Same slow/fast, but stop when fast can't move 2 steps; slow = middle.
- * ============================================================================
  */
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// TORTOISE & HARE (FLOYD'S) — cycle detect, entry find, middle node
+// ────────────────────────────────────────────────────────────────────────────
+// Phase 1: slow 1 step, fast 2 step — meet → cycle hai
+// Phase 2: slow=head, dono 1 step — meeting = cycle start (LC 142)
+// Bonus: fast 2 step ruk jaye → slow = middle (LC 876)
+// Math: head→entry distance = meeting→entry distance (mod cycle length)
+// ════════════════════════════════════════════════════════════════════════════
 
 struct ListNode {
     int data;
@@ -48,22 +30,27 @@ struct ListNode {
     ListNode(int val = 0) : data(val), next(nullptr) {}
 };
 
-// ── STEP 1: cycle present? ─────────────────────────────────────────────────
+// ── hasCycle: kya cycle hai? (LC 141) ──────────────────────────────────────
+//   1) slow=fast=head
+//   2) fast aur fast->next check karke 2 step
+//   3) slow==fast → true; fast null → false
 bool hasCycle(ListNode *head) {
     ListNode *slow = head;
     ListNode *fast = head;
 
-    // CP-Algo: check fast AND fast->next before jumping 2 steps
     while (fast != nullptr && fast->next != nullptr) {
-        slow = slow->next;
-        fast = fast->next->next;
+        slow = slow->next;                 // tortoise — 1 step
+        fast = fast->next->next;           // hare — 2 step
         if (slow == fast)
-            return true;
+            return true;                   // cycle mein mil gaye
     }
     return false;
 }
 
-// ── STEP 2: cycle entry node (nullptr if no cycle) ───────────────────────────
+// ── detectCycleStart: cycle entry node (LC 142) ───────────────────────────
+//   1) phase 1 — meeting point dhundho
+//   2) no meeting → nullptr
+//   3) slow=head; dono 1 step — entry pe milenge
 ListNode *detectCycleStart(ListNode *head) {
     ListNode *slow = head;
     ListNode *fast = head;
@@ -72,23 +59,21 @@ ListNode *detectCycleStart(ListNode *head) {
         slow = slow->next;
         fast = fast->next->next;
         if (slow == fast)
-            break; // meeting point G inside cycle
+            break;                         // meeting point G — cycle ke andar
     }
 
-    // No cycle
     if (fast == nullptr || fast->next == nullptr)
         return nullptr;
 
-    // Phase 2: slow back to head, both move 1 step → meet at entry C
-    slow = head;
+    slow = head;                           // phase 2 — head se shuru
     while (slow != fast) {
         slow = slow->next;
-        fast = fast->next;
+        fast = fast->next;                 // dono 1 step — entry C pe meet
     }
     return slow;
 }
 
-// Combined: returns meeting node inside cycle (for debugging), or nullptr
+// ── findMeetingPoint: debug — cycle mein kahan mile ────────────────────────
 ListNode *findMeetingPoint(ListNode *head) {
     ListNode *slow = head, *fast = head;
     while (fast && fast->next) {
@@ -100,29 +85,30 @@ ListNode *findMeetingPoint(ListNode *head) {
     return nullptr;
 }
 
-// ── BONUS: middle of linked list (slow/fast) ─────────────────────────────────
+// ── middleNode: slow/fast se middle (LC 876) ───────────────────────────────
 ListNode *middleNode(ListNode *head) {
     ListNode *slow = head;
     ListNode *fast = head;
     while (fast != nullptr && fast->next != nullptr) {
         slow = slow->next;
-        fast = fast->next->next;
+        fast = fast->next->next;           // fast end → slow middle
     }
     return slow;
 }
 
-// ── Helpers for demo ─────────────────────────────────────────────────────────
+// ── buildListWithTail: demo list + tail pointer ─────────────────────────────
 pair<ListNode *, ListNode *> buildListWithTail(const int *vals, int n) {
     if (n == 0) return {nullptr, nullptr};
     ListNode *head = new ListNode(vals[0]);
     ListNode *tail = head;
     for (int i = 1; i < n; i++) {
         tail->next = new ListNode(vals[i]);
-        tail = tail->next;
+        tail = tail->next;                 // next pointer se chain
     }
     return {head, tail};
 }
 
+// ── printList: list print (cycle safe limit) ────────────────────────────────
 void printList(ListNode *head, int maxSteps = 20) {
     ListNode *cur = head;
     int steps = 0;
@@ -138,13 +124,13 @@ void printList(ListNode *head, int maxSteps = 20) {
     cout << '\n';
 }
 
+// ── freeList: cycle tod ke memory free ─────────────────────────────────────
 void freeList(ListNode *head, ListNode *cycleEntry) {
-    // Break cycle before delete to avoid infinite loop
     if (cycleEntry) {
         ListNode *cur = cycleEntry;
         while (cur->next != cycleEntry)
             cur = cur->next;
-        cur->next = nullptr;
+        cur->next = nullptr;               // cycle break — next NULL
     }
     while (head) {
         ListNode *nxt = head->next;
@@ -156,7 +142,6 @@ void freeList(ListNode *head, ListNode *cycleEntry) {
 int main() {
     cout << "=== Tortoise & Hare (Floyd's Cycle Algorithm) ===\n\n";
 
-    // ── Demo 1: no cycle ───────────────────────────────────────────────────
     {
         const int vals[] = {2, 4, 6, 8, 10, 12};
         auto [head, tail] = buildListWithTail(vals, 6);
@@ -171,15 +156,12 @@ int main() {
         freeList(head, nullptr);
     }
 
-    // ── Demo 2: cycle — tail connects back to node with value 6 ──────────────
-    // List: 2 -> 4 -> 6 -> 8 -> 10 -> 12
-    //                        ↑____________|
     {
         const int vals[] = {2, 4, 6, 8, 10, 12};
         auto [head, tail] = buildListWithTail(vals, 6);
         ListNode *node6 = head;
         while (node6 && node6->data != 6) node6 = node6->next;
-        tail->next = node6; // cycle starts at node with value 6
+        tail->next = node6;                // cycle — tail se node6 link
 
         cout << "List (cycle from 6): ";
         printList(head);

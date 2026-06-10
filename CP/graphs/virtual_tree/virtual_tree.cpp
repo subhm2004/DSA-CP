@@ -1,12 +1,16 @@
-/*
- * ============================================================================
- * TOPIC    : Virtual Tree (Auxiliary Tree)
- * FILE     : virtual_tree.cpp
- * PROBLEM  : Build tree containing only key nodes + LCAs (for k queries on tree)
- * APPROACH : Sort nodes by Euler tour order, stack + LCA to add edges
- * COMPLEX  : O(k log k) per build  |  Space: O(k)
- * ============================================================================
- */
+// ════════════════════════════════════════════════════════════════════════════
+// VIRTUAL TREE (Auxiliary Tree) — Key nodes + unke LCAs ka minimal tree
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: tree pe k special nodes ke saath kaam karna (queries, DP, etc.)
+// Virtual tree sirf key nodes + unke LCAs contain karta hai — size O(k).
+//
+// Steps:
+//   1) Euler tour (tin/tout) se ancestor check
+//   2) Key nodes ko tin order me sort karo
+//   3) Stack se LCAs ke saath edges add karo
+//
+// Complexity: O(k log k) per build
+// ════════════════════════════════════════════════════════════════════════════
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -18,11 +22,13 @@ struct VirtualTree {
 
     VirtualTree(int n) : n(n), adj(n), depth(n), parent(n, -1), tin(n), tout(n) {}
 
+    // ── addEdge: undirected tree edge ──────────────────────────────────────
     void addEdge(int u, int v) {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
 
+    // ── dfs: parent, depth, Euler tin/tout set karo ────────────────────────
     void dfs(int v, int p) {
         parent[v] = p;
         depth[v] = (p == -1 ? 0 : depth[p] + 1);
@@ -35,22 +41,27 @@ struct VirtualTree {
         tout[v] = timer++;
     }
 
+    // ── isAncestor: u, v ka ancestor hai? (tin/tout interval check) ────────
     bool isAncestor(int u, int v) {
         return tin[u] <= tin[v] && tout[v] <= tout[u];
     }
 
+    // ── lca: Lowest Common Ancestor of a and b ─────────────────────────────
     int lca(int a, int b) {
+        // Step 1: agar a, b ka ancestor hai to a hi LCA
         if (isAncestor(a, b))
             return a;
         if (isAncestor(b, a))
             return b;
+        // Step 2: a ko upar uthao jab tak parent[a], b ka ancestor na ho
         while (!isAncestor(parent[a], b))
             a = parent[a];
         return parent[a];
     }
 
-    // Build virtual tree adjacency for key nodes (must include root 0)
+    // ── build: key nodes se virtual tree adjacency banao ───────────────────
     vector<vector<int>> build(vector<int> nodes) {
+        // Step 1: key nodes ko Euler tin order me sort karo
         auto cmp = [&](int a, int b) { return tin[a] < tin[b]; };
         sort(nodes.begin(), nodes.end(), cmp);
 
@@ -64,6 +75,7 @@ struct VirtualTree {
         st.push_back(nodes[0]);
         addNode(nodes[0]);
 
+        // Step 2: har key node ke liye LCA stack se edges add karo
         for (int i = 1; i < (int)nodes.size(); i++) {
             int w = lca(st.back(), nodes[i]);
             addNode(w);
@@ -86,6 +98,7 @@ struct VirtualTree {
             st.push_back(nodes[i]);
         }
 
+        // Step 3: stack me bache nodes ko bhi connect karke virtual tree return
         while (st.size() > 1) {
             int u = st.back();
             st.pop_back();

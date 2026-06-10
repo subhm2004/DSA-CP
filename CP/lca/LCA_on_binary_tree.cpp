@@ -1,11 +1,25 @@
-// given 2 nodes p and q, you have to find the ancestor common to both the nodes
+// Given 2 nodes p and q, find their Lowest Common Ancestor (LCA) in binary tree
+
 #include<iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// LCA ON BINARY TREE — Classic Recursive Approach
+// ────────────────────────────────────────────────────────────────────────────
+// Agar root == p ya q -> wahi return (ancestor mil gaya).
+// Left aur right subtree me dono dhundo:
+//   dono non-null -> root hi LCA hai (p ek side, q doosri)
+//   ek hi non-null -> wahi side ka result return karo
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
     Node* left;
     Node* right;
+    // ── Node: naya tree node banao value ke saath ─────────────────────────────
+    //   1) data = val set karo
+    //   2) left aur right = NULL — baad me children attach honge
     Node(int val){
         this-> data= val;
         this-> left= NULL;
@@ -13,6 +27,11 @@ class Node{
     }
 };
 
+// ── CreateTree: recursive tree input (-1 = NULL) ────────────────────────────
+//   1) user se value lo — -1 ho to NULL return (leaf nahi, missing child)
+//   2) naya Node(val) banao
+//   3) left = CreateTree(), right = CreateTree() — recursively poora tree banao
+//   4) root return karo
 Node* CreateTree(){
     int val;
     cout<< "enter data"<< endl;
@@ -24,6 +43,12 @@ Node* CreateTree(){
     root-> left= CreateTree();
     root-> right= CreateTree();
 }
+
+// ── leastcommonancestor: p aur q ka LCA nikalo ───────────────────────────────
+//   1) root NULL -> NULL; root==p ya q -> root return (khud ancestor hai)
+//   2) left aur right subtree me recursively LCA dhoondo
+//   3) dono non-NULL -> p ek side q doosri — root hi LCA
+//   4) ek hi non-NULL -> wahi side ka result return; dono NULL -> NULL
 Node* leastcommonancestor(Node* root, Node* p, Node* q){
     if(root== NULL){
         return NULL;
@@ -36,7 +61,7 @@ Node* leastcommonancestor(Node* root, Node* p, Node* q){
     }
         Node* left= leastcommonancestor(root->left,p,q);
         Node* right= leastcommonancestor(root-> right,p,q);
-        if(left!= NULL && right!= NULL){
+        if(left!= NULL && right!= NULL){   // p left me, q right me — root LCA
             return root;
         }
         else if(left!= NULL && right== NULL){

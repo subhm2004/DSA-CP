@@ -16,12 +16,20 @@
 using namespace std;
 
 
-/*
- * findpair()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int* arr, int& k, int& size
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// K-DIFF PAIRS — Pairs with difference k (Leetcode 532)
+// ────────────────────────────────────────────────────────────────────────────
+// Sort + two pointer ya BS for arr[i]+k
+// set<pair> se unique pairs — duplicates handle
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── findpair: two pointer pairs ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int findpair(int* arr,int& k, int& size){
     sort(arr, arr+size);
     set<pair<int,int>> ans;
@@ -46,12 +54,12 @@ int findpair(int* arr,int& k, int& size){
 }
 
 
-/*
- * binarysearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int s, int x
- * Returns : int
- */
+
+// ── binarysearch: BS helper ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(int *arr, int& size, int s, int x){
     int e= size-1;
     int mid= s+(e-s)/2;
@@ -71,12 +79,12 @@ int binarysearch(int *arr, int& size, int s, int x){
 }
 
 
-/*
- * findpairs()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int & k
- * Returns : int
- */
+
+// ── findpairs: BS pairs ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int findpairs(int *arr, int& size, int & k){
     sort(arr, arr+size);
     set<pair<int,int>> ans;
@@ -90,10 +98,12 @@ int findpairs(int *arr, int& size, int & k){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for K Diff Pairs
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[]= {1,1,3,4,5};
     int size= 5;

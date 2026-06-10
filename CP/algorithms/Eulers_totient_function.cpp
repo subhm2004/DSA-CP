@@ -1,7 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Computes φ(n) for a single number using prime factorization
+// ════════════════════════════════════════════════════════════════════════════
+// EULER'S TOTIENT FUNCTION φ(n)
+// ────────────────────────────────────────────────────────────────────────────
+// φ(n) = 1 se n tak kitne integers hain jo n ke saath coprime hain (gcd=1)
+// Formula: φ(n) = n * Π(1 - 1/p) for each distinct prime p dividing n
+//
+// Do methods:
+//   1) phi(n)     — single number, O(√n) factorization
+//   2) phi_1_to_n — sieve style, O(n log log n) for all 1..n
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── phi: single number ke liye φ(n) ─────────────────────────────────────────
+//   1) result = n, har prime p | n ke liye result -= result/p
+//   2) n ko p se completely divide karo
+//   3) bacha hua prime factor handle karo
 int phi(int n)
 {
     int result = n;
@@ -19,7 +33,11 @@ int phi(int n)
     return result;
 }
 
-// Computes φ(1) to φ(n) using the sieve method
+// ── phi_1_to_n: φ(1) se φ(n) tak sieve se compute ─────────────────────────
+//   1) phi[i] = i initialize (sabse pehle assume coprime)
+//   2) i prime hai agar phi[i] == i
+//   3) har multiple j = i, 2i, 3i... pe phi[j] -= phi[j]/i
+//      (i ke saare multiples se i wale count hatao)
 vector<int> phi_1_to_n(int n)
 {
     vector<int> phi(n + 1);
@@ -28,8 +46,8 @@ vector<int> phi_1_to_n(int n)
 
     for (int i = 2; i <= n; i++)
     {
-        if (phi[i] == i)
-        { // i is prime
+        if (phi[i] == i) // i prime hai
+        {
             for (int j = i; j <= n; j += i)
                 phi[j] -= phi[j] / i;
         }

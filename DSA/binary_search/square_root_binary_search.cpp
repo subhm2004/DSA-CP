@@ -15,12 +15,21 @@ using namespace std;
 
 
 
-/*
- * sqrt()
- * Purpose : Binary search — eliminate half the search space each step.
- * Params  : int n, int s, int e
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// SQRT BINARY SEARCH — Integer + decimal precision (Leetcode 69)
+// ────────────────────────────────────────────────────────────────────────────
+// sqrt(n): mid*mid compare — floor value
+// sqrtWithPrecision: integer part + digit-by-digit refine
+// BS on answer space [0, n]
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── sqrt: int sqrt BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int sqrt(int n, int s, int e) {
     int ans = -1;
     int mid = s + (e - s) / 2;
@@ -40,12 +49,12 @@ int sqrt(int n, int s, int e) {
 
 
 
-/*
- * sqrtWithPrecision()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int n, int precision
- * Returns : double
- */
+
+// ── sqrtWithPrecision: decimal sqrt ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 double sqrtWithPrecision(int n, int precision) {
     int s = 0, e = n;
     int intPart = sqrt(n, s, e);
@@ -65,10 +74,12 @@ double sqrtWithPrecision(int n, int precision) {
 
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Square Root Binary Search
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     int n;
     cout << "Enter any number: ";

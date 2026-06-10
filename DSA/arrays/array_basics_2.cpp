@@ -12,15 +12,19 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// LINEAR SEARCH — array me element dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: har element ko ek-ek karke key se compare karo
+// Mil gaya to true, poora scan ho gaya to false
+// COMPLEX: Time O(n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * search()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size, int key
- * Returns : bool
- */
+// ── search: linear search se key dhundho ───────────────────────────────────
+//   1) i=0 se start karo, har index pe jao
+//   2) arr[i] == key ho to turant true return
+//   3) loop khatam — element nahi mila to false
 bool search(int arr[], int size,int key) {
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         if(arr[i]== key) {
             return true;
@@ -32,10 +36,10 @@ bool search(int arr[], int size,int key) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Array Basics 2
- */
+// ── main: user se key lo aur search result print karo ──────────────────────
+//   1) array declare karo, size pass karo
+//   2) cin se key input lo
+//   3) found / not found message print karo
 int main() {
     int arr[] = {2,0,5,1,7} ;
     int size = 5;

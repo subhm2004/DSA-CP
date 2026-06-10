@@ -5,27 +5,31 @@
  * PROBLEM  : Prime Number 2
  * ABOUT    : Number theory — GCD, primes, sieve, fast exponentiation
  * APPROACH : Sieve of Eratosthenes — mark multiples of primes.
- * COMPLEX  : See approach — depends on input size n.
+ * COMPLEX  : Time: O(n log log n)  |  Space: O(n)
  * ============================================================================
  */
 
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SIEVE OF ERATOSTHENES — primes up to n (alternate implementation)
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: boolean array me multiples mark — true wale prime hain
+// i*i optimization — chhote multiples pehle hi cross ho chuke
+// COMPLEX: Time O(n log log n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * sieveOfEratosthenes()
- * Purpose : Sieve of Eratosthenes — mark multiples of primes.
- * Params  : int n
- * Returns : vector<int>
- */
+// ── sieveOfEratosthenes: n tak saare primes return karo ────────────────────
+//   1) isPrime[0..n] true — 0,1 ko false mark
+//   2) i=2 se i*i<=n — prime ke multiples false from i*i
+//   3) true indices collect karke primes vector return
 vector<int> sieveOfEratosthenes(int n)
 {
     vector<bool> isPrime(n + 1, true);
     vector<int> primes;
 
-    isPrime[0] = isPrime[1] = false; // 0 and 1 are not prime numbers
+    isPrime[0] = isPrime[1] = false; // 0 aur 1 prime nahi
 
     for (int i = 2; i * i <= n; i++)
     {
@@ -43,12 +47,8 @@ vector<int> sieveOfEratosthenes(int n)
     return primes;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Prime Number 2
- */
+// ── main: user input pe primes print ─────────────────────────────────────────
+//   1) n input, sieve run, primes list print
 int main()
 {
     int n;

@@ -12,6 +12,21 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY TREE BASICS — Saari common traversals
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Binary tree ko build karo aur saari traversal types print karo.
+//
+// Traversals:
+//   - Preorder  : Root → Left → Right
+//   - Inorder   : Left → Root → Right
+//   - Postorder : Left → Right → Root
+//   - Level order: BFS queue se level-by-level
+//
+// Complexity: Har traversal O(n) time, O(h) ya O(n) space
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,12 +39,10 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── CreateTree: DFS se tree build ──
+//   1) Data input lo, -1 = NULL
+//   2) Node banao, left/right recursively call
+//   3) Root return karo
 Node* CreateTree(){
     int data;
     cout<< "Enter the data of node"<< endl;
@@ -41,16 +54,12 @@ Node* CreateTree(){
     root-> left= CreateTree();
     root-> right= CreateTree();
     return root;
-
 }
 
-
-/*
- * preorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── preorder: Root pehle visit ──
+//   1) NULL → return
+//   2) Current node print karo
+//   3) Left subtree, phir right subtree
 void preorder(Node* root){
     if(root == NULL){
         return;
@@ -58,16 +67,11 @@ void preorder(Node* root){
     cout<< root-> data<< "->";
     preorder(root-> left);
     preorder(root-> right);
-
 }
 
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── inorder: Root beech me ──
+//   1) NULL → return
+//   2) Pehle left, phir root print, phir right
 void inorder(Node* root){
     if(root== NULL){
         return;
@@ -77,13 +81,9 @@ void inorder(Node* root){
     inorder(root->right);
 }
 
-
-/*
- * postorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── postorder: Root last me ──
+//   1) NULL → return
+//   2) Pehle left, phir right, last me root print
 void postorder(Node* root){
     if(root== NULL){
         return;
@@ -92,15 +92,13 @@ void postorder(Node* root){
     postorder(root-> right);
     cout<< root-> data<< "->";
 }
+
 queue<Node*>q;
 
-
-/*
- * levelorder()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelorder: simple BFS ──
+//   1) Root queue me daalo
+//   2) Jab tak queue khali nahi — front print, children push
+//   3) Pop karo aur aage badho
 void levelorder(Node* root){
     q.push(root);
     while(!q.empty()){
@@ -112,13 +110,10 @@ void levelorder(Node* root){
     }
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: level-wise print (NULL separator) ──
+//   1) Queue me root + NULL daalo (level end marker)
+//   2) Node aaye → print + children push
+//   3) NULL aaye → newline + agla level start
 void levelordertraversal(Node* root){
     q.push(root);
     q.push(NULL);
@@ -135,22 +130,16 @@ void levelordertraversal(Node* root){
             }
         }
         else{
-            cout<< endl;
+            cout<< endl;  // ek level khatam
             if(!q.empty()){
                 q.push(NULL);
-
             }
         }
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Tree Basics
- */
+// ── main: tree banao aur level-order print ──
 int main(){
     Node* root = CreateTree();
     levelordertraversal(root);
-
 }

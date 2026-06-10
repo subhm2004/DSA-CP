@@ -15,40 +15,37 @@
 #include <string>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// VALID STRING AFTER DELETION — "abc" pattern repeatedly hatao
+// ────────────────────────────────────────────────────────────────────────────
+// jab tak "abc" milta hai erase karo; end mein empty → valid
+// stack ki tarah greedy deletion — leftmost "abc" hatao
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * validstr()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : string str, string& substr
- * Returns : bool
- */
-bool validstr(string str, string& substr){
-    while(!str.empty()){
-        if(str.find(substr)== string::npos){
+// ── validstr: repeated "abc" deletion se string valid hai? ──────────────────
+//   1) jab tak str mein "abc" hai — find karke erase
+//   2) "abc" nahi mila aur str non-empty → false
+//   3) str empty ho gayi → true
+//   4) warna false
+bool validstr(string str, string &substr) {
+    while (!str.empty()) {
+        if (str.find(substr) == string::npos) {
             return false;
-        }
-        else {
-            int index= str.find(substr);
-            str.erase(index,3);
+        } else {
+            int index = str.find(substr);
+            str.erase(index, 3);           // "abc" pattern delete — 3 chars
         }
     }
-    if(str.empty()){
+    if (str.empty()) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Leetcode 1003 Valid After Deletion
- */
-int main(){
-    string str= "ababcc";
-    string substr= "abc";
-    bool ans= validstr(str,substr);
-    cout<< ans<< endl;
-    
+int main() {
+    string str = "ababcc";
+    string substr = "abc";
+    bool ans = validstr(str, substr);
+    cout << ans << endl;
 }

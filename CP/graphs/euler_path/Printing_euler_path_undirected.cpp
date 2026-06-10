@@ -1,35 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// UNDIRECTED GRAPH — EULERIAN PATH PRINT (Hierholzer's Algorithm)
+// ────────────────────────────────────────────────────────────────────────────
+// Undirected me edge remove karte waqt DONO taraf se hatao (u->v aur v->u).
+// Start node = odd degree wala (path case), warna koi bhi node (circuit).
+//
+// Hierholzer steps:
+//   1) Stack pe start push
+//   2) Jab edges bachi hain → next neighbor pe jao, dono lists se edge hatao
+//   3) Jab koi edge nahi → node ko path me daalo, stack se pop
+//   4) Path reverse karke return karo
+// ════════════════════════════════════════════════════════════════════════════
+
 class Graph
 {
 public:
     unordered_map<int, list<int>> adjList;
-    unordered_map<int, int> inDegree; // Store in-degree
+    unordered_map<int, int> inDegree;
 
+    // ── addEdge: undirected edge — dono nodes ka degree badhao ─────────────
     void addEdge(int u, int v, bool direction)
     {
         adjList[u].push_back(v);
-        adjList[v].push_back(u); // Undirected graph
+        adjList[v].push_back(u);
 
-        // Correct In-Degree Calculation
         inDegree[u]++;
         inDegree[v]++;
     }
 
+    // ── calculateInDegree: adjList se degree recompute ─────────────────────
     void calculateInDegree()
     {
-        inDegree.clear(); // Reset previous data
+        inDegree.clear();
 
         for (auto &i : adjList)
         {
             for (auto &nbr : i.second)
             {
-                inDegree[nbr]++; // Har connected node ka degree badhao
+                inDegree[nbr]++;
             }
         }
     }
 
+    // ── isConnected: graph connected hai ya nahi ───────────────────────────
     bool isConnected()
     {
         unordered_map<int, bool> visited;
@@ -45,7 +60,7 @@ public:
         }
 
         if (startNode == -1)
-            return true; // Empty graph is connected
+            return true;
 
         DFS(startNode, visited);
 
@@ -58,6 +73,7 @@ public:
         return true;
     }
 
+    // ── DFS: reachability ke liye ──────────────────────────────────────────
     void DFS(int node, unordered_map<int, bool> &visited)
     {
         visited[node] = true;
@@ -68,6 +84,7 @@ public:
         }
     }
 
+    // ── hasEulerianPath: 0 ya 2 odd-degree nodes ───────────────────────────
     bool hasEulerianPath()
     {
         if (!isConnected())
@@ -83,8 +100,10 @@ public:
         return (oddDegreeCount == 0 || oddDegreeCount == 2);
     }
 
+    // ── findEulerianPath: Hierholzer se actual path construct karo ─────────
     vector<int> findEulerianPath()
     {
+        // Step 1: odd-degree condition fail ho to path impossible
         if (!hasEulerianPath())
         {
             cout << "Eulerian Path does not exist." << endl;
@@ -96,6 +115,7 @@ public:
         vector<int> path;
         int startNode = -1;
 
+        // Step 2: odd degree wala node = path start; circuit me koi bhi node
         for (auto &node : inDegree)
         {
             if (node.second % 2 != 0)
@@ -110,6 +130,7 @@ public:
 
         st.push(startNode);
 
+        // Step 3: Hierholzer — undirected me edge dono taraf se remove karo
         while (!st.empty())
         {
             int v = st.top();
@@ -128,6 +149,7 @@ public:
             }
         }
 
+        // Step 4: stack se ulta aaya tha — reverse karke sahi order
         reverse(path.begin(), path.end());
         return path;
     }
@@ -143,7 +165,7 @@ int main()
     g.addEdge(3, 0, 1);
     g.addEdge(1, 3, 1);
 
-    g.calculateInDegree(); // Compute in-degree after edges are added
+    g.calculateInDegree();
 
     cout << "Graph Adjacency List:\n";
     for (auto &node : g.adjList)

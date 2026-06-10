@@ -14,6 +14,20 @@
 #include <map>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// TOP / BOTTOM VIEW — Vertical distance (HD) se nodes group
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Tree ko upar/neeche se dekho — har vertical line ka node?
+//
+// Approach: BFS + map<HD, value>
+//   - Left → HD-1, Right → HD+1
+//   - Top view: pehli baar HD dikhe to store
+//   - Bottom view: har baar overwrite (last = bottom)
+//
+// Complexity: Time O(n log n) map  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -26,12 +40,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── CreateTree: recursive input ──
 Node* CreateTree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -45,13 +54,10 @@ Node* CreateTree(){
     return root;
 }
 
-
-/*
- * topview()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── topview: BFS — har HD ka pehla node ──
+//   1) Queue: (node, horizontalDistance)
+//   2) HD pehli baar aaye → map me store
+//   3) Left HD-1, right HD+1 push
 void topview(Node* root){
     map<int,int>distNode;
     queue<pair<Node*,int>>q;
@@ -62,7 +68,7 @@ void topview(Node* root){
         Node* frontNode = temp.first;
         int level= temp.second;
         if(distNode.find(level)== distNode.end()){
-            distNode[level]= frontNode-> data;
+            distNode[level]= frontNode-> data;  // pehli entry = top
         }
         if(frontNode-> left!= NULL){
             q.push(make_pair(frontNode-> left, level-1));
@@ -77,13 +83,9 @@ void topview(Node* root){
     }
 }
 
-
-/*
- * bottomview()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── bottomview: BFS — har HD ka last node ──
+//   1) Same BFS, lekin har baar overwrite
+//   2) Last visit = sabse neeche wala node
 void bottomview(Node* root){
     map<int, int>distNode;
     queue<pair<Node*, int>>q;
@@ -93,7 +95,7 @@ void bottomview(Node* root){
         q.pop();
         Node* frontNode= temp.first;
         int level= temp.second;
-        distNode[level]= frontNode-> data;
+        distNode[level]= frontNode-> data;  // overwrite = bottom
         if(frontNode-> left!= NULL){
             q.push(make_pair(frontNode-> left, level-1));
         }
@@ -107,11 +109,7 @@ void bottomview(Node* root){
     }        
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Top View Binary Tree
- */
+// ── main: bottom view demo ──
 int main(){
     Node* root= CreateTree();
     bottomview(root);

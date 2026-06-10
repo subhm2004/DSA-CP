@@ -11,7 +11,11 @@ public:
     const ll RADIX_2 = 27;
     const ll MOD_2 = 1e9 + 33;
 
-    // returns longest prefix == suffix (excluding full string)
+    // longest_happy_prefix — sabse lamba prefix jo suffix bhi ho (dynamic window hash).
+    // Step 1: len = 1 se n-1 tak — prefix [0..len-1] aur suffix [n-len..n-1] grow karo.
+    // Step 2: Prefix hash: purana × RADIX + naya char (left→right expand).
+    // Step 3: Suffix hash: naya char × power add (right→left expand); power har step badhe.
+    // Step 4: Dono hash pairs match ho to max_len update; end pe s.substr(0, max_len).
     string longest_happy_prefix(const string &s)
     {
         ll n = s.size();
@@ -51,6 +55,7 @@ public:
     }
 };
 
+// main — sample strings pe longest_happy_prefix test karo (LeetCode 1392 style).
 int main()
 {
     Rolling_Hash_Prefix_Suffix rh;

@@ -12,35 +12,33 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SELECTION SORT — har pass me minimum dhundho, front pe swap
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: i=0 se — unsorted part me smallest dhundho, arr[i] se swap
+// Har round ek element sahi jagah pe — sorted prefix badhta hai
+// COMPLEX: Time O(n²)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * printarray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array print karo ─────────────────────────────────────────────
+//   1) label + elements print
 void printarray(int arr[], int size) {
     cout<< "array is \n";
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
     }
 }
 
 
-/*
- * selection()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── selection: selection sort in-place ─────────────────────────────────────
+//   1) outer i — har position pe minimum chahiye
+//   2) inner j=i se end — smallest dhundho
+//   3) swap(arr[i], smallest) — minimum front pe
+//   4) sorted array print
 void selection(int arr[],int size ) {
    
-    // Iterate over all elements
     for(int i=0; i< size-1; i++) {
         int smallest = arr[i];
-        // Iterate over all elements
         for(int j = i; j< size; j++) {
         if(arr[j] < smallest) {
             smallest = arr[j];
@@ -49,17 +47,15 @@ void selection(int arr[],int size ) {
       swap(arr[i], smallest);
     } 
     cout<< "sorted array is\n"<< endl;
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
     }
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Selection Sort
- */
+// ── main: selection sort demo ────────────────────────────────────────────────
+//   1) unsorted array
+//   2) selection() call
 int main() {
     int arr[] = { 12,4,7,11,56,34,2};
     int size = 7;

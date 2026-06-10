@@ -14,13 +14,19 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// 2D ARRAY QUESTIONS — print, search, sum, transpose
+// ────────────────────────────────────────────────────────────────────────────
+// Fixed 3x3 matrix pe common operations practice
+// Column-wise print, linear search, max element
+// Row/column sum, diagonal sum, matrix print
+// Transpose: rows ko columns mein convert
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printarray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int row, int col
- * Returns : void
- */
+// ── printarray: column-by-column print karo ───────────────────────────────
+//   1) outer loop col (j), inner loop row (i)
+//   2) har column ke elements vertically print
+//   3) arr[i][j] cout — column order mein output
 void printarray(int arr[][3], int row, int col) {
     for(int j=0; j<col; j++) {
         for(int i=0; i<row; i++) {
@@ -29,13 +35,11 @@ void printarray(int arr[][3], int row, int col) {
     }
 }
 
-
-/*
- * linearsearch()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int& row, int& col, int& target
- * Returns : bool
- */
+// ── linearsearch: 2D array mein target dhundho ────────────────────────────
+//   1) har row i pe loop
+//   2) har column j pe check arr[i][j] == target
+//   3) match mila -> true return
+//   4) poora scan fail -> false
 bool linearsearch(int arr[][3], int& row, int& col, int& target) {
     for(int i=0; i<row; i++){
         for(int j=0; j< col; j++) {
@@ -47,13 +51,11 @@ bool linearsearch(int arr[][3], int& row, int& col, int& target) {
     return false;
 }
 
-
-/*
- * maxelement()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int& row, int& col, int& max
- * Returns : int
- */
+// ── maxelement: matrix ka maximum element nikalo ──────────────────────────
+//   1) max se compare karte hue har cell scan
+//   2) arr[i][j] > max ho to max update
+//   3) poora matrix traverse
+//   4) final max return
 int maxelement(int arr[][3], int& row, int& col, int& max) {
     for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++) {
@@ -65,13 +67,11 @@ int maxelement(int arr[][3], int& row, int& col, int& max) {
     return max;
 }
 
-
-/*
- * rowwisesum()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int& row, int& col
- * Returns : void
- */
+// ── rowwisesum: har row ka sum print karo ─────────────────────────────────
+//   1) har row i ke liye sum = 0
+//   2) us row ke sab columns j add karo
+//   3) row i ka sum print
+//   4) next row
 void rowwisesum(int arr[][3], int& row, int& col) {   
     for(int i=0; i<row; i++) {
         int sum =0;
@@ -82,13 +82,11 @@ void rowwisesum(int arr[][3], int& row, int& col) {
     }
 }
 
-
-/*
- * colwisesum()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int& row, int& col
- * Returns : void
- */
+// ── colwisesum: har column ka sum print karo ──────────────────────────────
+//   1) har column j ke liye sum = 0
+//   2) us column ke sab rows i add karo
+//   3) column j ka sum print
+//   4) next column
 void colwisesum(int arr[][3], int& row, int& col) {
     for(int j=0; j<col; j++) {
         int sum =0;
@@ -99,13 +97,10 @@ void colwisesum(int arr[][3], int& row, int& col) {
     }
 }
 
-
-/*
- * diagonalsum()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int& row, int& col
- * Returns : void
- */
+// ── diagonalsum: main diagonal (top-left to bottom-right) ka sum ──────────
+//   1) sum = 0 initialize
+//   2) i=0 se row-1: arr[i][i] add (same row-col index)
+//   3) total diagonal sum print
 void diagonalsum(int arr[][3], int& row, int& col) {
     int sum =0;
     for(int i=0; i< row; i++) {
@@ -114,13 +109,10 @@ void diagonalsum(int arr[][3], int& row, int& col) {
     cout<< " sum of diagonal elements is "<< sum<< endl;
 }
 
-
-/*
- * printmatrix()
- * Purpose : Rotate/transpose matrix in-place or with extra space.
- * Params  : int arr[][3], int row, int col
- * Returns : void
- */
+// ── printmatrix: matrix ko row-wise print karo ────────────────────────────
+//   1) "matrix is" header print
+//   2) har row i, har col j — arr[i][j] space-separated
+//   3) har row ke baad newline
 void printmatrix(int arr[][3], int row, int col) {
     cout<< "matrix is "<< endl;
     for(int i=0; i<row; i++) {
@@ -131,13 +123,10 @@ void printmatrix(int arr[][3], int row, int col) {
     }
 }
 
-
-/*
- * transpose()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int arr[][3], int row, int col
- * Returns : void
- */
+// ── transpose: matrix ka transpose print (swap rows/cols) ─────────────────
+//   1) transpose header print
+//   2) i rows, j cols — arr[j][i] print (indices swap)
+//   3) har "row" (original column) ke baad newline
 void transpose(int arr[][3], int row, int col) {
     cout<< " transpose of the matrix is "<< endl;
     for(int i=0 ; i< row; i++) {
@@ -148,11 +137,10 @@ void transpose(int arr[][3], int row, int col) {
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Array Questions
- */
+// ── main: demo — 3x3 array setup ──────────────────────────────────────────
+//   1) 3x3 sample matrix declare
+//   2) row, col, max variables set
+//   3) vector size demo print
 int main() {
     int arr[3][3] = {
                      {10,20,30},

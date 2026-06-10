@@ -8,6 +8,11 @@ typedef long long ll;
 class Solution
 {
 public:
+    // longestDecomposition — string ko max mirror chunks me todo (LC 1147).
+    // Step 1: Left se forward hash aur right se backward hash simultaneously badhao.
+    // Step 2: left_hash = left_hash*RADIX + text[i]; right_hash += power*text[n-1-i].
+    // Step 3: Dono double-hash pairs match → prefix == suffix mirror segment mila.
+    // Step 4: count++, hashes reset — baaki string ke liye same process repeat.
     int longestDecomposition(string text)
     {
         int n = text.size();
@@ -81,6 +86,7 @@ public:
     }
 };
 
+// main — teen sample strings pe longestDecomposition ka output print karo.
 int main()
 {
     Solution sol;

@@ -13,7 +13,7 @@ Advanced graph algorithms for contests.
 | [bridges/](./bridges/) | [Open →](./bridges/README.md) | (1 files)
 | [centroid_decomposition/](./centroid_decomposition/) | [Open →](./centroid_decomposition/README.md) | (1 files)
 | [dsu/](./dsu/) | [Open →](./dsu/README.md) | (4 files)
-| [euler_path/](./euler_path/) | [Open →](./euler_path/README.md) | (5 files)
+| [euler_path/](./euler_path/) | [Open →](./euler_path/README.md) | (5 files) — **Hierholzer directed/undirected** |
 | [flow/](./flow/) | [Open →](./flow/README.md) | (3 files)
 | [graph_implementation/](./graph_implementation/) | [Open →](./graph_implementation/README.md) | (4 files)
 | [heavy_light_decomposition/](./heavy_light_decomposition/) | [Open →](./heavy_light_decomposition/README.md) | (1 files)

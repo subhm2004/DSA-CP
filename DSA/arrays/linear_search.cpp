@@ -12,11 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// LINEAR SEARCH — user input array me element dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: start se end tak ek-ek element check karo
+// Match mila to position print + break, nahi to not found
+// COMPLEX: Time O(n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Linear Search
- */
+// ── main: VLA array pe linear search ───────────────────────────────────────
+//   1) n lo, array input karo
+//   2) search element lo
+//   3) flag se track — mila to index print, warna not found
 int main() {
     int n;
     cout<< "enter number of elements in array"<< endl;
@@ -35,7 +42,7 @@ int main() {
         if(arr[i]== search) {
             flag =1;
             cout<< "element is found at position"<< i<< endl;
-            break;
+            break;  // mil gaya — aage scan ki zaroorat nahi
         }
 
     }

@@ -12,6 +12,10 @@ public:
     ll n;
     vector<ll> pref_1, pref_2, r_pref_1, r_pref_2, pow_1, pow_2;
 
+    // Constructor — string ke liye prefix + reverse-prefix hash tables precompute karo.
+    // Step 1: pow_1/pow_2 me RADIX^i store karo (substring hash formula ke liye).
+    // Step 2: Left→right scan: pref[i+1] = pref[i]*RADIX + s[i] (forward hash).
+    // Step 3: Same scan me reverse string ka r_pref bhi build (palindrome compare ke liye).
     Palindrome_Check(const string &str)
     {
         s = str;
@@ -42,6 +46,10 @@ public:
         }
     }
 
+    // get_Hash — substring s[l..r] ka double hash pair O(1) me nikalo.
+    // Step 1: pref[r+1] me [0..r] ka hash hai; pref[l] me [0..l-1] ka.
+    // Step 2: pref[l] * pow[r-l+1] se prefix portion "shift out" karo.
+    // Step 3: Subtract karke [l..r] isolate karo; MOD add karke negative fix.
     pair<ll, ll> get_Hash(int l, int r)
     {
         ll hash_1 = (pref_1[r + 1] - pref_1[l] * pow_1[r - l + 1] % MOD_1 + MOD_1) % MOD_1;
@@ -49,6 +57,10 @@ public:
         return {hash_1 % MOD_1, hash_2 % MOD_2};
     }
 
+    // get_Reverse_Hash — s[l..r] ke reverse direction ka hash (mirror mapping).
+    // Step 1: Original [l..r] reverse me s_rev indices: rl = n-1-r, rr = n-1-l.
+    // Step 2: r_pref arrays se reversed substring ka hash same formula se nikalo.
+    // Step 3: Forward aur reverse hash compare se palindrome check fast hota hai.
     pair<ll, ll> get_Reverse_Hash(int l, int r)
     {
         int rl = n - 1 - r;
@@ -58,12 +70,17 @@ public:
         return {hash_1 % MOD_1, hash_2 % MOD_2};
     }
 
+    // is_Palindrome — [l..r] palindrome hai ya nahi (double hash equality se).
+    // Step 1: get_Hash(l,r) se forward substring hash lo.
+    // Step 2: get_Reverse_Hash(l,r) se usi range ka reversed hash lo.
+    // Step 3: Dono pairs equal ho to true — char-by-char compare ki zarurat nahi.
     bool is_Palindrome(int l, int r)
     {
         return get_Hash(l, r) == get_Reverse_Hash(l, r);
     }
 };
 
+// main — "abacaba" pe alag-alag ranges ka palindrome check demo.
 int main()
 {
     string s = "abacaba";

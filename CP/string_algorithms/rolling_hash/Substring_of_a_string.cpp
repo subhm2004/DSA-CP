@@ -5,6 +5,10 @@
 
 using namespace std;
 
+// getSubstrings — string/sequence ke saare contiguous substrings generate karo.
+// Step 1: Har start index i ke liye end j = i+1 se n tak iterate karo.
+// Step 2: s.substr(i, j-i) push karo — total n*(n+1)/2 substrings.
+// Step 3: Template T se string, vector, etc. pe kaam karta hai.
 template <typename T>
 vector<T> getSubstrings(const T &s)
 {
@@ -22,7 +26,10 @@ vector<T> getSubstrings(const T &s)
     return substrings;
 }
 
-// Overloaded function for integer input
+// getSubstrings (int overload) — number ke saare numeric substrings as integers.
+// Step 1: int ko string me convert karo taaki digits pe iterate ho sake.
+// Step 2: Har [i..j) substring ko stoi se int me convert karke vector me daalo.
+// Step 3: Same O(n^2) brute enumeration — rolling hash nahi, sirf generation demo.
 vector<int> getSubstrings(int num)
 {
     string s = to_string(num); // Convert int to string
@@ -40,6 +47,7 @@ vector<int> getSubstrings(int num)
     return substrNumbers;
 }
 
+// main — string aur integer dono ke substrings generate karke count/sum print karo.
 int main()
 {
     // String substrings

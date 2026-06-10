@@ -13,15 +13,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY SEARCH — sorted array me element dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: lo-hi range me mid nikalo, compare karke half eliminate karo
+// arr[mid] < search -> left half chhod, warna right half chhod
+// COMPLEX: Time O(log n)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printarray()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array elements ek line me print ────────────────────────────
+//   1) loop se har element print
+//   2) end me newline
 void printarray(int arr[], int size) {
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
     }
@@ -29,12 +32,11 @@ void printarray(int arr[], int size) {
 }
 
 
-/*
- * binary_search()
- * Purpose : Binary search — eliminate half the search space each step.
- * Params  : int arr[], int size, int search
- * Returns : int
- */
+// ── binary_search: sorted array me 1-based position dhundho ────────────────
+//   1) i=0, j=size-1 — classic two-pointer window
+//   2) mid = (i+j)/2, arr[mid] compare karo
+//   3) match -> mid+1 return (1-indexed), chhota -> i=mid+1, bada -> j=mid-1
+//   4) nahi mila to -1
 int binary_search(int arr[], int size, int search) {
     int i=0, j= size -1;    
     while(i<=j) {
@@ -54,10 +56,10 @@ int binary_search(int arr[], int size, int search) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Search
- */
+// ── main: user se search key lo, BS chalao ─────────────────────────────────
+//   1) sorted array print karo
+//   2) cin se element lo
+//   3) 1-based index print karo
 int main() {
     int arr[] = { 1,4,5,7,9,11,23,45};
     int size = 8;

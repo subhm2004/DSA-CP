@@ -11,7 +11,11 @@ using namespace std;
 class Solution
 {
 public:
-    // 🔹 Step 1: Build LPS (Longest Prefix Suffix) array
+    // compute_LPS — pattern ka Longest Proper Prefix which is also Suffix array banao.
+    // Step 1: lps[0] = 0 (single char ka koi proper prefix nahi).
+    // Step 2: Agar pattern[i] == pattern[length] to length++ aur lps[i] = length.
+    // Step 3: Mismatch pe length = lps[length-1] se fallback (KMP jaisa backtrack).
+    // Step 4: length 0 ho to lps[i] = 0 aur i aage badhao — O(m) me poora array fill.
     void compute_LPS(const string &pattern, vector<int> &lps)
     {
         int length = 0;
@@ -41,7 +45,11 @@ public:
         }
     }
 
-    // 🔹 Step 2: Find all occurrences using KMP
+    // KMP — text me pattern ke saare occurrences dhundho (LPS se skip).
+    // Step 1: Pehle compute_LPS se pattern ka fallback array banao.
+    // Step 2: i = text pointer, j = pattern pointer — dono aage badhte hain match pe.
+    // Step 3: j == m pe match mila → ans me i-j push, j = lps[j-1] (overlap handle).
+    // Step 4: Mismatch pe j != 0 ho to j = lps[j-1], warna i++ — brute force se fast.
     vector<int> KMP(const string &text, const string &pattern)
     {
         vector<int> ans;
@@ -78,7 +86,9 @@ public:
         return ans;
     }
 
-    // 🔹 Step 3: Return first match index (like strStr)
+    // KMP_first — sirf pehla match index chahiye ho to (LeetCode strStr jaisa).
+    // Step 1: KMP() se saare indices nikalo.
+    // Step 2: Empty ho to -1, warna matches[0] return — baaki matches ignore.
     int KMP_first(const string &text, const string &pattern)
     {
         vector<int> matches = KMP(text, pattern);
@@ -88,7 +98,8 @@ public:
     }
 };
 
-// 🧪 Driver Code with multiple test cases
+// main — multiple test cases pe KMP_first run karke first match index print karo.
+// Har case me text, pattern aur result dikhao — pattern na mile to "not found".
 int main()
 {
     ios::sync_with_stdio(false);

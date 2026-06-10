@@ -15,20 +15,25 @@
 #include <climits>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// CUT ROD — Rod length n ko x, y, z segments me max pieces
+// ────────────────────────────────────────────────────────────────────────────
+// Teen sizes x, y, z — har step pe ek cut (+1 segment)
+// max(a,b,c) where a=1+cut(n-x), b=1+cut(n-y), c=1+cut(n-z)
+// n<0 -> invalid (INT_MIN); n==0 -> 0 segments
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * maxsegment()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int n, int x, int y, int z
- * Returns : int
- */
+// ── maxsegment: maximum segments from rod length n ────────────────────────────
+//   1) n==0 -> 0 segments
+//   2) n<0 -> invalid, INT_MIN
+//   3) teen options try — cut x, y, ya z size
+//   4) max of teen + 1 return
 int maxsegment(int n, int x, int y, int z ){
-    // Base case: n == 0
     if(n==0){
         return 0;
     }
     if(n<0){
-        return INT_MIN;
+        return INT_MIN;  // cut possible nahi
     }
     int a= maxsegment(n-x,x,y,z) +1;
     int b= maxsegment(n-y,x,y,z) +1;
@@ -37,11 +42,7 @@ int maxsegment(int n, int x, int y, int z ){
     return ans;
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Cut Rod Max Segments
- */
+// ── main: rod length aur segment sizes input ──────────────────────────────────
 int main() {
     int n;
     cout<< " enter the length of rod"<< endl;

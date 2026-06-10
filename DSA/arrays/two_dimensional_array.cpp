@@ -12,11 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// 2D ARRAY BASICS — input, print, row-wise sum
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: row x col matrix — nested loops se input/output
+// Har row ka sum alag calculate — prefix sum per row
+// COMPLEX: Time O(n*m)  |  Space O(1) extra
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Two Dimensional Array
- */
+// ── main: 2D array input, print, row sums ────────────────────────────────────
+//   1) row, col input — matrix bharo
+//   2) nested loop se matrix print (tab-separated)
+//   3) har row i ka sum calculate karke print
 int main() {
     int row, col;
     cout<< "enter the number of rows and columns"<< endl;

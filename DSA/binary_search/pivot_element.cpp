@@ -15,12 +15,21 @@
 using namespace std;
 
 
-/*
- * pivotindex()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int>&nums, int& n
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// ROTATED SORTED ARRAY SEARCH — Pivot + BS (Leetcode 33)
+// ────────────────────────────────────────────────────────────────────────────
+// pivotindex: rotation point dhundho
+// Target kis sorted half me hai — us half pe BS
+// Do sorted segments — pivot se divide
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── pivotindex: rotation pivot ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int pivotindex(vector<int>&nums, int& n) {
     int s=0, e= n-1;
     int mid= s+(e-s)/2;
@@ -46,12 +55,12 @@ int pivotindex(vector<int>&nums, int& n) {
 }
 
 
-/*
- * binarysearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int>& nums, int s, int e, int& target
- * Returns : int
- */
+
+// ── binarysearch: BS on half ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(vector<int>& nums, int s, int e, int& target) {
     
     int mid= s+(e-s)/2;
@@ -70,12 +79,12 @@ int binarysearch(vector<int>& nums, int s, int e, int& target) {
 }
 
 
-/*
- * search()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : vector<int>& nums, int& n, int& target
- * Returns : int
- */
+
+// ── search: pivot+search ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int search(vector<int>& nums, int& n, int& target) {
      int s=0, e = n-1;
      int index = pivotindex(nums, n);
@@ -91,10 +100,12 @@ int search(vector<int>& nums, int& n, int& target) {
 
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Pivot Element
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     vector<int>nums;
     nums.push_back(12);

@@ -15,13 +15,18 @@
 #include <string>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// RAT IN MAZE — (0,0) se (n-1,n-1) tak path dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// 4 directions: D, L, R, U — sirf maze[x][y]==1 aur visited==false
+// Backtrack: visited mark, recurse, visited unmark (undo)
+// Saare valid paths output string me store
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * issafe()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int x, int y, int row, int col, int maze[3][3], vector<vector<bool>>& visited
- * Returns : bool
- */
+// ── issafe: cell (x,y) pe ja sakte hain? ────────────────────────────────────
+//   1) bounds check — row/col ke andar
+//   2) maze[x][y]==1 — blocked nahi
+//   3) visited[x][y]==false — pehle nahi aaye
 bool issafe(int x, int y, int row, int col, int maze[3][3], vector<vector<bool>>& visited){
     if(((x>=0 && x< row) && (y>=0 && y< col)) && (maze[x][y]== 1) && (visited[x][y]== false)){
         return true;
@@ -31,16 +36,21 @@ bool issafe(int x, int y, int row, int col, int maze[3][3], vector<vector<bool>>
     }
 }
 
+// ── solvemaze: DFS backtracking se saare paths ──────────────────────────────
+//   1) (x,y)==destination -> path store, return
+//   2) 4 directions try — D, L, R, U
+//   3) har direction: visited=true, recurse, visited=false (backtrack)
+//   4) output string me direction char append
 void solvemaze(int maze[3][3], int &row, int &col, int x, int y,vector<string>&path,
                string output= "", vector<vector<bool> > visited= {}){
-                if(x== row-1 && y== col-1){ // reached destination co-ordinate
+                if(x== row-1 && y== col-1){ // destination pe pahunch gaye
                     path.push_back(output);
                     return;
                 }
                 if(issafe(x+1,y,row,col,maze,visited)){
                     visited[x+1][y] = true;
                     solvemaze(maze,row,col,x+1,y,path,output+'D',visited);
-                    visited[x+1][y]= false;
+                    visited[x+1][y]= false;  // backtrack
                 }
                 if(issafe(x,y-1, row,col,maze, visited)){
                     visited[x][y-1]= true;
@@ -61,11 +71,7 @@ void solvemaze(int maze[3][3], int &row, int &col, int x, int y,vector<string>&p
                 }
  }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Rat In Maze
- */
+// ── main: maze input, saare paths print ─────────────────────────────────────
 int main(){
     int maze[3][3]= {{1,0,0},
                      {0,0,0},
@@ -83,7 +89,6 @@ int main(){
     vector<vector<bool> > visited(row,vector<bool>(col,false));
     visited[0][0]= true;
     solvemaze(maze,row,col,x,y,path,output,visited);
-    // Iterate over all elements
     for(int i=0; i< path.size(); i++){
         cout<< path[i]<< " ";
     }

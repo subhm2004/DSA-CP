@@ -11,6 +11,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PRATA COOKING (POJ) — Minimum time me P pratas banao
+// ────────────────────────────────────────────────────────────────────────────
+// Cook rank R: 1st prata R min, 2nd 2R, 3rd 3R... (triangular time)
+// BS on answer = total time T
+// canCook(T): har cook se kitne pratas ban sakte simulate karo
+// MIN answer pattern
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── canCook: time T me P pratas ban sakti hain? ─────────────────────────────
+//   1) har cook rank r ke liye: batch 1,2,3... jab tak time exceed na ho
+//   2) batch k prata time = k*r, cumulative time track karo
+//   3) total cooked >= pratas -> true
 bool canCook(const vector<int> &ranks, int pratas, long long time) {
     long long cooked = 0;
     for (int r : ranks) {
@@ -24,6 +37,9 @@ bool canCook(const vector<int> &ranks, int pratas, long long time) {
     return cooked >= pratas;
 }
 
+// ── minCookTime: minimum time jahan P pratas ready ──────────────────────────
+//   1) lo=0, hi = worst case upper bound (maxRank * P*(P+1)/2)
+//   2) canCook(mid) -> ans=mid, hi=mid-1 (minimize time)
 long long minCookTime(vector<int> ranks, int pratas) {
     long long lo = 0;
     long long hi = 1LL * (*max_element(ranks.begin(), ranks.end())) * pratas * (pratas + 1) / 2;

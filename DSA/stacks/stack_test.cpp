@@ -12,13 +12,17 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// OCTAL LITERAL TEST — leading zero wala number octal ban jata hai
+// ────────────────────────────────────────────────────────────────────────────
+// 0647 octal hai → decimal 423 print hoga
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Stack Test
- */
-int main(){
-    int a= 0647;
-    cout<< a << endl;
+// ── main: octal vs decimal demo ─────────────────────────────────────────────
+//   1) 0647 octal literal assign
+//   2) cout se decimal value print
+int main() {
+    int a = 0647;                          // octal — leading 0 matlab base-8
+    cout << a << endl;
     return 0;
 }

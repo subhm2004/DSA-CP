@@ -1,18 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// COMBINATORICS — nCr, nPr, factorial, distinct permutations, lexicographic rank
+// ────────────────────────────────────────────────────────────────────────────
+// Mod = 1e9+7 (prime) → Fermat se inverse: a^(-1) ≡ a^(M-2) (mod M)
+// fact[i] aur invFact[i] precompute → har nCr/nPr O(1)
+// COMPLEX: precalc O(N)  |  query O(1)  |  find_rank O(n * alphabet)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Combinatorics
 {
 public:
     typedef long long ll;
-    const int M = 1e9 + 7; // Prime Modulo
-    const int N = 2e5 + 2; // Factorial limit
+    const int M = 1e9 + 7; // prime modulo — Fermat inverse ke liye zaroori
+    const int N = 2e5 + 2; // max n jahan tak fact precompute hoga
     vector<ll> fact, invFact;
 
+    // ── mod: negative handle karke [0, M) me lao ──
     ll mod(ll x) { return ((x % M + M) % M); }
     ll add(ll a, ll b) { return mod(a + b); }
     ll mul(ll a, ll b) { return mod(a * b); }
 
+    // ── modPow: binary exponentiation — a^b mod M ──
+    //   1) ans = 1, jab tak b > 0
+    //   2) agar b ka LSB 1 hai → ans *= a
+    //   3) a *= a, b >>= 1
     ll modPow(ll a, ll b)
     {
         ll ans = 1;
@@ -26,10 +39,12 @@ public:
         return ans;
     }
 
+    // ── inv: modular inverse — Fermat: x^(M-2) mod M (M prime) ──
     ll inv(ll x) { return modPow(x, M - 2); }
     ll modSub(ll a, ll b) { return mod(a - b); }
     ll modDiv(ll a, ll b) { return mul(a, inv(b)); }
 
+    // ── Combinatorics: constructor me fact + invFact precompute ──
     Combinatorics()
     {
         fact.resize(N, 1);
@@ -37,22 +52,22 @@ public:
         precalc();
     }
 
+    // ── precalc: factorial aur inverse factorial tables banao ──
+    //   1) fact[i] = i! mod M — forward loop
+    //   2) invFact[N-1] = (N-1)! ka inverse — ek baar modPow
+    //   3) backward: invFact[i] = invFact[i+1] * (i+1) — O(N) total inverse
     void precalc()
     {
-        // Precompute factorials
         for (int i = 1; i < N; i++)
-        {
             fact[i] = mul(fact[i - 1], i);
-        }
 
-        // Precompute inverse factorials using Fermat's little theorem
         invFact[N - 1] = inv(fact[N - 1]);
         for (int i = N - 2; i >= 0; i--)
-        {
             invFact[i] = mul(invFact[i + 1], i + 1);
-        }
     }
 
+    // ── nCr: "n me se r choose" — order matter nahi ──
+    //   Formula: n! / (r! * (n-r)!)  →  fact[n] * invFact[r] * invFact[n-r]
     ll nCr(ll n, ll r)
     {
         if (r > n || r < 0)
@@ -60,6 +75,8 @@ public:
         return mul(fact[n], mul(invFact[r], invFact[n - r]));
     }
 
+    // ── nPr: "n me se r permute" — order matter karta hai ──
+    //   Formula: n! / (n-r)!
     ll nPr(ll n, ll r)
     {
         if (r > n || r < 0)
@@ -81,76 +98,61 @@ public:
         return invFact[r];
     }
 
-    // Generic function to compute the number of distinct arrangements
-    // of the characters in the given word.
+    // ── getDistinctWays: string ke distinct permutations ──
+    //   Formula: n! / (f1! * f2! * ...)  jahan fi = char i ki frequency
+    //   Example: "aabb" → 4!/(2!*2!) = 6
     ll getDistinctWays(const string &word)
     {
         unordered_map<char, ll> freq;
         for (const auto &c : word)
-        {
             freq[c]++;
-        }
 
         ll ways = factorial(word.length());
         for (const auto &entry : freq)
-        {
-            ll count = entry.second;
-            ways = mul(ways, invFact[count]); // use precomputed inverse factorial
-        }
+            ways = mul(ways, invFact[entry.second]);
         return ways;
     }
+
+    // ── find_rank: string ka lexicographic rank (1-based) ──
+    //   Har position pe chhote characters try karo, unke permutations count jodo
+    //   1) freq array banao
+    //   2) position i pe har ch < s[i] ke liye contribution add
+    //   3) contribution = (n-i-1)! / (remaining freq factorials)
+    //   4) current char fix karo, freq--, aage badho
     ll find_rank(const string &s)
     {
         int n = s.size();
         vector<int> freq(256, 0);
 
-        // 🔹 Step 1: Har character ka frequency count lo
         for (char c : s)
             freq[c]++;
 
-        ll rank = 1; // Rank 1 se start hota hai (lexicographic order me)
+        ll rank = 1; // rank 1 se start (1-indexed)
 
-        // 🔹 Step 2: Har position pe check karo kitne smaller characters pehle aa sakte hain
         for (int i = 0; i < n; i++)
         {
-            // Har character 's[i]' se chhote characters ke liye
             for (int ch = 0; ch < s[i]; ch++)
             {
                 if (freq[ch] == 0)
-                    continue; // Agar 'ch' already khatam ho gaya, skip karo
+                    continue;
 
-                // 🔸 Step 2.1: Agar hum 'ch' ko current position i pe fix karte hain
-                // toh 'ch' ka frequency temporarily 1 kam kar do
-                freq[ch]--;
+                freq[ch]--; // is position pe 'ch' fix kiya
 
-                // 🔸 Step 2.2: Baaki ke (n - i - 1) characters ke permutations count karo
-                // Formula: (n - i - 1)! / (freq[a]! * freq[b]! * ...)
                 ll numerator = factorial(n - i - 1);
                 ll denominator = 1;
-
-                // Har character ka factorial multiply karo denominator me
                 for (int c = 0; c < 256; c++)
-                {
                     if (freq[c] > 0)
                         denominator = mul(denominator, factorial(freq[c]));
-                }
 
-                // 🔸 Step 2.3: Total possible strings starting with 'ch'
-                // = numerator / denominator (mod ke sath)
                 ll contribution = modDiv(numerator, denominator);
-
-                // Rank me in permutations ka count add kar do
                 rank = add(rank, contribution);
 
-                // 🔸 Step 2.4: Frequency wapas restore karo
-                freq[ch]++;
+                freq[ch]++; // restore — next ch try karne ke liye
             }
 
-            // 🔹 Step 3: Ab current character fix kar lo aur aage badho
-            freq[s[i]]--;
+            freq[s[i]]--; // current char fix, aage badho
         }
 
-        // 🔹 Final rank return karo (1-based)
         return rank;
     }
 };
@@ -163,9 +165,6 @@ int main()
 
     Combinatorics comb;
 
-    // =======================
-    // nCr & nPr Test Cases
-    // =======================
     cout << "=== nCr & nPr Test Cases ===\n";
     vector<pair<Combinatorics::ll, Combinatorics::ll>> combTests = {{5, 2}, {10, 3}, {100, 50}};
 
@@ -175,38 +174,23 @@ int main()
         cout << "nPr(" << n << ", " << r << ") = " << comb.nPr(n, r) << "\n";
     }
 
-    // =======================
-    // Factorial & Inverse Factorial Test Cases
-    // =======================
     cout << "\n=== Factorial & Inverse Factorial Test Cases ===\n";
     vector<int> factTests = {0, 1, 5, 10, 20};
 
     for (int x : factTests)
-    {
         cout << x << "! = " << comb.factorial(x) << ", inverse_factorial(" << x << ") = " << comb.inverse_factorial(x) << "\n";
-    }
 
-    // =======================
-    // getDistinctWays Test Cases
-    // =======================
     cout << "\n=== getDistinctWays Test Cases ===\n";
     vector<string> words = {"aabb", "abc", "aabbcc", "aaaa"};
 
     for (const string &word : words)
-    {
         cout << "Distinct ways to arrange \"" << word << "\": " << comb.getDistinctWays(word) << "\n";
-    }
 
-    // =======================
-    // findRank Test Cases
-    // =======================
     cout << "\n=== findRank Test Cases ===\n";
     vector<string> rankTests = {"CAB", "AAB", "ABA", "BAA", "STRING"};
 
     for (const string &s : rankTests)
-    {
         cout << "Lexicographic rank of \"" << s << "\": " << comb.find_rank(s) << "\n";
-    }
 
     return 0;
 }

@@ -13,11 +13,18 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// JAGGED ARRAY — vector<vector<int>> se variable-length rows
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: har row alag size ki ho sakti hai — 2D vector of vectors
+// vec1(10,1) = 10 elements sab 1; alag sizes push_back se jagged banao
+// COMPLEX: Time O(total elements) print  |  Space O(total elements)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Jagged Array Using Vector
- */
+// ── main: jagged 2D vector banao aur print karo ────────────────────────────
+//   1) alag size ke row vectors banao (10, 7, 7, 5 elements)
+//   2) arr.push_back se rows add — jagged structure
+//   3) nested loop se har row print — arr[i].size() alag ho sakta hai
 int main() {
     vector<vector<int> > arr;
     vector<int>vec1(10,1);
@@ -29,9 +36,7 @@ int main() {
     arr.push_back(vec3);
     arr.push_back(vec4);
     cout<< "vector of vector is"<< endl;
-    // Iterate over all elements
     for(int i=0; i< arr.size(); i++) {
-        // Iterate over all elements
         for(int j=0; j< arr[i].size(); j++) {
             cout<< arr[i][j]<< " ";
         }

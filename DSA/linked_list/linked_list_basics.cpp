@@ -11,115 +11,101 @@
 
 #include <iostream>
 using namespace std;
-class Node{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// LINKED LIST BASICS — Node* pointers, traversal, insert at begin
+// ────────────────────────────────────────────────────────────────────────────
+// har node: data + next pointer; head = pehla node
+// insert at begin: newnode->next = head, head = newnode
+// ════════════════════════════════════════════════════════════════════════════
+
+class Node {
+public:
     int data;
-    Node* next; // pointer of node* type
-    Node(){ 
-        cout<< "this is default ctor"<< endl;
-        this-> next= NULL;
+    Node *next;                            // next pointer — agla node link
+    Node() {
+        cout << "this is default ctor" << endl;
+        this->next = NULL;
     }
-    Node(int data){
-        this-> data= data;
-        this-> next= NULL;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
     }
 };
 
-
-/*
- * printll()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* head
- * Returns : void
- */
-void printll(Node* head){
-    Node* temp= head;
-    while(temp!=NULL){
-        cout<< temp-> data<< "->";
-        temp= temp-> next;
+// ── printll: iterative traversal ───────────────────────────────────────────
+//   1) temp = head se start
+//   2) temp!=NULL tak data print, temp = temp->next
+void printll(Node *head) {
+    Node *temp = head;
+    while (temp != NULL) {
+        cout << temp->data << "->";
+        temp = temp->next;                 // pointer aage — next node
     }
-    cout<< endl;
+    cout << endl;
 }
 
-
-/*
- * printingLL()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* head
- * Returns : void
- */
-void printingLL(Node* head){
-    if(head==NULL){
+// ── printingLL: recursive traversal ────────────────────────────────────────
+//   1) base: head==NULL return
+//   2) print data, recurse head->next
+void printingLL(Node *head) {
+    if (head == NULL) {
         return;
     }
-    Node* temp= head;
-    cout<< temp->data<< "-> ";
-    printingLL(head-> next);
+    Node *temp = head;
+    cout << temp->data << "-> ";
+    printingLL(head->next);
 }
 
-
-/*
- * nodesinll()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node*head, int count
- * Returns : int
- */
-int nodesinll(Node*head, int count){
-    if(head==NULL){
+// ── nodesinll: recursive node count ────────────────────────────────────────
+int nodesinll(Node *head, int count) {
+    if (head == NULL) {
         return count;
     }
-    return nodesinll(head-> next, count+1);
+    return nodesinll(head->next, count + 1);
 }
 
-
-/*
- * nodecount()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* head, int count
- * Returns : int
- */
-int nodecount(Node* head, int count){
-    Node* temp= head;
-    while(temp!=NULL){
-        temp= temp-> next;
+// ── nodecount: iterative node count ────────────────────────────────────────
+int nodecount(Node *head, int count) {
+    Node *temp = head;
+    while (temp != NULL) {
+        temp = temp->next;
         count++;
     }
     return count;
 }
-void insertatbegin(Node* &head, int data){ // head is pass by refernce here
-    Node* newnode= new Node(data);// nyi node bna li
-    Node* temp = head;
-    if(temp==NULL){
+
+// ── insertatbegin: head ke pehle naya node ─────────────────────────────────
+//   1) new Node(data) banao
+//   2) newnode->next = head (purana head link)
+//   3) head = newnode (head update — reference se)
+void insertatbegin(Node *&head, int data) {
+    Node *newnode = new Node(data);
+    Node *temp = head;
+    if (temp == NULL) {
         temp = newnode;
+    } else {
+        newnode->next = temp;              // purana head naye ke next mein
     }
-    else{
-        newnode->next= temp;
-    }
-    head = newnode;   
+    head = newnode;                        // head pointer update
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Linked List Basics
- */
-int main(){
+int main() {
     int data;
-    Node* first= new Node(10);
-    Node* second= new Node(20);
-    Node* third= new Node(30);
-    Node* fourth= new Node(40);
-    Node* fifth= new Node(50);
-    first-> next= second;
-    second-> next= third;
-    third-> next= fourth;
-    fourth-> next= fifth;
-    Node* head= first;
-    cout<< "enter data of newnode"<< endl;
+    Node *first = new Node(10);
+    Node *second = new Node(20);
+    Node *third = new Node(30);
+    Node *fourth = new Node(40);
+    Node *fifth = new Node(50);
+    first->next = second;                  // link nodes — chain banao
+    second->next = third;
+    third->next = fourth;
+    fourth->next = fifth;
+    Node *head = first;
+    cout << "enter data of newnode" << endl;
     cin >> data;
-    insertatbegin(head,data);
+    insertatbegin(head, data);
     printingLL(head);
-    cout<< endl;
+    cout << endl;
     return 0;
 }

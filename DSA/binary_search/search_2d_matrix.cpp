@@ -16,12 +16,20 @@ using namespace std;
 
 
 
-/*
- * searchMatrix()
- * Purpose : Rotate/transpose matrix in-place or with extra space.
- * Params  : const vector<vector<int>>& matrix, int target
- * Returns : pair<int, int>
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// SEARCH 2D MATRIX — Row-wise sorted (Leetcode 74)
+// ────────────────────────────────────────────────────────────────────────────
+// 2D ko 1D index treat — mid/cols, mid%cols se row,col
+// Standard BS on virtual 1D array — O(log(m*n))
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── searchMatrix: 2D matrix BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — smaller subproblem
+//   4) return ans ya void
 pair<int, int> searchMatrix(const vector<vector<int>>& matrix, int target) {
     if (matrix.empty() || matrix[0].empty()) return {-1, -1};  // Return invalid index
     
@@ -48,10 +56,12 @@ pair<int, int> searchMatrix(const vector<vector<int>>& matrix, int target) {
 
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Search 2D Matrix
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     vector<vector<int>> matrix = {
         {1, 3, 5},

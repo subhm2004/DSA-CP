@@ -7,7 +7,19 @@
 
 using namespace std;
 
-// Add edge to the graph
+// ════════════════════════════════════════════════════════════════════════════
+// DIJKSTRA WITH PATH RECONSTRUCTION — Shortest Path + Actual Route
+// ────────────────────────────────────────────────────────────────────────────
+// Normal Dijkstra jaisa, par parent[] array se actual path bhi print karta hai.
+//
+// parent[node] = jis node se shortest path me aaye (source ke liye -1)
+// Path reconstruct: destination se parent follow karo source tak, reverse print
+//
+// Dijkstra_algo.cpp se farq: yahan sirf distance nahi, poora route bhi dikhta hai.
+// Time: O((V+E) log V)  |  Space: O(V)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── addEdge: graph me weighted edge add karo ───────────────────────────────
 void addEdge(unordered_map<int, list<pair<int, int>>> &adjList, int u, int v, int wt, bool direction)
 {
     adjList[u].push_back({v, wt});
@@ -15,7 +27,7 @@ void addEdge(unordered_map<int, list<pair<int, int>>> &adjList, int u, int v, in
         adjList[v].push_back({u, wt});
 }
 
-// Print adjacency list
+// ── printadj: adjacency list print karo ────────────────────────────────────
 void printadj(const unordered_map<int, list<pair<int, int>>> &adjList)
 {
     cout << "Adjacency List:\n";
@@ -31,31 +43,40 @@ void printadj(const unordered_map<int, list<pair<int, int>>> &adjList)
     }
 }
 
-// Print path recursively
+// ── printPath: parent array se source -> node ka path recursively print ────
+// Pehle current node print, phir parent pe recurse — source se dest order me aata hai
 void printPath(int node, const unordered_map<int, int> &parent)
 {
+    // Base case: source (-1) pe pahunch gaye — ruk jao
     if (node == -1)
         return;
-    cout << node << " ";                // Print node before recursion (source to destination)
-    printPath(parent.at(node), parent); // Recurse afterwards
+    // Step 1: pehle current node print karo (source se dest order banega)
+    cout << node << " ";
+    // Step 2: parent[node] pe recurse — source tak backtrack karte jao
+    printPath(parent.at(node), parent);
 }
 
-// Dijkstra's algorithm
+// ── shortestDistDijkstra: Dijkstra + har node ka shortest path print ───────
+// dist + parent dono maintain karo. Relaxation pe parent[neighbor] = node set karo.
+// Ant me har node ke liye distance aur poora path dikhao.
 void shortestDistDijkstra(const unordered_map<int, list<pair<int, int>>> &adjList, int src)
 {
     unordered_map<int, int> dist;
     unordered_map<int, int> parent;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
+    // Step 1: har node ko INF dist aur parent=-1 se initialize karo
     for (const auto &entry : adjList)
     {
         dist[entry.first] = INT_MAX;
         parent[entry.first] = -1;
     }
 
+    // Step 2: source dist=0, PQ me daalo
     dist[src] = 0;
     pq.push({0, src});
 
+    // Step 3: standard Dijkstra loop — min dist node pop, neighbors relax
     while (!pq.empty())
     {
         auto [currDist, node] = pq.top();
@@ -66,11 +87,12 @@ void shortestDistDijkstra(const unordered_map<int, list<pair<int, int>>> &adjLis
             int neighbor = nbr.first;
             int weight = nbr.second;
 
+            // Step 4: better path mila? dist + parent update, PQ me push
             if (currDist + weight < dist[neighbor])
             {
                 dist[neighbor] = currDist + weight;
                 pq.push({dist[neighbor], neighbor});
-                parent[neighbor] = node;
+                parent[neighbor] = node;  // path reconstruct ke liye — neighbor 'node' se aaya
             }
         }
     }

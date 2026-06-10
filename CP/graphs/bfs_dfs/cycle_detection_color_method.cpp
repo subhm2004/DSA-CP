@@ -1,13 +1,13 @@
-/*
-   DFS-based Cycle Detection using 3-Color Method:
-   WHITE = unvisited (abhi tak visit nahi kiya)
-   GRAY  = currently being processed (iske adjacent nodes visit ho rahe hain)
-   BLACK = completely processed (iske saare adjacent nodes visit ho gaye)
-
-   CYCLE DETECTION LOGIC:
-   - Agar koi GRAY node ko dubara encounter karte hain, matlab BACK EDGE hai
-   - Back edge ka matlab hai cycle present hai
-*/
+// ════════════════════════════════════════════════════════════════════════════
+// CYCLE DETECTION — 3-Color DFS (Directed Graph)
+// ────────────────────────────────────────────────────────────────────────────
+// WHITE = unvisited (abhi tak visit nahi kiya)
+// GRAY  = currently being processed (recursion stack me hai)
+// BLACK = completely processed (saare neighbors done)
+//
+// GRAY node dubara mile → BACK EDGE → cycle present
+// Time: O(V + E)  |  Space: O(V)
+// ════════════════════════════════════════════════════════════════════════════
 
 #include <iostream>
 #include <unordered_map>
@@ -31,8 +31,10 @@ public:
     // Key: node number, Value: list of pairs (neighbor, weight)
     unordered_map<int, list<pair<int, int>>> adjList;
 
-    // Graph mein edge add karne ka function
-    // u: source node, v: destination node, w: weight, direction: directed/undirected
+    // Step 1: u ki adjacency list mein {v, weight} pair push karo.
+    // Step 2: Agar graph undirected hai (!direction) to v se u ki reverse edge bhi add karo.
+    // Step 3: Directed graph mein sirf u -> v store hota hai — cycle detection directed ke liye hai.
+    // Step 4: Weight yahan 0 hai kyunki cycle detection mein weight matter nahi karta.
     void addEdge(int u, int v, int w, bool direction)
     {
         // u se v ki taraf edge add karo
@@ -45,8 +47,11 @@ public:
         }
     }
 
-    // DFS utility function jo actual cycle detection karta hai
-    // node: current node, nodeColor: har node ka color track karta hai
+    // Step 1: Current node ko GRAY mark karo — matlab abhi DFS recursion stack mein process ho raha hai.
+    // Step 2: Har neighbor ko check karo — agar GRAY hai to BACK EDGE mila → turant true return (CYCLE!).
+    // Step 3: Agar neighbor WHITE (unvisited) hai to recursively isCycleUtil(neighbor) call karo.
+    // Step 4: Recursive call se cycle mile to true propagate karo — aage check karne ki zaroorat nahi.
+    // Step 5: Saare neighbors done hone par node ko BLACK karo — poori subtree process ho gayi, safe hai.
     bool isCycleUtil(int node, unordered_map<int, int> &nodeColor)
     {
         // Current node ko GRAY mark karo (processing start kar rahe hain)
@@ -75,8 +80,11 @@ public:
         return false; // Is path mein koi cycle nahi mili
     }
 
-    // Main function jo cycle check karta hai puri graph mein
-    // V: total number of vertices
+    // Step 1: Saare V nodes ko initially WHITE (unvisited) mark karo nodeColor map mein.
+    // Step 2: Har node i = 0 se V-1 tak check karo — disconnected components handle karne ke liye.
+    // Step 3: Agar node abhi WHITE hai to isCycleUtil(i) se DFS start karo.
+    // Step 4: Kisi bhi component mein cycle mile to turant true return karo.
+    // Step 5: Saare components clean hain to false return — graph mein koi directed cycle nahi hai.
     bool isCycle(int V)
     {
         // Har node ka color track karne ke liye map

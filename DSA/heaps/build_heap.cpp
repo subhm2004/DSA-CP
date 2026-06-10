@@ -11,6 +11,16 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BUILD HEAP + HEAP SORT — Complete pipeline demo
+// ────────────────────────────────────────────────────────────────────────────
+// arr[0] dummy (-1), actual heap arr[1..size]
+// buildHeap: O(n) — last internal node se root tak Heapify
+// HeapSort: max ko end pe swap, size kam, root heapify
+// Class Heap: insert/delete/print for interactive demo
+// ════════════════════════════════════════════════════════════════════════════
+
 class Heap{
     public:
     int *arr;
@@ -21,14 +31,8 @@ class Heap{
         this-> arr= new int[capacity];
         this-> capacity= capacity;
     }
-    
-    
-    /*
-     * insert()
-     * Purpose : priority_queue for O(log n) min/max access.
-     * Params  : int val
-     * Returns : void
-     */
+
+    // ── insert: max-heap bubble up ─────────────────────────────────────────
     void insert(int val){
         if(size== capacity){
             return;
@@ -48,26 +52,15 @@ class Heap{
 
         }
     }
-    
-    
-    /*
-     * HeapPrint()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Returns : void
-     */
+
+    // ── HeapPrint: array print (0-indexed loop) ────────────────────────────
     void HeapPrint(){
-        // Iterate over all elements
         for(int i=0; i<size; i++){
             cout<< arr[i]<< " ";
         }
     }
-    
-    
-    /*
-     * deleteHeap()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Returns : void
-     */
+
+    // ── deleteHeap: root extract, bubble down ──────────────────────────────
     void deleteHeap(){
         arr[1]= arr[size];
         size--;
@@ -94,13 +87,7 @@ class Heap{
 
 };
 
-
-/*
- * Heapify()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int index, int size
- * Returns : void
- */
+// ── Heapify: index pe bubble down (recursive) ──────────────────────────────
 void Heapify(int arr[], int index, int size){
             int largest= index;
             int left= 2* index;
@@ -119,28 +106,15 @@ void Heapify(int arr[], int index, int size){
  
 }
 
-
-/*
- * buildHeap()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── buildHeap: size/2 se 1 tak Heapify ─────────────────────────────────────
 void buildHeap(int arr[], int size){
-            // Iterate over all elements
             for(int i=size/2; i>0; i--){
                 Heapify(arr,i,size);
             }
 
 }
 
-
-/*
- * HeapSort()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── HeapSort: root-end swap loop ─────────────────────────────────────────────
 void HeapSort(int arr[], int size){
             while(size >0){
                 swap(arr[1], arr[size]);
@@ -150,24 +124,18 @@ void HeapSort(int arr[], int size){
             }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Build Heap
- */
+// ── main: buildHeap print, phir HeapSort aur sorted print ────────────────────
 int main(){
     int arr[]= {-1,12,56,43,6,78,87,5,44,3,23,32};
     int size= 11;
     buildHeap(arr,size);
     cout<< "Printing Heap"<< endl;
-    // Iterate over all elements
     for(int i=0; i<= size; i++){
         cout<< arr[i]<<" ";
     }
     cout<< endl;
     HeapSort(arr, size);
     cout<< "Printing Heap after sorting"<< endl;
-    // Iterate over all elements
     for(int i=0; i<= size; i++){
         cout<< arr[i]<<" ";
     }

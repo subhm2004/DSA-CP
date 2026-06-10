@@ -11,6 +11,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// buildSuffixArray — doubling + sort se suffix array O(n log^2 n) me banao.
+// Step 1: sa[i]=i, rnk[i]=s[i] — shuru me sirf pehla char se rank.
+// Step 2: k=1,2,4,... double karte hue 2*k length ke suffix pairs compare sort se.
+// Step 3: cmp: pehle rnk[a] vs rnk[b], tie ho to rnk[a+k] vs rnk[b+k] (second half).
+// Step 4: Naye ranks assign; sab unique (rnk[sa[n-1]]==n-1) ho to early break.
 vector<int> buildSuffixArray(const string &s) {
     int n = s.size();
     vector<int> sa(n), rnk(n), tmp(n);
@@ -38,6 +43,11 @@ vector<int> buildSuffixArray(const string &s) {
     return sa;
 }
 
+// buildLCPArray — Kasai algorithm: adjacent SA suffixes ka common prefix length.
+// Step 1: rank[sa[i]] = i — har original index ka SA me position.
+// Step 2: i = 0..n-1 scan; rank[i]==n-1 ho to skip (last suffix ka koi next nahi).
+// Step 3: j = SA me agla suffix; k se match extend jab tak s[i+k]==s[j+k].
+// Step 4: lcp[rank[i]]=k; k>0 ho to k-- (next i ka LCP kam se shuru — amortized O(n)).
 vector<int> buildLCPArray(const string &s, const vector<int> &sa) {
     int n = s.size();
     vector<int> rank(n), lcp(max(0, n - 1));
@@ -60,6 +70,7 @@ vector<int> buildLCPArray(const string &s, const vector<int> &sa) {
     return lcp;
 }
 
+// main — "banana" pe SA + LCP build karke har suffix aur uska LCP print karo.
 int main() {
     string s = "banana";
     vector<int> sa = buildSuffixArray(s);

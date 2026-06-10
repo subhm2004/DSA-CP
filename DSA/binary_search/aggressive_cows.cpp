@@ -15,48 +15,56 @@
 using namespace std;
 
 
-/*
- * ispossible()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& mid, int& k
- * Returns : bool
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// AGGRESSIVE COWS — K cows, maximum minimum distance (BS on answer)
+// ────────────────────────────────────────────────────────────────────────────
+// Stalls sort karo — distance d pe greedy check: pehli cow, agli jahan gap>=d
+// d badhane pe harder — monotonic false...true pattern
+// MAX answer: possible -> lo=mid+1
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── ispossible: d distance pe K cows fit? ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 bool ispossible(int *arr, int& size, int& mid, int& k){
     int cowcount= 1;
-    int stallallocate= arr[0];
-    // Iterate over all elements
+    int stallallocate= arr[0];  // pehli cow pehli stall pe
     for(int i=1; i<size; i++){
-        if(arr[i]-stallallocate>= mid){
+        if(arr[i]-stallallocate>= mid){  // gap >= d — nayi cow yahan
             cowcount++;
             stallallocate= arr[i];
         }
         if(cowcount==k){
-            return true;
+            return true;  // K cows fit ho gayi
         }
     }
     return false;
 }
 
 
-/*
- * mindistance()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& k
- * Returns : int
- */
+
+// ── mindistance: max min distance BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int mindistance(int *arr, int& size, int& k){
-    sort(arr,arr+size);
+    sort(arr,arr+size);  // stalls sorted honi chahiye
     int s=0;
-    int e= arr[size-1];
+    int e= arr[size-1];  // max possible distance
     int mid= s+(e-s)/2;
     int ans= -1;
     while(s<=e){
         if(ispossible(arr,size,mid,k)){
-            ans= mid;
+            ans= mid;       // possible — aur bada distance try
             s= mid+1;
         }
         else {
-            e= mid-1;
+            e= mid-1;       // nahi fit — chhota distance
         }
         mid= s+(e-s)/2;
     }
@@ -64,10 +72,12 @@ int mindistance(int *arr, int& size, int& k){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Aggressive Cows
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[]= {10,1,2,7,5};
     int size= 5;

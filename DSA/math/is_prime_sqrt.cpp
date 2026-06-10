@@ -12,6 +12,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PRIME CHECK + SIEVE — optimized trial division aur Eratosthenes
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: isPrime — 6k±1 optimization se sqrt(n) tak check
+// sievePrimes — boolean sieve se list banao
+// COMPLEX: isPrime O(sqrt n)  |  sieve O(n log log n)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── isPrime: trial division with 6k±1 optimization ─────────────────────────
+//   1) n<=1 false; n<=3 true; even/3-divisible false
+//   2) i=5 se i*i<=n, i+=6 — n%i aur n%(i+2) check
+//   3) koi divisor nahi? true return
 bool isPrime(long long n) {
     if (n <= 1) return false;
     if (n <= 3) return true;
@@ -22,6 +34,10 @@ bool isPrime(long long n) {
     return true;
 }
 
+// ── sievePrimes: 2 se n tak primes ki list banao ────────────────────────────
+//   1) isPrime bool array — 0,1 false
+//   2) i=2 se i*i<=n — multiples mark false from i*i
+//   3) true indices ko primes vector me collect, return
 vector<int> sievePrimes(int n) {
     vector<bool> isPrime(n + 1, true);
     isPrime[0] = isPrime[1] = false;
@@ -36,6 +52,9 @@ vector<int> sievePrimes(int n) {
     return primes;
 }
 
+// ── main: isPrime aur sievePrimes demo ───────────────────────────────────────
+//   1) isPrime(17)=true, isPrime(18)=false
+//   2) sievePrimes(30) — 10 primes
 int main() {
     cout << boolalpha;
     cout << isPrime(17) << " " << isPrime(18) << endl; // true false

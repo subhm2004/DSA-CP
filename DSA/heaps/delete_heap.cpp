@@ -11,6 +11,15 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// DELETE FROM HEAP + HEAP SORT — Root delete aur full sort pipeline
+// ────────────────────────────────────────────────────────────────────────────
+// deleteElement: last -> root, bubble down (largest child)
+// Heapify/buildHeap/HeapSort: global functions on 1-indexed array
+// HeapSort: har step pe max root ko end pe bhejo
+// ════════════════════════════════════════════════════════════════════════════
+
 class Heap{
     public:
     int size;
@@ -21,14 +30,8 @@ class Heap{
         this-> size= 0;
         this-> arr= new int[capacity];
     }
-    
-    
-    /*
-     * insert()
-     * Purpose : priority_queue for O(log n) min/max access.
-     * Params  : int val
-     * Returns : void
-     */
+
+    // ── insert: max-heap me bubble up ──────────────────────────────────────
     void insert(int val){
         if(size== capacity){
             cout<< "Overflow"<< endl;
@@ -48,13 +51,11 @@ class Heap{
             }
         }
     }
-    
-    
-    /*
-     * deleteElement()
-     * Purpose : priority_queue for O(log n) min/max access.
-     * Returns : void
-     */
+
+    // ── deleteElement: root delete, bubble down ──────────────────────────────
+    //   1) arr[1]=arr[size], size--
+    //   2) largest among self/left/right dhundho
+    //   3) swap aur index=largest jab tak fix na ho
     void deleteElement(){
         arr[1]= arr[size];
         size--;
@@ -80,13 +81,7 @@ class Heap{
     }
 };
 
-
-/*
- * Heapify()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int size, int index
- * Returns : void
- */
+// ── Heapify: subtree root index ko max-heap fix ──────────────────────────────
 void Heapify(int arr[], int size, int index){
     int largest= index;
     int left= 2* index;
@@ -104,27 +99,14 @@ void Heapify(int arr[], int size, int index){
     }
 }
 
-
-/*
- * buildHeap()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── buildHeap: bottom-up — i=size/2 se 1 tak Heapify ───────────────────────
 void buildHeap(int arr[], int size){
-    // Iterate over all elements
     for(int i= size/2; i>0; i--){
         Heapify(arr,size,i);
     }
 }
 
-
-/*
- * HeapSort()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── HeapSort: swap root-end, shrink, Heapify root ───────────────────────────
 void HeapSort(int arr[], int size){
     while(size >0){
         swap(arr[1], arr[size]);

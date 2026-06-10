@@ -11,6 +11,15 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// CREATE MAX HEAP — Array-based 1-indexed heap insert
+// ────────────────────────────────────────────────────────────────────────────
+// arr[1..size] me store — parent index/2, children 2*i, 2*i+1
+// Insert: end pe daalo, parent se swap jab tak parent chhota ho
+// Max heap property: parent >= dono children
+// ════════════════════════════════════════════════════════════════════════════
+
 class Heap{
     public:
     int size;
@@ -21,14 +30,12 @@ class Heap{
         this-> arr= new int[capacity];
         this-> capacity= capacity;
     }
-    
-    
-    /*
-     * insert()
-     * Purpose : priority_queue for O(log n) min/max access.
-     * Params  : int val
-     * Returns : void
-     */
+
+    // ── insert: naya element max-heap me add ───────────────────────────────
+    //   1) overflow check — size == capacity
+    //   2) size++, arr[index]=val (1-indexed)
+    //   3) parent se compare — parent chhota ho to swap
+    //   4) index = parent tak bubble up
     void insert(int val){
         if(size== capacity){
             cout<< "heap overflow"<< endl;
@@ -40,34 +47,25 @@ class Heap{
         while(index>1){
             int parent= index/2;
             if(arr[parent] < arr[index]){
-                swap(arr[parent], arr[index]);
+                swap(arr[parent], arr[index]); // parent chhota — upar bhejo
                 index = parent;
             }
             else {
-                break;
+                break; // heap property satisfied
             }
         }
     }
-    
-    
-    /*
-     * printHeap()
-     * Purpose : Build heap; repeatedly extract min/max.
-     * Returns : void
-     */
+
+    // ── printHeap: saare stored elements print ─────────────────────────────
+    //   1) i=0 se size tak loop — heap array dikhata hai
     void printHeap(){
-        // Iterate over all elements
         for(int i=0; i<= size; i++){
             cout<< arr[i]<< " ";
         }
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Create Heap
- */
+// ── main: insert demo values aur print ───────────────────────────────────────
 int main(){
     Heap h(10);
     h.insert(10);

@@ -13,15 +13,28 @@ using namespace std;
 
 using ll = long long;
 
-// Maximize f(x) for x in [l, r] (unimodal: increases then decreases)
+// ════════════════════════════════════════════════════════════════════════════
+// TERNARY SEARCH — Unimodal function ka max/min dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// [l,r] ko teen hisse me todo: m1 aur m2 (1/3 aur 2/3 points)
+// Unimodal (pehle badhta phir ghata) -> worse third discard karo
+// Integer: end me 2-3 points brute force se check
+// Real: fixed iterations (200) se converge
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── ternarySearchMax: unimodal f(x) ka maximum x dhundho ────────────────────
+//   1) m1, m2 = range ke 1/3 aur 2/3 points
+//   2) f(m1) < f(m2) -> max right side me -> l = m1
+//   3) warna max left side me -> r = m2
+//   4) r-l <= 2 pe loop band, [l..r] brute force best return
 ll ternarySearchMax(ll l, ll r, function<ll(ll)> f) {
     while (r - l > 2) {
         ll m1 = l + (r - l) / 3;
         ll m2 = r - (r - l) / 3;
         if (f(m1) < f(m2))
-            l = m1;
+            l = m1; // peak right me hai
         else
-            r = m2;
+            r = m2; // peak left me hai
     }
     ll best = l;
     for (ll x = l; x <= r; x++)
@@ -29,7 +42,10 @@ ll ternarySearchMax(ll l, ll r, function<ll(ll)> f) {
     return best;
 }
 
-// Minimize unimodal (decreases then increases)
+// ── ternarySearchMin: unimodal f(x) ka minimum x dhundho ────────────────────
+//   1) same thirds split, par comparison ulta (min ke liye)
+//   2) f(m1) > f(m2) -> min right me -> l = m1
+//   3) warna r = m2
 ll ternarySearchMin(ll l, ll r, function<ll(ll)> f) {
     while (r - l > 2) {
         ll m1 = l + (r - l) / 3;
@@ -45,7 +61,10 @@ ll ternarySearchMin(ll l, ll r, function<ll(ll)> f) {
     return best;
 }
 
-// Real-valued version (double)
+// ── ternarySearchReal: double domain pe approximate optimum ─────────────────
+//   1) fixed iterations (200) me range narrow karo
+//   2) har step me m1, m2 compare karke worse third hatao
+//   3) (l+r)/2 return — approximate answer
 double ternarySearchReal(double l, double r, function<double(double)> f, int it = 200) {
     while (it--) {
         double m1 = l + (r - l) / 3;
@@ -59,11 +78,10 @@ double ternarySearchReal(double l, double r, function<double(double)> f, int it 
 }
 
 int main() {
-    // f(x) = -(x-7)^2 + 50, max at x=7 on [0,20]
     auto f = [](ll x) { return -(x - 7) * (x - 7) + 50; };
     cout << ternarySearchMax(0, 20, f) << endl; // 7
 
     auto g = [](double x) { return -(x - 2.5) * (x - 2.5); };
-    cout << fixed << setprecision(4) << ternarySearchReal(0.0, 10.0, g) << endl; // ~2.5
+    cout << fixed << setprecision(4) << ternarySearchReal(0.0, 10.0, g) << endl;
     return 0;
 }

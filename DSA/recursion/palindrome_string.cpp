@@ -13,32 +13,31 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PALINDROME CHECK (Recursion) — Dono ends se compare
+// ────────────────────────────────────────────────────────────────────────────
+// str[i]==str[j] -> andar jao (i+1, j-1)
+// Mismatch -> false; i>j -> true (saare match)
+// Two-pointer recursion — O(n) time
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * checkpallindrome()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : string& str, int i, int j
- * Returns : bool
- */
+// ── checkpallindrome: string palindrome hai ya nahi ───────────────────────
+//   1) i>j -> saare chars match, return true
+//   2) str[i]==str[j] -> recursive check andar
+//   3) warna return false — mismatch mil gaya
 bool checkpallindrome(string& str, int i, int j) {
     if(i>j) {
-        return true;
+        return true;  // poora string check ho gaya
     }
     if(str[i]== str[j]) {
-        checkpallindrome(str, i+1, j-1);
+        checkpallindrome(str, i+1, j-1);  // andar wale chars check
     }
     else {
-        return false;
+        return false;  // ends match nahi — palindrome nahi
     }
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Palindrome String
- */
+// ── main: palindrome check demo ────────────────────────────────────────────
 int main() {
     string str = "aman";
     int i=0, j= str.length() -1;

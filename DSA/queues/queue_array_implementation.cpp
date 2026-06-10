@@ -11,149 +11,109 @@
 
 #include <iostream>
 using namespace std;
-class Queue{
-    public:
+
+// ════════════════════════════════════════════════════════════════════════════
+// LINEAR QUEUE (ARRAY) — front/rear pointers, non-circular
+// ────────────────────────────────────────────────────────────────────────────
+// front=-1, rear=-1 initially empty
+// enqueue: rear++, pehla element pe front=0 set
+// dequeue: front++, single element pe reset -1
+// ════════════════════════════════════════════════════════════════════════════
+
+class Queue {
+public:
     int *arr;
     int size;
     int front;
     int rear;
-    Queue(int s){
-        this-> size= s;
-        this-> front =-1;
-        this-> rear= -1;
-        arr= new int[size];
+    Queue(int s) {
+        this->size = s;
+        this->front = -1;
+        this->rear = -1;
+        arr = new int[size];
     }
-    
-    
-    /*
-     * isfull()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : bool
-     */
-    bool isfull(){
-        if(rear== size-1){
+
+    // ── isfull: rear end pe pahunch gaye? ────────────────────────────────────
+    bool isfull() {
+        if (rear == size - 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * isempty()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : bool
-     */
-    bool isempty(){
-        if(front== -1 && rear== -1){
+
+    // ── isempty: front/rear dono -1? ─────────────────────────────────────────
+    bool isempty() {
+        if (front == -1 && rear == -1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
-    
-    /*
-     * push()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Params  : int data
-     * Returns : void
-     */
-    void push(int data){
-        if(isfull()){
-            cout<< "queue overflow"<< endl;
-        }
-        else {
+
+    // ── push: rear se enqueue ────────────────────────────────────────────────
+    void push(int data) {
+        if (isfull()) {
+            cout << "queue overflow" << endl;
+        } else {
             rear++;
-            if(front == -1){
-                front=0;
+            if (front == -1) {
+                front = 0;                   // pehla element — front set karo
             }
-            arr[rear]= data;
+            arr[rear] = data;                // rear pe data daalo
         }
     }
-    
-    
-    /*
-     * pop()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : void
-     */
-    void pop(){
-        if(isempty()){
-            cout<< "queue underflow"<< endl;
-        }
-        else {
-            if(front== rear){
-                front= -1;
-                rear= -1;
-            }
-            else {
-                arr[front]=0;
-                front++;
+
+    // ── pop: front se dequeue ────────────────────────────────────────────────
+    void pop() {
+        if (isempty()) {
+            cout << "queue underflow" << endl;
+        } else {
+            if (front == rear) {
+                front = -1;
+                rear = -1;                 // ek element — queue empty
+            } else {
+                arr[front] = 0;
+                front++;                   // front aage — FIFO dequeue
             }
         }
     }
-    
-    
-    /*
-     * getfront()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : int
-     */
-    int getfront(){
-        if(!isempty()){
+
+    // ── getfront: peek front element ─────────────────────────────────────────
+    int getfront() {
+        if (!isempty()) {
             return arr[front];
         }
     }
-    
-    
-    /*
-     * getrear()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : int
-     */
-    int getrear(){
-        if(!isempty()){
+
+    // ── getrear: peek rear element ───────────────────────────────────────────
+    int getrear() {
+        if (!isempty()) {
             return arr[rear];
         }
     }
-    
-    
-    /*
-     * printqueue()
-     * Purpose : FIFO queue — enqueue rear, dequeue front.
-     * Returns : void
-     */
-    void printqueue(){
-        cout<< "front is: "<< front<< endl;
-        cout<< "rear is: "<< rear<< endl;
-        // Iterate over all elements
-        for(int i=0; i< size; i++){
-            cout<< arr[i]<< " ";
+
+    // ── printqueue: front/rear aur array print ───────────────────────────────
+    void printqueue() {
+        cout << "front is: " << front << endl;
+        cout << "rear is: " << rear << endl;
+        for (int i = 0; i < size; i++) {
+            cout << arr[i] << " ";
         }
     }
-
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Queue Array Implementation
- */
-int main(){
-    Queue* q= new Queue(8);
+int main() {
+    Queue *q = new Queue(8);
     q->push(10);
     q->push(20);
     q->push(30);
     q->printqueue();
-    cout<< endl;
+    cout << endl;
     q->push(40);
     q->push(50);
     q->printqueue();
-    cout<< endl;
+    cout << endl;
     q->pop();
     q->printqueue();
-
 }

@@ -11,6 +11,14 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// OOP BASICS — class, object, stack vs heap, member access
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: class = blueprint, object = instance
+// Dot (.) stack object, arrow (->) heap pointer se access
+// ════════════════════════════════════════════════════════════════════════════
+
 class Animal{
 
     public:
@@ -18,41 +26,33 @@ class Animal{
     int weight;
     string name;
     
-    
-    /*
-     * eat()
-     * Purpose : Standard DSA solution for this problem.
-     * Returns : void
-     */
+    // ── eat: behavior method ─────────────────────────────────────────────────
+    //   1) "eating" print karo
     void eat(){
         cout<< "eating"<< endl;
     }
     
-    
-    /*
-     * sleep()
-     * Purpose : Standard DSA solution for this problem.
-     * Returns : void
-     */
+    // ── sleep: behavior method ───────────────────────────────────────────────
+    //   1) "sleeping" print karo
     void sleep(){
         cout<< "sleeping"<< endl;
     }
 };
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Oop Basics
- */
+// ── main: stack object 'a' aur heap object 'b' demo ──────────────────────────
+//   1) Animal a — stack pe, dot operator se access
+//   2) eat/sleep call, age/weight print
+//   3) Animal* b = new Animal — heap pe, arrow operator
+//   4) sizeof(Animal) — class ka memory size
 int main(){
-    Animal a;
+    Animal a; // stack object
     a.age= 12;
     a.weight= 50;
     cout<< "age of a is:" << a.age<< endl;
     cout<< "weight of a is: "<< a.weight<< endl;
     a.eat();
     a.sleep();
-    Animal* b= new Animal;
+    Animal* b= new Animal; // heap object
     b->age= 23;
     b->weight= 78;
     cout<< "age of b is: "<< b->age<< endl;

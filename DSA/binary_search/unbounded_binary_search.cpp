@@ -14,12 +14,20 @@
 using namespace std;
 
 
-/*
- * binarysearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int i, int j, int & target
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// UNBOUNDED BINARY SEARCH — Infinite sorted array
+// ────────────────────────────────────────────────────────────────────────────
+// Pehle range find: j double jab tak arr[j]<target
+// Phir BS on [i, j] — bounded range pe search
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── binarysearch: BS helper ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(int *arr, int i, int j, int & target){
     int mid= i+j/2;
     while(i<=j){
@@ -39,12 +47,12 @@ int binarysearch(int *arr, int i, int j, int & target){
 }
 
 
-/*
- * unboundedsearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& target
- * Returns : int
- */
+
+// ── unboundedsearch: unbounded range ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int unboundedsearch(int *arr, int& target){
     int i=0, j= i+1;
     while(arr[j]<target){
@@ -56,10 +64,12 @@ int unboundedsearch(int *arr, int& target){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Unbounded Binary Search
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
 
     

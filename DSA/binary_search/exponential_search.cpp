@@ -15,12 +15,21 @@
 using namespace std;
 
 
-/*
- * binarysearch()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int s, int e, int& target
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// EXPONENTIAL SEARCH — Range double, phir BS
+// ────────────────────────────────────────────────────────────────────────────
+// i=1,2,4,8... jab tak arr[i]<=target
+// Phir binarysearch(i/2, min(i,n-1))
+// Unbounded/infinite array ke liye useful
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── binarysearch: BS helper ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(int *arr, int& size, int s, int e, int& target){
     int mid= s+(e-s)/2;
     while(s<=e){
@@ -39,12 +48,12 @@ int binarysearch(int *arr, int& size, int s, int e, int& target){
 }
 
 
-/*
- * exponential()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& target
- * Returns : int
- */
+
+// ── exponential: exp search ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int exponential(int *arr, int& size, int& target){
     if(arr[0]== target){
         return 0;
@@ -57,10 +66,12 @@ int exponential(int *arr, int& size, int& target){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Exponential Search
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[] = {3,4,5,6,11,13,14,15,56,70};
     int size= 10;

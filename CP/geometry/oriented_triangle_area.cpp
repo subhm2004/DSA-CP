@@ -37,44 +37,54 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ORIENTED TRIANGLE AREA — Signed area + orientation
+// ────────────────────────────────────────────────────────────────────────────
+// cross(p2-p1, p3-p2) = 2× signed triangle area (parallelogram area)
+// Sign batata hai p3, p1→p2 ke left/right me hai
+// Convex hull pop, polygon area, orientation — sab isi pe based
+// ════════════════════════════════════════════════════════════════════════════
+
 struct Point2d {
     long long x, y;
 };
 
+// ── operator-: vector b se a tak ka displacement ───────────────────────────
 Point2d operator-(const Point2d &a, const Point2d &b) {
     return {a.x - b.x, a.y - b.y};
 }
 
-// 2D cross product: z-component of (a × b)
+// ── cross: 2D cross product a × b (signed parallelogram area) ───────────────
 long long cross(const Point2d &a, const Point2d &b) {
     return a.x * b.y - a.y * b.x;
 }
 
-// Signed area of parallelogram on edges p1→p2 and p2→p3
-// Twice the signed triangle area (2S in the formula above)
+// ── signed_area_parallelogram: edges p1→p2 aur p2→p3 se 2× triangle area ──
 long long signed_area_parallelogram(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return cross(p2 - p1, p3 - p2);
 }
 
-// Unsigned triangle area (double for fractional result when needed)
+// ── triangle_area: unsigned area (|2S|/2) ─────────────────────────────────
 double triangle_area(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return abs(signed_area_parallelogram(p1, p2, p3)) / 2.0;
 }
 
-// Exact integer half-area when |2S| is even (optional helper for lattice points)
+// ── triangle_area2: |2S| integer (lattice / exact use) ─────────────────────
 long long triangle_area2(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return abs(signed_area_parallelogram(p1, p2, p3));
 }
 
+// ── collinear: teen points ek line pe? (2S == 0) ──────────────────────────
 bool collinear(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return signed_area_parallelogram(p1, p2, p3) == 0;
 }
 
-// CP-Algorithms convention: standing at p1 facing p2, p3 on right → clockwise
+// ── clockwise: p1→p2 chalte waqt p3 right side pe? (2S < 0) ────────────────
 bool clockwise(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return signed_area_parallelogram(p1, p2, p3) < 0;
 }
 
+// ── counter_clockwise: p3 left side pe? (2S > 0) ──────────────────────────
 bool counter_clockwise(const Point2d &p1, const Point2d &p2, const Point2d &p3) {
     return signed_area_parallelogram(p1, p2, p3) > 0;
 }

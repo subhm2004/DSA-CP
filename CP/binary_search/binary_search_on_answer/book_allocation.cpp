@@ -11,6 +11,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BOOK ALLOCATION — M students, minimize maximum pages assigned to one student
+// ────────────────────────────────────────────────────────────────────────────
+// BS on answer = max pages cap per student
+// canAllocate: greedy — books sequentially jodo jab tak cap exceed na ho
+// lo = max single book, hi = total sum
+// MIN answer pattern
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── canAllocate: maxPages cap pe M students me baant sakte hain? ────────────
+//   1) koi book > maxPages -> impossible
+//   2) greedy: curr student me jodo, exceed ho to naya student
+//   3) students used <= M -> true
 bool canAllocate(const vector<int> &pages, int students, int maxPages) {
     int count = 1, curr = 0;
     for (int p : pages) {
@@ -26,6 +39,9 @@ bool canAllocate(const vector<int> &pages, int students, int maxPages) {
     return count <= students;
 }
 
+// ── minMaxPages: minimum possible maximum pages ─────────────────────────────
+//   1) lo = sabse badi book, hi = total pages
+//   2) mid possible -> ans update, chhota try (hi=mid-1)
 int minMaxPages(const vector<int> &pages, int students) {
     if ((int)students > (int)pages.size())
         return -1;

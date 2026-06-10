@@ -12,6 +12,17 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST PRACTICE — Insert, search, delete, validate, LCA, kth, DLL convert
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST ke saare core operations ek file me practice.
+//
+// Operations: insert, search, min/max, predecessor/successor, delete,
+//             validate BST, LCA, kth smallest, BST→DLL
+// Complexity: Mostly O(h) per operation
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,13 +35,7 @@ class Node{
     }
 };
 
-
-/*
- * InsertInBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── InsertInBST: recursive insert ──
 Node* InsertInBST(Node* root,int data){
     if(root== NULL){
         root = new Node(data);
@@ -45,13 +50,7 @@ Node* InsertInBST(Node* root,int data){
     return root;
 }
 
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── inorder: sorted traversal ──
 void inorder(Node* root){
     if(root== NULL){
         return;
@@ -60,7 +59,9 @@ void inorder(Node* root){
     cout << root-> data << " ";
     inorder(root-> right);
 }
-void takingInput(Node* &root){  // root must be passed by reference
+
+// ── takingInput: -1 tak insert (root by reference) ──
+void takingInput(Node* &root){
     int data;
     cout<< "Enter data"<< endl;
     cin>> data;
@@ -71,13 +72,7 @@ void takingInput(Node* &root){  // root must be passed by reference
     }
 }
 
-
-/*
- * levelorder()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelorder: BFS level-wise ──
 void levelorder(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -103,13 +98,7 @@ void levelorder(Node* root){
     }
 }
 
-
-/*
- * searchtree()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, int& target
- * Returns : Node*
- */
+// ── searchtree: target node dhundho ──
 Node* searchtree(Node* root, int& target){
     if(root== NULL){
         return NULL;
@@ -125,13 +114,7 @@ Node* searchtree(Node* root, int& target){
     }
 }
 
-
-/*
- * FindMin()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : int
- */
+// ── FindMin: leftmost value ──
 int FindMin(Node* root){
     if(root== NULL){
         return -1;
@@ -142,13 +125,7 @@ int FindMin(Node* root){
     return root-> data;
 }
 
-
-/*
- * FindMax()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : int
- */
+// ── FindMax: rightmost value ──
 int FindMax(Node* root){
     if(root== NULL){
         return -1;
@@ -159,13 +136,9 @@ int FindMax(Node* root){
     return root-> data;
 }
 
-
-/*
- * inorderpredecessor()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root, int target
- * Returns : int
- */
+// ── inorderpredecessor: node se chhota sabse bada ──
+//   1) Node dhundho
+//   2) Left subtree ka max = predecessor
 int inorderpredecessor(Node* root, int target){
     Node* found= searchtree(root, target);
     int ans= -1;
@@ -175,13 +148,7 @@ int inorderpredecessor(Node* root, int target){
     return ans;
 }
 
-
-/*
- * inordersucessor()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root, int target
- * Returns : int
- */
+// ── inordersucessor: node se bada sabse chhota ──
 int inordersucessor(Node* root, int target){
     Node* found= searchtree(root, target);
     int ans= -1;
@@ -191,13 +158,10 @@ int inordersucessor(Node* root, int target){
     return ans;
 }
 
-
-/*
- * deletioninBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int target
- * Returns : Node*
- */
+// ── deletioninBST: 3-case delete ──
+//   1) 0 child → delete, NULL
+//   2) 1 child → child return
+//   3) 2 child → predecessor se replace
 Node* deletioninBST(Node* root, int target){
     if(root== NULL){
         return NULL;
@@ -231,13 +195,10 @@ Node* deletioninBST(Node* root, int target){
     return root;
 }
 
-
-/*
- * validateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root
- * Returns : bool
- */
+// ── validateBST: poora tree valid BST? ──
+//   1) NULL → true
+//   2) Leaf → true
+//   3) Ek/two child — min/max range check
 bool validateBST(Node* root){
     if(root== NULL){
         return true;
@@ -263,13 +224,7 @@ bool validateBST(Node* root){
     return false;
 }
 
-
-/*
- * LCABST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, Node* p, Node* q
- * Returns : Node*
- */
+// ── LCABST: BST property se LCA ──
 Node* LCABST(Node* root, Node* p, Node* q){
     if(root== NULL){
         return NULL;
@@ -293,13 +248,10 @@ Node* LCABST(Node* root, Node* p, Node* q){
     }
 }
 
-
-/*
- * kthsmallest()
- * Purpose : Min heap or quickselect for k-th statistic.
- * Params  : Node* root, int k
- * Returns : int
- */
+// ── kthsmallest: inorder me k-- karke dhundho ──
+//   1) Left recurse — mila to return
+//   2) Root pe k--, k==0 → answer
+//   3) Right recurse
 int kthsmallest(Node* root, int k){
     if(root== NULL){
         return -1;
@@ -316,13 +268,7 @@ int kthsmallest(Node* root, int k){
         return right;
 }
 
-
-/*
- * printLL()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &head
- * Returns : void
- */
+// ── printLL: DLL forward print ──
 void printLL(Node* &head){
     if(head== NULL){
         return;
@@ -334,13 +280,7 @@ void printLL(Node* &head){
     }
 }
 
-
-/*
- * conversiontoDLL()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, Node* &head
- * Returns : void
- */
+// ── conversiontoDLL: reverse inorder flatten ──
 void conversiontoDLL(Node* root, Node* &head){
     if(root== NULL){
         return;
@@ -352,17 +292,9 @@ void conversiontoDLL(Node* root, Node* &head){
     }
     head= root;
     conversiontoDLL(root-> left, head);
-
-
-
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst Practice
- */
+// ── main: BST validate demo ──
 int main(){
     Node* root= NULL;
     Node* head= NULL;

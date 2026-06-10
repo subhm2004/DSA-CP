@@ -12,6 +12,16 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// VALIDATE MAX HEAP (TREE) — Recursive DFS se check
+// ────────────────────────────────────────────────────────────────────────────
+// Max heap: har node >= dono children ke max
+// Post-order: left/right se maxVal aur IsHeap lao
+// Root bada hona chahiye dono subtrees ke max se
+// Valid struct: maxVal (subtree max) + IsHeap flag
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -24,13 +34,12 @@ class Valid{
     bool IsHeap;
 };
 
-
-/*
- * CheckMaxHeap()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : Node* root
- * Returns : Valid
- */
+// ── CheckMaxHeap: tree max-heap hai ya nahi ───────────────────────────────
+//   1) NULL -> maxVal=INT_MIN, IsHeap=true (base case)
+//   2) leaf -> maxVal=data, IsHeap=true
+//   3) left/right recursively check karo
+//   4) root > left.maxVal && root > right.maxVal && dono subtrees valid -> true
+//   5) warna IsHeap=false, maxVal update karke return
 Valid CheckMaxHeap(Node* root){
     if(root== NULL){
         Valid temp;
@@ -60,11 +69,7 @@ Valid CheckMaxHeap(Node* root){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Validate Heap From Cbt
- */
+// ── main: stub — root NULL se demo ───────────────────────────────────────────
 int main(){
     Node* root= NULL;
 }

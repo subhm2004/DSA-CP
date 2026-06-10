@@ -13,6 +13,16 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST TO DLL CONSTRUCTION — Insert + convert variant
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST banao aur sorted doubly linked list me flatten karo.
+//
+// Approach: BST insert + reverse inorder DLL linking
+// Complexity: Time O(n)  |  Space O(h)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,13 +35,7 @@ class Node{
     }
 };
 
-
-/*
- * InserttoBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── InserttoBST: standard insert ──
 Node* InserttoBST(Node* root, int data){
     if(root== NULL){
         root= new Node(data);
@@ -46,13 +50,7 @@ Node* InserttoBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * takingInput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takingInput: loop insert ──
 void takingInput(Node* &root){
     int data;
     cout<< "Enter data"<< endl;
@@ -64,13 +62,7 @@ void takingInput(Node* &root){
     }
 }
 
-
-/*
- * ConverttoDLL()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, Node* &head
- * Returns : void
- */
+// ── ConverttoDLL: reverse inorder flatten ──
 void ConverttoDLL(Node* root,Node* &head){
     if(root== NULL){
         return;
@@ -84,13 +76,7 @@ void ConverttoDLL(Node* root,Node* &head){
     ConverttoDLL(root-> left, head);
 }
 
-
-/*
- * LevelOrderTraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── LevelOrderTraversal: BFS ──
 void LevelOrderTraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -116,13 +102,7 @@ void LevelOrderTraversal(Node* root){
     }
 }
 
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── inorder: sorted print ──
 void inorder(Node* root){
     if(root== NULL){
         return;
@@ -132,11 +112,7 @@ void inorder(Node* root){
     inorder(root-> right);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst To Dll Construction
- */
+// ── main: BST build + level order ──
 int main(){
     Node* root= NULL;
     takingInput(root);

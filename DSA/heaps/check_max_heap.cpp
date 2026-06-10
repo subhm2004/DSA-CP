@@ -11,6 +11,16 @@
 
 #include <iostream>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// CHECK MAX HEAP — Tree representation validate karo
+// ────────────────────────────────────────────────────────────────────────────
+// Har node apne subtrees ke sabse bade se bada hona chahiye
+// DFS post-order: left/right se (maxVal, isHeap) lao
+// Root property fail -> isHeap=false return
+// Same logic as validate_heap_from_cbt.cpp (naming alag)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -31,13 +41,11 @@ class Valid{
     }
 };
 
-
-/*
- * CheckMaxHeap()
- * Purpose : Build heap; repeatedly extract min/max.
- * Params  : Node* root
- * Returns : Valid
- */
+// ── CheckMaxHeap: recursive max-heap validation ────────────────────────────
+//   1) NULL node -> valid, maxVal=INT_MIN
+//   2) leaf -> valid, maxVal=node data
+//   3) left/right subtrees check — dono valid aur root sabse bada
+//   4) fail pe isHeap=false, maxVal=max of subtree values
 Valid CheckMaxHeap(Node* root){
     if(root== NULL){
         Valid temp;
@@ -68,11 +76,7 @@ Valid CheckMaxHeap(Node* root){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Check Max Heap
- */
+// ── main: empty stub ─────────────────────────────────────────────────────────
 int main(){
 
 }

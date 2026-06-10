@@ -11,6 +11,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// longestPalindrome — Manacher: O(n) me sabse lamba palindromic substring.
+// Step 1: s ko "#c#c#..." transform karo — odd/even dono centers ek saath handle.
+// Step 2: p[i] = radius at i; agar i < right to mirror se seed: min(right-i, p[2*center-i]).
+// Step 3: While se expand jab tak t[i±p[i]±1] match — palindrome boundary badhao.
+// Step 4: Naya right boundary mile to center/right update; best radius track karke original s se extract.
 string longestPalindrome(string s) {
     string t = "#";
     for (char c : s)
@@ -42,6 +47,7 @@ string longestPalindrome(string s) {
     return s.substr(start, bestLen);
 }
 
+// main — sample string pe Manacher chalao; longest palindrome print karo.
 int main() {
     string s = "babad";
     cout << "Longest palindrome in \"" << s << "\": \"" << longestPalindrome(s) << "\"\n";

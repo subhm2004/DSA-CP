@@ -13,6 +13,10 @@ public:
     ll n;
     vector<ll> pref_1, pref_2, r_pref_1, r_pref_2, pow_1, pow_2;
 
+    // Constructor — prefix + reverse-prefix double hash tables precompute karo.
+    // Step 1: pow_1/pow_2 arrays me RADIX^i precompute (O(1) substring hash ke liye).
+    // Step 2: Left→right: pref[i+1] forward hash; r_pref[i+1] reversed-string hash.
+    // Step 3: Dono mods use karke collision probability bahut kam rakho.
     Sub_String_Hash(const string &str)
     {
         s = str;
@@ -114,6 +118,10 @@ public:
    - Add MOD before modulo to avoid negative numbers
     */
 
+    // get_Hash — substring s[l..r] ka double hash pair O(1) me nikalo.
+    // Step 1: pref[r+1] - pref[l]*pow[r-l+1] se [l..r] portion isolate karo.
+    // Step 2: Dono mods pe separately apply — negative avoid ke liye +MOD add.
+    // Step 3: {hash1, hash2} return — substring compare / palindrome check ke liye.
     pair<ll, ll> get_Hash(int l, int r)
     {
         ll hash_1 = (pref_1[r + 1] - pref_1[l] * pow_1[r - l + 1] % MOD_1 + MOD_1) % MOD_1;
@@ -153,6 +161,10 @@ public:
      *   corresponds to substring [rl..rr] in s_rev,
      *   where rl = n-1-r and rr = n-1-l.
      */
+    // get_Reverse_Hash — s[l..r] ke ulte order ka hash (mirror index mapping).
+    // Step 1: Reverse string me [l..r] corresponds to r_pref indices rl=n-1-r, rr=n-1-l.
+    // Step 2: Same prefix-subtract formula se reversed substring hash nikalo.
+    // Step 3: Forward hash se compare karke palindrome O(1) check possible.
     pair<ll, ll> get_Reverse_Hash(int l, int r)
     {
         int rl = n - 1 - r; // reversed substring start
@@ -162,6 +174,10 @@ public:
         return {hash_1 % MOD_1, hash_2 % MOD_2};
     }
 
+    // is_Palindrome — range [l..r] palindrome hai ya nahi (hash equality se).
+    // Step 1: get_Hash se forward direction ka hash pair lo.
+    // Step 2: get_Reverse_Hash se usi substring ka reversed hash lo.
+    // Step 3: Dono pairs barabar ho to true — linear char compare skip.
     bool is_Palindrome(int l, int r)
     {
         auto h_f = get_Hash(l, r);
@@ -170,6 +186,7 @@ public:
     }
 };
 
+// main — "abacaba" pe alag ranges ka palindrome check demo print karo.
 int main()
 {
     string s = "abacaba";

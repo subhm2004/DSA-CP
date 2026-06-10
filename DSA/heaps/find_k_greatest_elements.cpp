@@ -14,22 +14,27 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// K GREATEST — Min heap of size k (top = k-th largest among window)
+// ────────────────────────────────────────────────────────────────────────────
+// Pehle k elements min-heap me — top sabse chhota un k me se
+// Naya element agar top se bada -> purana min hatao, naya daalo
+// End me top = k-th largest element
+// O(n log k) space O(k)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * kgreatest()
- * Purpose : priority_queue for O(log n) min/max access.
- * Params  : int arr[], int& size, int& k
- * Returns : int
- */
+// ── kgreatest: k-th largest using size-k min heap ──────────────────────────
+//   1) min_heap (greater<int>) — chhota top pe
+//   2) pehle k elements push karo
+//   3) baaki: arr[i] > top -> pop smallest of k, push arr[i]
+//   4) top = k-th greatest return
 int kgreatest(int arr[], int& size, int& k){
-    // Min heap — smallest element at top
     priority_queue<int, vector<int>, greater<int>>pq;
     for(int i=0; i<k; i++){
         pq.push(arr[i]);
     }
-    // Iterate over all elements
     for(int i=k; i<size; i++){
-        if(arr[i]> pq.top()){
+        if(arr[i]> pq.top()){ // naya bada hai current k-th largest se
             pq.pop();
             pq.push(arr[i]);
         }
@@ -37,11 +42,7 @@ int kgreatest(int arr[], int& size, int& k){
     return pq.top();
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Find K Greatest Elements
- */
+// ── main: fixed k=3 pe demo ────────────────────────────────────────────────
 int main(){
     int arr[]= {3,6,9,8,7,1,2};
     int size= 7;

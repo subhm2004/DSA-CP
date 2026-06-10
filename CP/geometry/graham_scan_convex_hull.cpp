@@ -30,6 +30,7 @@ struct Point {
 };
 
 // Twice the signed area of triangle (a, b, c); sign = orientation
+// ── orientation: triangle (a,b,c) ka turn — -1 CW, +1 CCW, 0 collinear ───
 long long orientation(const Point &a, const Point &b, const Point &c) {
     long long v = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
     if (v < 0) return -1; // clockwise
@@ -37,6 +38,7 @@ long long orientation(const Point &a, const Point &b, const Point &c) {
     return 0;             // collinear
 }
 
+// ── cw: clockwise turn? include_collinear pe collinear bhi allow ───────────
 bool cw(const Point &a, const Point &b, const Point &c, bool include_collinear) {
     int o = orientation(a, b, c);
     return o < 0 || (include_collinear && o == 0);
@@ -51,7 +53,11 @@ static long long dist2(const Point &p0, const Point &p) {
     return dx * dx + dy * dy;
 }
 
-// Modifies `a` in-place → convex hull vertices (clockwise)
+// ── convex_hull_graham: Graham scan se hull nikalo (in-place modify) ────────
+//   1) p0 = bottom-most point (min y, tie min x)
+//   2) baaki points polar angle se sort around p0 (clockwise)
+//   3) stack scan: non-CW turn pe pop, phir push
+//   4) result stack = hull vertices clockwise order me
 void convex_hull_graham(vector<Point> &a, bool include_collinear = false) {
     if (a.empty()) return;
 

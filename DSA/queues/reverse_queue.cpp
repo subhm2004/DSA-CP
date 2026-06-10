@@ -15,49 +15,45 @@
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// REVERSE QUEUE — iterative (stack) ya recursive approach
+// ────────────────────────────────────────────────────────────────────────────
+// iterative: sab dequeue → stack push → stack pop → enqueue
+// recursive: front nikaalo, baaki reverse, phir rear push
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * reversequeue()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : queue<int>&q
- * Returns : void
- */
-void reversequeue(queue<int>&q){
-    stack<int>st;
-    while(!q.empty()){
-        st.push(q.front());
+// ── reversequeue: stack se queue reverse ─────────────────────────────────────
+//   1) sab elements front se pop → stack push
+//   2) stack se pop → queue rear push
+//   3) LIFO se FIFO reverse ho jata hai
+void reversequeue(queue<int> &q) {
+    stack<int> st;
+    while (!q.empty()) {
+        st.push(q.front());                // dequeue front
         q.pop();
     }
-    while(!st.empty()){
-        q.push(st.top());
+    while (!st.empty()) {
+        q.push(st.top());                  // enqueue rear — reversed
         st.pop();
     }
 }
 
-
-/*
- * recursionreverse()
- * Purpose : Swap from both ends or reverse links iteratively.
- * Params  : queue<int>&q
- * Returns : void
- */
-void recursionreverse(queue<int>&q){
-    if(q.empty()){
+// ── recursionreverse: recursive queue reverse ───────────────────────────────
+//   1) base: empty queue
+//   2) front pop, baaki reverse recurse
+//   3) temp rear push — last mein pehla element
+void recursionreverse(queue<int> &q) {
+    if (q.empty()) {
         return;
     }
-    int temp= q.front();
-    q.pop();
+    int temp = q.front();
+    q.pop();                               // front dequeue
     recursionreverse(q);
-    q.push(temp);
+    q.push(temp);                          // rear enqueue — reverse build
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Reverse Queue
- */
-int main(){
-    queue<int>q;
+int main() {
+    queue<int> q;
     q.push(10);
     q.push(20);
     q.push(30);

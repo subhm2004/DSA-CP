@@ -12,13 +12,16 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// SQUARE ROOT — binary search + decimal precision
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: integer part BS se — mid*mid vs target
+// Decimal part: step=0.1 se refine, har pass step/10 — 2 decimal places
+// COMPLEX: Integer BS O(log n)  |  Decimal O(precision steps)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printarray()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int target, int arr[]
- * Returns : void
- */
+// ── printarray: 0 se target tak numbers print (helper) ─────────────────────
+//   1) 0 se target+1 tak print — visualization ke liye
 void printarray( int target, int arr[]) {
    
     cout<< "elements of array are\n";
@@ -28,12 +31,11 @@ void printarray( int target, int arr[]) {
 } 
 
 
-/*
- * sqrt()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int target
- * Returns : int
- */
+// ── sqrt: BS se integer square root ────────────────────────────────────────
+//   1) i=0, j=target — search space
+//   2) mid*mid > target -> j=mid-1
+//   3) mid*mid < target -> ans=mid, i=mid+1; equal -> return mid
+//   4) ans = floor(sqrt)
 int sqrt(  int target) {
     int i=0; 
     int j= target;
@@ -56,10 +58,10 @@ int sqrt(  int target) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Dsa Practice
- */
+// ── main: integer + decimal sqrt demo ──────────────────────────────────────
+//   1) target input
+//   2) BS se integer root
+//   3) step refinement se 2 decimal places tak precise answer
 int main() {
     int target;
     cout<< "enter the element to find sqrt"<< endl;
@@ -73,7 +75,7 @@ int main() {
         for(double j= final; j*j < target; j= j+step ) {
              final = j;
         }
-        step = step/10;
+        step = step/10;  // har pass 10x precise — 0.1 -> 0.01
     }
     cout<< " final answer is "<< final<< endl;
     return 0;

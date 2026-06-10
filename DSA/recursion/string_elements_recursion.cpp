@@ -12,14 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// STRING LINEAR SEARCH — Character target dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// Index i se start — str[i]==target -> index print
+// Har step i+1 — poori string traverse
+// Multiple occurrences ke liye har match print hoga
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * findelement()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : string str, int size, int i, char target
- * Returns : void
- */
+// ── findelement: string me character target search ────────────────────────────
+//   1) i>=size -> base case, return
+//   2) str[i]==target -> index print
+//   3) findelement(str, size, i+1, target) — aage badho
 void findelement(string str, int size, int i, char target) {
     if(i>= size) {
         return;
@@ -30,11 +34,7 @@ void findelement(string str, int size, int i, char target) {
     findelement(str, size, i+1, target);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for String Elements Recursion
- */
+// ── main: character search demo ─────────────────────────────────────────────
 int main() {
     string str = "vanshika";
     int size = str.length();

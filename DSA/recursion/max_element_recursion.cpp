@@ -13,31 +13,31 @@
 #include <limits.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MAX ELEMENT (Recursion) — Array ka sabse bada element
+// ────────────────────────────────────────────────────────────────────────────
+// max reference pass — har step pe compare aur update
+// Base: i>=size -> return
+// INT_MIN se start — koi bhi element bada hoga
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * maxelement()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int size, int& max, int i
- * Returns : void
- */
+// ── maxelement: index i se maximum dhundho ──────────────────────────────────
+//   1) i>=size -> base case
+//   2) arr[i]>max -> max update
+//   3) recursive call i+1 pe
 void maxelement(int arr[], int size, int& max , int i) { 
     if(i>=size) {
         return;
     }
     
     if(arr[i]> max) {
-        max = arr[i];
+        max = arr[i];  // naya maximum
     }
     maxelement(arr, size , max, i+1);
     
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Max Element Recursion
- */
+// ── main: maximum element print ─────────────────────────────────────────────
 int main() {
     int arr[] = { 10,12,34,35,45,67};
     int size = 6;

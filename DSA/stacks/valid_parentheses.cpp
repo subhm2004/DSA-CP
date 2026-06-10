@@ -14,70 +14,57 @@
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// VALID PARENTHESES — brackets properly match ho rahe hain?
+// ────────────────────────────────────────────────────────────────────────────
+// opening → push; closing → top match kare to pop, warna false
+// end mein stack empty hona chahiye
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * checkparenthesis()
- * Purpose : Backtrack valid '(' ')' strings.
- * Params  : string& str
- * Returns : bool
- */
-bool checkparenthesis(string& str){
-    int i=0;
-    stack<char>sp;
-    while(i< str.length()){
-        if(str[i]== '('|| str[i]== '['|| str[i]== '{'){
-            // Opening bracket — push onto stack
-            sp.push(str[i]);
-        }
-        else if(str[i]== ')'){
-            if(sp.top()== '(' && !sp.empty()){
-                // Matching bracket — pop from stack
-                sp.pop();
-            }
-            else {
+// ── checkparenthesis: bracket string valid hai? ────────────────────────────
+//   1) opening bracket → stack push
+//   2) closing bracket → top matching opening? pop : return false
+//   3) end tak scan
+//   4) stack empty → true, warna false
+bool checkparenthesis(string &str) {
+    int i = 0;
+    stack<char> sp;
+    while (i < str.length()) {
+        if (str[i] == '(' || str[i] == '[' || str[i] == '{') {
+            sp.push(str[i]);               // opening — stack pe push
+        } else if (str[i] == ')') {
+            if (sp.top() == '(' && !sp.empty()) {
+                sp.pop();                  // match — pop karo
+            } else {
                 return false;
             }
-        }
-        else if(str[i]== '}' && !sp.empty()){
-            if(sp.top()== '{'){
-                // Matching bracket — pop from stack
+        } else if (str[i] == '}' && !sp.empty()) {
+            if (sp.top() == '{') {
                 sp.pop();
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else if(str[i]== ']' && !sp.empty()){
-            if(sp.top()== '['){
-                // Matching bracket — pop from stack
+        } else if (str[i] == ']' && !sp.empty()) {
+            if (sp.top() == '[') {
                 sp.pop();
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
         i++;
-
     }
-    if(sp.empty()){
+    if (sp.empty()) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Valid Parentheses
- */
-int main(){
-    string str= "[{()}]";
-    int n= str.length();
-    bool ans= checkparenthesis(str);
-    cout<< ans<< endl;
+int main() {
+    string str = "[{()}]";
+    int n = str.length();
+    bool ans = checkparenthesis(str);
+    cout << ans << endl;
 }

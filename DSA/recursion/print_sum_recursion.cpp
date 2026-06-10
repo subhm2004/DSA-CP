@@ -12,26 +12,27 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ARRAY SUM (Recursion) — Saare elements ka total
+// ────────────────────────────────────────────────────────────────────────────
+// Index i se start — har step pe arr[i] sum me add
+// Base: i>=size -> sum return karo
+// Tail recursion jaisa pattern — pehle add, phir aage jao
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * sumarray()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int i, int& sum
- * Returns : int
- */
+// ── sumarray: index i se array ka sum ───────────────────────────────────────
+//   1) i>=size -> base case, current sum return
+//   2) sum += arr[i] — current element add
+//   3) sumarray(arr, size, i+1, sum) — baaki elements
 int sumarray(int arr[], int& size, int i, int& sum) {
     if(i>= size) {
-        return sum;
+        return sum;  // saare elements process ho gaye
     }
     sum = sum + arr[i];
     sumarray(arr, size, i+1, sum);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Print Sum Recursion
- */
+// ── main: array sum print ───────────────────────────────────────────────────
 int main() {
     int arr[] = {1,2,3,4,5,6} ;
     int size= 6;

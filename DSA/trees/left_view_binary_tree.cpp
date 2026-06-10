@@ -13,6 +13,16 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// LEFT VIEW — Tree ko left se dekho, har level ka pehla node
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Left side se dikhe to har depth ka sabse aage wala node?
+//
+// Approach: BFS (har level ka first) ya DFS (left pehle, level track)
+// Complexity: Time O(n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,12 +35,7 @@ class Node{
     }
 };
 
-
-/*
- * Createtree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Returns : Node*
- */
+// ── Createtree: recursive build ──
 Node* Createtree(){
     int data;
     cout<< "Enter data"<< endl;
@@ -42,16 +47,10 @@ Node* Createtree(){
     root-> left= Createtree();
     root-> right= Createtree();
     return root;
-
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS left view ──
+//   1) Har level ka pehla node print (NULL marker se)
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -69,23 +68,17 @@ void levelordertraversal(Node* root){
             }
         }
         else { 
-
             if(!q.empty()){
                 cout<< q.front()-> data<< endl;
                 q.push(NULL);
             }
-            
         }
     }
 }
 
-
-/*
- * printleftview()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root, vector<int>&leftview, int level
- * Returns : void
- */
+// ── printleftview: DFS left pehle ──
+//   1) level == leftview.size() → pehli baar is depth pe
+//   2) Left subtree pehle, phir right
 void printleftview(Node* root, vector<int>&leftview, int level){
     if(root == NULL){
         return;
@@ -97,13 +90,7 @@ void printleftview(Node* root, vector<int>&leftview, int level){
     printleftview(root-> right, leftview, level+1);
 }
 
-
-/*
- * printrightview()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : Node* root, vector<int>&right, int level
- * Returns : void
- */
+// ── printrightview: DFS right pehle (comparison) ──
 void printrightview(Node* root, vector<int>&right, int level){
     if(root== NULL){
         return;
@@ -115,20 +102,13 @@ void printrightview(Node* root, vector<int>&right, int level){
     printrightview(root-> left, right, level+1);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Left View Binary Tree
- */
+// ── main: right view print (file me right view demo hai) ──
 int main(){
     Node* root= Createtree();
     int level=0;
     vector<int>right;
     printrightview(root, right,level);
-    // Iterate over all elements
     for(int i=0; i<right.size(); i++){
         cout<< right[i]<< " ";
     }
-
-    
 }

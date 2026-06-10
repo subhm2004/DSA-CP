@@ -13,29 +13,30 @@
 #include <bits/stdc++.h> // for max profit
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// JOB SEQUENCING — Profit descending, deadline slots fill karo
+// ────────────────────────────────────────────────────────────────────────────
+// Jobs: {id, deadline, profit} — pehle profit se sort (greedy)
+// Har job: deadline se 1 tak pehla khali slot dhundho
+// Slot array: -1 = free — ek time pe ek hi job
+// Total profit maximize — classic greedy scheduling
+// ════════════════════════════════════════════════════════════════════════════
+
 typedef tuple<char, int, int> Job; // {id, deadline, profit}
 
-
-
-/*
- * compareByProfit()
- * Purpose : Standard DSA solution for this problem.
- * Params  : Job a, Job b
- * Returns : bool
- */
+// ── compareByProfit: sort ke liye profit descending ────────────────────────
+//   1) get<2>(a) > get<2>(b) — zyada profit pehle
 bool compareByProfit(Job a, Job b)
 {
-    return get<2>(a) > get<2>(b); // Compare based on profit
+    return get<2>(a) > get<2>(b);
 }
 
-
-
-/*
- * printJobScheduling()
- * Purpose : Standard DSA solution for this problem.
- * Params  : vector<Job> jobs
- * Returns : void
- */
+// ── printJobScheduling: max profit job sequence print ──────────────────────
+//   1) jobs profit se sort
+//   2) maxDeadline nikalo — slots array size
+//   3) har job: deadline se 1 tak pehla free slot (-1) dhundho
+//   4) slot fill, profit add, sequence me id push
+//   5) job sequence aur total profit print
 void printJobScheduling(vector<Job> jobs)
 {
     int n = jobs.size();
@@ -48,7 +49,7 @@ void printJobScheduling(vector<Job> jobs)
         maxDeadline = max(maxDeadline, get<1>(jobs[i]));
     }
 
-    vector<int> slots(maxDeadline + 1, -1); // -1 indicates the slot is free
+    vector<int> slots(maxDeadline + 1, -1); // -1 = slot khali hai
 
     vector<char> jobSequence;
     int totalProfit = 0;
@@ -59,7 +60,7 @@ void printJobScheduling(vector<Job> jobs)
         int deadline = get<1>(jobs[i]);
         int profit = get<2>(jobs[i]);
 
-        for (int j = deadline; j > 0; j--)
+        for (int j = deadline; j > 0; j--) // deadline tak peeche se slot dhundho
         {
             if (slots[j] == -1)
             {
@@ -79,12 +80,7 @@ void printJobScheduling(vector<Job> jobs)
     cout << "\nTotal Profit: " << totalProfit << endl;
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Job Sequencing
- */
+// ── main: 5 jobs demo — max profit sequence ────────────────────────────────
 int main()
 {
     vector<Job> jobs = {

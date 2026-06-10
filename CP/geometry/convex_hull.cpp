@@ -13,14 +13,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ANDREW'S MONOTONE CHAIN — Convex Hull
+// ────────────────────────────────────────────────────────────────────────────
+// Points x se sort, lower hull + upper hull alag scan
+// Stack se pop jab turn non-left (cross <= 0)
+// Graham se simpler — polar sort ki zaroorat nahi
+// ════════════════════════════════════════════════════════════════════════════
+
 struct Point {
     long long x, y;
 };
 
+// ── cross: vectors (o→a) × (o→b) ka signed area ───────────────────────────
 long long cross(const Point &o, const Point &a, const Point &b) {
     return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
 }
 
+// ── convexHull: Andrew's monotone chain ─────────────────────────────────────
+//   1) points sort by (x, y), duplicates hatao
+//   2) lower hull: left se right scan, non-left turn pe pop
+//   3) upper hull: right se left scan, same rule
+//   4) hull resize — last duplicate point hatao
 vector<Point> convexHull(vector<Point> pts) {
     sort(pts.begin(), pts.end(), [](const Point &a, const Point &b) {
         return a.x < b.x || (a.x == b.x && a.y < b.y);
@@ -37,10 +51,12 @@ vector<Point> convexHull(vector<Point> pts) {
     vector<Point> hull(2 * n);
     int k = 0;
 
+    // lower hull — left to right
     for (int i = 0; i < n; i++) {
         while (k >= 2 && cross(hull[k - 2], hull[k - 1], pts[i]) <= 0) k--;
         hull[k++] = pts[i];
     }
+    // upper hull — right to left
     for (int i = n - 2, t = k + 1; i >= 0; i--) {
         while (k >= t && cross(hull[k - 2], hull[k - 1], pts[i]) <= 0) k--;
         hull[k++] = pts[i];
@@ -49,6 +65,8 @@ vector<Point> convexHull(vector<Point> pts) {
     return hull;
 }
 
+// ── hullPerimeter: Manhattan perimeter of hull ──────────────────────────────
+//   1) har consecutive pair (including wrap) ka |dx|+|dy| jodo
 long long hullPerimeter(const vector<Point> &hull) {
     long long per = 0;
     int n = hull.size();
@@ -62,7 +80,7 @@ long long hullPerimeter(const vector<Point> &hull) {
 int main() {
     vector<Point> pts = {{0, 0}, {4, 0}, {4, 4}, {0, 4}, {2, 2}, {1, 3}};
     auto hull = convexHull(pts);
-    cout << "Hull size = " << hull.size() << endl; // 4 (square corners)
+    cout << "Hull size = " << hull.size() << endl;
     cout << "Perimeter (Manhattan) = " << hullPerimeter(hull) << endl;
     return 0;
 }

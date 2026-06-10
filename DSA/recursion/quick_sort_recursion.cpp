@@ -12,13 +12,19 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// QUICK SORT (Recursion) — Partition + recursive sort
+// ────────────────────────────────────────────────────────────────────────────
+// Pivot choose (arr[s]) — count se sahi position nikalo
+// Left me chhote, right me bade — swap karke fix
+// Recurse left [s, p-1] aur right [p+1, e]
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * partition()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int* arr, int s, int e
- * Returns : int
- */
+// ── partition: pivot ki sahi jagah fix karo ─────────────────────────────────
+//   1) pivot = arr[s], count kitne <= pivot
+//   2) pivot ko s+count pe swap — sahi index
+//   3) i,j se left/right partition — galat jagah wale swap
+//   4) pivot index return
 int partition(int* arr, int s, int e ) {
     int pivotindex = s;
     int pivotelement = arr[s];
@@ -46,34 +52,26 @@ int partition(int* arr, int s, int e ) {
     return pivotindex;
 }
 
-
-/*
- * quicksort()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int* arr, int s, int e
- * Returns : void
- */
+// ── quicksort: partition ke baad dono halves sort ───────────────────────────
+//   1) s>=e -> base case
+//   2) p = partition — pivot fix
+//   3) left aur right recursively sort
 void quicksort(int* arr, int s, int e) {
     if(s>=e) {
         return;
     }
     int p= partition(arr, s, e);
-    quicksort(arr, s, p-1);
-    quicksort(arr, p+1, e);
+    quicksort(arr, s, p-1);   // left of pivot
+    quicksort(arr, p+1, e);   // right of pivot
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Quick Sort Recursion
- */
+// ── main: quick sort demo ───────────────────────────────────────────────────
 int main() {
     int arr[] = {8,1,3,4,20,50,30};
     int size = 7;
     int s=0, e = size-1;
     quicksort(arr, s, e);
     cout<< "sorted array is "<< endl;
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i] << " ";
     } cout<< endl;

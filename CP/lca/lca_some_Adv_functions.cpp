@@ -1,6 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY LIFTING — Advanced Path Queries on Tree
+// ────────────────────────────────────────────────────────────────────────────
+// Standard LCA + extra tables for path queries:
+//   maxEdge/minEdge[i][j] = u se 2^j ancestor tak max/min edge weight
+//   sumNode[i][j]         = u se 2^j ancestor tak node values ka sum
+//
+// Supports: LCA, k-th ancestor, distance, kth on path,
+//           max/min edge on path, sum/xor on path, multi-node LCA
+// ════════════════════════════════════════════════════════════════════════════
+
 class Binary_Lifting
 {
 private:
@@ -9,14 +20,17 @@ private:
     vector<int> depth;
     vector<vector<int>> children;
 
-    // ✅ NEW: Path query tables
-    vector<vector<int>> maxEdge;       // max edge weight on path to 2^j-th ancestor
-    vector<vector<int>> minEdge;       // min edge weight on path to 2^j-th ancestor
-    vector<vector<long long>> sumNode; // sum of nodes on path to 2^j-th ancestor
+    vector<vector<int>> maxEdge;       // max edge weight 2^j jump tak
+    vector<vector<int>> minEdge;       // min edge weight 2^j jump tak
+    vector<vector<long long>> sumNode; // node values ka sum 2^j jump tak
 
     vector<int> nodeVal;      // value of each node
     vector<int> edgeToParent; // edge weight to parent
 
+    // ── dfs: depth[] bharno ───────────────────────────────────────────────────
+    //   1) depth[node] = d set karo
+    //   2) har child pe dfs(child, d+1)
+    //   3) root se poori tree ki depth ready — LCA/distance ke liye chahiye
     void dfs(int node, int d)
     {
         depth[node] = d;
@@ -24,6 +38,11 @@ private:
             dfs(child, d + 1);
     }
 
+    // ── preCompute: up, maxEdge, minEdge, sumNode tables build karo ───────────
+    //   1) parent se children list banao
+    //   2) j=0: up[i][0]=parent, max/min edge aur sum base cases set
+    //   3) root se dfs — depth[] fill
+    //   4) j=1..LOG-1: saari tables merge — 2^j jump ke liye DP
     void preCompute(const vector<int> &parent)
     {
         // Step 1: Children list
@@ -55,9 +74,9 @@ private:
                 if (prev != -1)
                 {
                     up[i][j] = up[prev][j - 1];
-                    maxEdge[i][j] = max(maxEdge[i][j - 1], maxEdge[prev][j - 1]);
-                    minEdge[i][j] = min(minEdge[i][j - 1], minEdge[prev][j - 1]);
-                    sumNode[i][j] = sumNode[i][j - 1] + sumNode[prev][j - 1];
+                    maxEdge[i][j] = max(maxEdge[i][j - 1], maxEdge[prev][j - 1]);  // max edge merge
+                    minEdge[i][j] = min(minEdge[i][j - 1], minEdge[prev][j - 1]);  // min edge merge
+                    sumNode[i][j] = sumNode[i][j - 1] + sumNode[prev][j - 1];      // sum merge
                 }
                 else
                 {
@@ -71,6 +90,10 @@ private:
     }
 
 public:
+    // ── Binary_Lifting: constructor — node values + edge weights ke saath init ─
+    //   1) n, LOG, nodeVal, edgeToParent store karo
+    //   2) up, maxEdge, minEdge, sumNode, depth tables allocate
+    //   3) preCompute(parent) se saari advanced tables build karo
     Binary_Lifting(int n, const vector<int> &parent,
                    const vector<int> &nodeValues,
                    const vector<int> &edgeWeights) // edgeWeights[i] = weight of edge i→parent[i]
@@ -89,9 +112,10 @@ public:
         preCompute(parent);
     }
 
-    // ─────────────────────────────────────────
-    // Core: K-th Ancestor
-    // ─────────────────────────────────────────
+    // ── get_Kth_Ancestor: K-th ancestor ───────────────────────────────────────
+    //   1) K ke set bits se up[node][i] jumps lagao
+    //   2) -1 aaya to ancestor nahi — return -1
+    //   3) standard binary lifting ancestor query
     int get_Kth_Ancestor(int node, int k)
     {
         for (int i = 0; i < LOG; ++i)
@@ -104,9 +128,10 @@ public:
         return node;
     }
 
-    // ─────────────────────────────────────────
-    // Core: LCA
-    // ─────────────────────────────────────────
+    // ── find_LCA: lowest common ancestor ──────────────────────────────────────
+    //   1) deeper node ko same depth pe lao
+    //   2) u==v -> LCA; phir bade jumps se saath upar chadho
+    //   3) up[u][0] = direct parent = LCA
     int find_LCA(int u, int v)
     {
         if (depth[u] < depth[v])
@@ -118,7 +143,7 @@ public:
             return u;
 
         for (int i = LOG - 1; i >= 0; --i)
-            if (up[u][i] != -1 && up[u][i] != up[v][i])
+            if (up[u][i] != -1 && up[u][i] != up[v][i])  // LCA ke neeche abhi bhi ho
             {
                 u = up[u][i];
                 v = up[v][i];
@@ -126,9 +151,10 @@ public:
         return up[u][0];
     }
 
-    // ─────────────────────────────────────────
-    // ✅ NEW: Max edge weight on path(u, v)
-    // ─────────────────────────────────────────
+    // ── max_edge_on_path: u-v path pe sabse bada edge weight ─────────────────
+    //   1) LCA nikalo, du/dv = u/v se LCA tak steps
+    //   2) climb lambda: steps ke bits se maxEdge table se max merge
+    //   3) u→LCA aur v→LCA dono climb ka max return karo
     int max_edge_on_path(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -159,9 +185,10 @@ public:
         return max(climb(u, du, true), climb(v, dv, true));
     }
 
-    // ─────────────────────────────────────────
-    // ✅ NEW: Min edge weight on path(u, v)
-    // ─────────────────────────────────────────
+    // ── min_edge_on_path: u-v path pe sabse chhota edge weight ───────────────
+    //   1) LCA nikalo, du/dv steps calculate
+    //   2) climb_min: minEdge table se har jump ka min merge
+    //   3) u aur v dono side ka min leke overall min return
     int min_edge_on_path(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -191,10 +218,10 @@ public:
         return min(fromU, fromV);
     }
 
-    // ─────────────────────────────────────────
-    // ✅ NEW: Sum of node values on path(u, v)
-    // Includes both u and v
-    // ─────────────────────────────────────────
+    // ── sum_on_path: u-v path pe node values ka sum (LCA double count fix) ──
+    //   1) LCA nikalo, climb_sum se u/v se LCA tak node values jodo
+    //   2) sumNode table se jump-wise sum merge
+    //   3) climb_sum(u) + climb_sum(v) - nodeVal[lca] — LCA do baar count fix
     long long sum_on_path(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -222,9 +249,10 @@ public:
         return climb_sum(u, du) + climb_sum(v, dv) - nodeVal[lca];
     }
 
-    // ─────────────────────────────────────────
-    // ✅ NEW: XOR of node values on path(u, v)
-    // ─────────────────────────────────────────
+    // ── xor_on_path: u-v path pe node values ka XOR ───────────────────────────
+    //   1) LCA nikalo, du/dv steps
+    //   2) climb_xor: har jump pe node values XOR karo (simple climb)
+    //   3) xor(u side) ^ xor(v side) ^ nodeVal[lca] — LCA triple XOR fix
     int xor_on_path(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -255,10 +283,11 @@ public:
         return climb_xor(u, du) ^ climb_xor(v, dv) ^ nodeVal[lca];
     }
 
-    // ─────────────────────────────────────────
-    // ✅ NEW: LCA of multiple nodes
-    // LCA(a,b,c,...) = LCA(LCA(a,b), c) ...
-    // ─────────────────────────────────────────
+    // ── lca_of_multiple: LCA(a,b,c,...) = LCA(LCA(a,b), c)... ───────────────
+    //   1) empty list -> -1
+    //   2) result = nodes[0] se shuru
+    //   3) har agle node ke saath find_LCA(result, nodes[i]) — pairwise merge
+    //   4) final result = sab nodes ka common ancestor
     int lca_of_multiple(vector<int> &nodes)
     {
         if (nodes.empty())
@@ -269,9 +298,9 @@ public:
         return result;
     }
 
-    // ─────────────────────────────────────────
-    // Existing features
-    // ─────────────────────────────────────────
+    // ── distance: depth formula se path length ────────────────────────────────
+    //   1) LCA nikalo
+    //   2) depth[u] + depth[v] - 2*depth[lca] = edge count on path
     int distance(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -280,6 +309,10 @@ public:
         return depth[u] + depth[v] - 2 * depth[lca];
     }
 
+    // ── kth_node_on_path: path u→v pe k-th node ─────────────────────────────
+    //   1) LCA, dist_u, dist_v, total length nikalo
+    //   2) k invalid -> -1
+    //   3) k <= dist_u -> u se k upar; warna v se (total-k) upar
     int kth_node_on_path(int u, int v, int k)
     {
         int lca = find_LCA(u, v);
@@ -296,6 +329,7 @@ public:
         return get_Kth_Ancestor(v, total - k);
     }
 
+    // ── getDepth: node ki root se depth return karo ───────────────────────────
     int getDepth(int node) { return depth[node]; }
 };
 
@@ -484,19 +518,4 @@ Time Complexity:
   Multi-node LCA  : O(K log N) for K nodes
 
 Space: O(N log N)
-*/
-/*
-```
-
----
-
-## Naye features ka quick summary
-```
-Feature              Formula / Trick
-─────────────────────────────────────────────────────
-Max edge path(u,v)   Climb u→LCA, v→LCA, max lena
-Min edge path(u,v)   Same, min lena
-Sum path(u,v)        sum(u→LCA) + sum(v→LCA) - nodeVal[LCA]
-XOR path(u,v)        xor(u→LCA) ^ xor(v→LCA) ^ nodeVal[LCA]
-Multi LCA            LCA(LCA(a,b), c, d...) iteratively
 */

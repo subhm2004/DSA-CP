@@ -60,8 +60,10 @@ private:
     vector<int> roots;   // roots[v] = version v ka root index
     int n;               // array size (0-indexed, indices 0 .. n-1)
 
-    // Naya node pool mein daalo, uska index return karo
-    // Index 0 reserved as sentinel "null" — real nodes start from 1
+    // ── newNode: pool me naya node allocate karo ──
+    //   1) pool vector me {sum, leftChild, rightChild} push karo
+    //   2) Naya node ka index = pool.size()-1 return karo
+    //   3) Index 0 reserved hai as NULL sentinel — real nodes 1 se shuru
     int newNode(long long sum, int leftChild, int rightChild) {
         pool.push_back({sum, leftChild, rightChild});
         return (int)pool.size() - 1;
@@ -69,12 +71,13 @@ private:
 
     static constexpr int NULL_NODE = 0;
 
-    // ── BUILD ──────────────────────────────────────────────────────────────────
-    // Initial array se version 0 ki tree banate hain (normal seg tree jaisa,
-    // bas har node pool mein store hota hai).
+    // ── build: initial array se version 0 ki tree banao ──
+    //   1) Base case tl==tr → leaf node, sum=a[tl], koi child nahi (NULL)
+    //   2) tm = (tl+tr)/2 se segment ko do halves me todo
+    //   3) Left aur right subtree recursively build karo
+    //   4) Parent node = left.sum + right.sum, left/right child indices store
     int build(const vector<long long> &a, int tl, int tr) {
         if (tl == tr) {
-            // Leaf: koi child nahi
             return newNode(a[tl], NULL_NODE, NULL_NODE);
         }
         int tm = (tl + tr) >> 1;
@@ -83,15 +86,11 @@ private:
         return newNode(pool[l].sum + pool[r].sum, l, r);
     }
 
-    // ── UPDATE (path copy) ─────────────────────────────────────────────────────
-    // prevRoot = jis version se copy karke naya version banega
-    // pos      = array index jahan value set karni hai
-    // val      = nayi value (assign, not +=)
-    //
-    // Recursion:
-    //   - Leaf par: bilkul naya node with val
-    //   - Internal: jis side pos hai wahan naya child (recursive update)
-    //               doosri side PURANA child reuse (pool[prev].right/left)
+    // ── update: path-copy se naya version banao (point assign) ──
+    //   1) Leaf (tl==tr) → bilkul naya node with val, purana leaf reuse nahi
+    //   2) pos left half me → left child naya banao (recursive), right PURANA reuse
+    //   3) pos right half me → left PURANA reuse, right child naya banao
+    //   4) Har step pe naya parent node — sirf O(log n) nodes copy, baaki share
     int update(int prevRoot, int tl, int tr, int pos, long long val) {
         if (tl == tr) {
             return newNode(val, NULL_NODE, NULL_NODE);
@@ -99,49 +98,54 @@ private:
 
         int tm = (tl + tr) >> 1;
         if (pos <= tm) {
-            // Left path change → right subtree purana reuse
             int newLeft = update(pool[prevRoot].left, tl, tm, pos, val);
-            int oldRight = pool[prevRoot].right;
+            int oldRight = pool[prevRoot].right;  // right subtree purana reuse
             long long newSum = pool[newLeft].sum + pool[oldRight].sum;
             return newNode(newSum, newLeft, oldRight);
         } else {
-            // Right path change → left subtree purana reuse
-            int oldLeft = pool[prevRoot].left;
+            int oldLeft = pool[prevRoot].left;  // left subtree purana reuse
             int newRight = update(pool[prevRoot].right, tm + 1, tr, pos, val);
             long long newSum = pool[oldLeft].sum + pool[newRight].sum;
             return newNode(newSum, oldLeft, newRight);
         }
     }
 
-    // ── QUERY ──────────────────────────────────────────────────────────────────
-    // root se range [ql, qr] ka sum (standard seg tree query on any root)
+    // ── query: kisi bhi version ke root se range [ql,qr] ka sum ──
+    //   1) Case 1 NULL/out of range → 0 return (sum identity)
+    //   2) Case 2 FULL overlap (ql<=tl && tr<=qr) → pool[root].sum return
+    //   3) Case 3 PARTIAL → tm se todo, left sum + right sum combine
     long long query(int root, int tl, int tr, int ql, int qr) const {
         if (root == NULL_NODE || ql > tr || qr < tl) {
-            return 0;  // null / out of range
+            return 0;  // Case 1: null / out of range
         }
         if (ql <= tl && tr <= qr) {
-            return pool[root].sum;  // poora segment andar hai
+            return pool[root].sum;  // Case 2: poora segment andar hai
         }
-        int tm = (tl + tr) >> 1;
+        int tm = (tl + tr) >> 1;  // Case 3: partial
         return query(pool[root].left, tl, tm, ql, qr)
              + query(pool[root].right, tm + 1, tr, ql, qr);
     }
 
 public:
-    // ── Constructor: version 0 = initial array ───────────────────────────────
+    // ── PersistentSegmentTree: constructor — version 0 banao ──
+    //   1) n = array size, pool ko reserve karo (memory pre-allocate)
+    //   2) Index 0 = null sentinel push karo
+    //   3) build() se version 0 ka root banao aur roots[0] me store
     explicit PersistentSegmentTree(const vector<long long> &a) {
         n = (int)a.size();
         pool.reserve(max(4 * n, 1) + n * 25);
-        pool.push_back({0, NULL_NODE, NULL_NODE});  // index 0 = null sentinel
-        roots.push_back(build(a, 0, n - 1));       // roots[0] = initial version
+        pool.push_back({0, NULL_NODE, NULL_NODE});
+        roots.push_back(build(a, 0, n - 1));
     }
 
     int size() const { return n; }
     int versionCount() const { return (int)roots.size(); }
     int nodeCount() const { return (int)pool.size(); }
 
-    // baseVersion se naya version banao (point assign at pos)
-    // Returns: naye version ka id
+    // ── updateVersion: baseVersion se naya version banao ──
+    //   1) baseVersion ka root lo (roots[baseVersion])
+    //   2) update() se path-copy karke naya root banao
+    //   3) Naya root roots me push karo, naya version id return karo
     int updateVersion(int baseVersion, int pos, long long val) {
         assert(0 <= baseVersion && baseVersion < (int)roots.size());
         assert(0 <= pos && pos < n);
@@ -150,14 +154,16 @@ public:
         return (int)roots.size() - 1;
     }
 
-    // version v par range [l, r] ka sum (both inclusive, 0-indexed)
+    // ── queryVersion: version v par range [l,r] ka sum ──
+    //   1) roots[version] se us version ka root index lo
+    //   2) query() se standard seg tree range sum nikalo
     long long queryVersion(int version, int l, int r) const {
         assert(0 <= version && version < (int)roots.size());
         assert(0 <= l && l <= r && r < n);
         return query(roots[version], 0, n - 1, l, r);
     }
 
-    // Poori array ka sum is version par
+    // ── queryAll: poori array ka sum is version par ──
     long long queryAll(int version) const {
         return queryVersion(version, 0, n - 1);
     }

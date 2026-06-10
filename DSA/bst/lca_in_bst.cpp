@@ -13,6 +13,20 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// LCA IN BST — Do nodes ka lowest common ancestor
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST me p aur q ka LCA dhundho.
+//
+// Approach: BST property use karo
+//   - Dono root ke opposite sides → root hi LCA
+//   - Dono left me → left recurse
+//   - Dono right me → right recurse
+//
+// Complexity: Time O(h)  |  Space O(h)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,13 +39,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: standard insert ──
 Node* CreateBST(Node* root, int data){
     if(root == NULL){
         root= new Node(data);
@@ -46,14 +54,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── inorder: sorted traversal ──
 void inorder(Node* root){
     if(root== NULL){
         return;
@@ -63,14 +64,7 @@ void inorder(Node* root){
     inorder(root-> right);
 }
 
-
-
-/*
- * levelordertraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS print ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -96,13 +90,7 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * takeInput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takeInput: values insert loop ──
 void takeInput(Node* &root){
     int data;
     cout<< "Enter the data"<< endl;
@@ -114,13 +102,12 @@ void takeInput(Node* &root){
     }
 }
 
-
-/*
- * LCABST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, Node* p, Node* q
- * Returns : Node*
- */
+// ── LCABST: BST me LCA dhundho ──
+//   1) NULL → NULL
+//   2) root == p ya q → wahi return
+//   3) p left, q right (ya ulta) → root LCA hai
+//   4) Dono left → left recurse
+//   5) Dono right → right recurse
 Node* LCABST(Node* root, Node* p, Node* q){
     if(root== NULL){
         return NULL;
@@ -133,7 +120,7 @@ Node* LCABST(Node* root, Node* p, Node* q){
     }
     if(root!= p && root!= q){
         if((p-> data< root-> data && q-> data> root-> data)|| (p-> data> root-> data && q-> data< root-> data)){
-            return root;
+            return root;  // split point = LCA
         }
         else if(p-> data< root-> data && q-> data< root-> data){
             return LCABST(root-> left, p,q);
@@ -144,11 +131,7 @@ Node* LCABST(Node* root, Node* p, Node* q){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Lca In Bst
- */
+// ── main: BST build + level order demo ──
 int main(){
     Node* root= NULL;
     takeInput(root);

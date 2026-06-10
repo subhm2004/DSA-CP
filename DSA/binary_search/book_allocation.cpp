@@ -16,12 +16,21 @@
 using namespace std;
 
 
-/*
- * ispossible()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& student, int& size, int mid
- * Returns : bool
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// BOOK ALLOCATION — Min max pages (BS on answer, Leetcode 410)
+// ────────────────────────────────────────────────────────────────────────────
+// M students, N books — contiguous allocation, minimize max pages
+// ispossible(mid): mid pages limit pe sab allocate ho sakte?
+// MIN max pattern: possible -> ans=mid, e=mid-1
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── ispossible: mid pages feasible? ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 bool ispossible(int *arr, int& student, int& size, int mid){
     int scount = 1;
     int pagesum = 0;
@@ -44,12 +53,12 @@ bool ispossible(int *arr, int& student, int& size, int mid){
 }
 
 
-/*
- * findpages()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size, int& student
- * Returns : int
- */
+
+// ── findpages: min max pages ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int findpages(int *arr, int& size, int& student){
     int s=0;
     int e= accumulate(arr, arr+size, 0);
@@ -69,10 +78,12 @@ int findpages(int *arr, int& size, int& student){
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Book Allocation
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main(){
     int arr[]= {12,34,67,90};
     int size= 4;

@@ -16,37 +16,34 @@
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ASTEROID COLLISION — + right, - left; collision pe bada survive
+// ────────────────────────────────────────────────────────────────────────────
+// stack mein asteroids; negative aaye aur top positive → collision
+// equal size → dono destroy; bada wala bachega
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * asteroidarray()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : vector<int>&asteroids
- * Returns : void
- */
-void asteroidarray(vector<int>&asteroids){
+// ── asteroidarray: collision simulate karo ──────────────────────────────────
+//   1) pehla asteroid push
+//   2) har naya: negative + top positive → collision resolve
+//   3) bada survive push, chhota pop
+//   4) warna direct push
+void asteroidarray(vector<int> &asteroids) {
     stack<int> st;
     st.push(asteroids[0]);
-    int index=1;
-    while(index<asteroids.size()){
-        if(asteroids[index]< 0 && st.top()>0){
-            int element= max(abs(asteroids[index]), abs(st.top()));
-            st.pop();
-            st.push(element);
-        }
-        else {
-            st.push(asteroids[index]);
+    int index = 1;
+    while (index < asteroids.size()) {
+        if (asteroids[index] < 0 && st.top() > 0) {
+            int element = max(abs(asteroids[index]), abs(st.top()));
+            st.pop();                      // collision — purana hatao
+            st.push(element);              // survivor push
+        } else {
+            st.push(asteroids[index]);     // no collision — seedha push
         }
         index++;
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Asteroid Collision
- */
-int main(){
-    vector<int>asteroids= {1,-2,10,-5};
-
-
+int main() {
+    vector<int> asteroids = {1, -2, 10, -5};
 }

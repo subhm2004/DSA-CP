@@ -6,16 +6,29 @@
 #include <stack>   // For reconstructing the path
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BELLMAN-FORD ALGORITHM — Single Source Shortest Path (Negative Weights OK)
+// ────────────────────────────────────────────────────────────────────────────
+// Dijkstra se better jab negative edge weights ho sakti hain.
+// Idea: saari edges ko (V-1) baar "relax" karo — har baar distances improve ho sakti hain.
+//
+// Relax edge (u, v, w): agar dist[u] + w < dist[v] -> dist[v] update, parent[v] = u
+// (V-1) rounds ke baad shortest paths mil jani chahiye (agar negative cycle nahi).
+//
+// Vth round: agar koi aur relax ho sake -> NEGATIVE WEIGHT CYCLE hai!
+// Time: O(V * E)  |  Space: O(V)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Graph
 {
 public:
     // Adjacency list representation: node -> list of (nbr, weight)
     unordered_map<int, list<pair<int, int>>> adjList;
 
+    // ── addEdge: directed/undirected edge add karo ─────────────────────────
+    // direction = 1 -> undirected, 0 -> directed
     void addEdge(int u, int v, int wt, bool direction)
     {
-        // direction = 1 -> undirected graph
-        // direction => 0 -> directed graph;
         adjList[u].push_back({v, wt});
         if (direction == 1)
         {
@@ -23,6 +36,7 @@ public:
         }
     }
 
+    // ── printAdjList: graph ki adjacency list dikhao ───────────────────────
     void printAdjList()
     {
         for (auto i : adjList)
@@ -36,17 +50,20 @@ public:
         }
     }
 
-    // Bellman-Ford Algorithm to find shortest paths from a source
+    // ── bellmanFordAlgorithm: source se shortest paths + negative cycle check ─
+    // Step 1: distance[] = INF, source = 0.
+    // Step 2: (V-1) baar saari edges relax karo.
+    // Step 3: ek aur round — agar relax ho -> negative cycle.
+    // Step 4: distances aur paths print karo (stack se path reconstruct).
     void bellmanFordAlgorithm(int n, int source)
     {
-        // Distance vector initialized with maximum possible value (infinity)
+        // Step 1: distance[] sab INF, source = 0; parent[] path reconstruct ke liye
         vector<int> distance(n, INT_MAX);
         distance[source] = 0;
-
-        // Parent array to reconstruct paths
         vector<int> parent(n, INT_MIN);
 
-        // Relax edges (n - 1) times
+        // Step 2: (n-1) rounds — har round me saari edges relax karo
+        // Kyunki shortest path me max (n-1) edges hoti hain, itne rounds kaafi hain
         for (int i = 0; i < n - 1; i++)
         {
             for (const auto &node : adjList)
@@ -57,17 +74,17 @@ public:
                     int adjacentNode = nbr.first;
                     int edgeWeight = nbr.second;
 
-                    // Relax the edge
+                    // Relax: currentNode reachable ho aur naya path chhota ho
                     if (distance[currentNode] != INT_MAX && distance[currentNode] + edgeWeight < distance[adjacentNode])
                     {
                         distance[adjacentNode] = distance[currentNode] + edgeWeight;
-                        parent[adjacentNode] = currentNode; // Update parent for path reconstruction
+                        parent[adjacentNode] = currentNode;
                     }
                 }
             }
         }
 
-        // Check for negative weight cycles
+        // Step 3: nth round — agar ab bhi relax ho sake to negative cycle hai
         bool hasNegativeCycle = false;
         for (const auto &node : adjList)
         {
@@ -85,7 +102,7 @@ public:
             }
         }
 
-        // Output results
+        // Results print karo
         if (hasNegativeCycle)
         {
             cout << "Negative weight cycle detected." << endl;
@@ -112,19 +129,20 @@ public:
         }
     }
 
-    // Helper function to reconstruct and print the path from source to a given node
+    // ── printPath: parent array se source -> node ka path stack se print ───
+    // Node se parent follow karo source tak, stack me daalo, phir pop karke print.
     void printPath(const vector<int> &parent, int node)
     {
+        // Step 1: dest se source tak parent follow karke stack me nodes daalo
         stack<int> st;
         int currentNode = node;
-
         while (currentNode != INT_MIN)
         {
             st.push(currentNode);
             currentNode = parent[currentNode];
         }
 
-        // Print the path from source to the node
+        // Step 2: stack pop karke source -> dest order me print karo
         while (!st.empty())
         {
             cout << st.top();
@@ -141,7 +159,7 @@ int main()
 {
     Graph g;
 
-    // Adding edges to the graph
+    // Directed graph with negative edges — Bellman-Ford ka classic example
     g.addEdge(0, 1, -1, 0);
     g.addEdge(1, 4, 2, 0);
     g.addEdge(1, 2, 3, 0);
@@ -155,7 +173,7 @@ int main()
     g.printAdjList();
 
     cout << "\nRunning Bellman-Ford Algorithm:" << endl;
-    g.bellmanFordAlgorithm(5, 0); // Assuming 5 nodes (0 to 4) and source node as 0
+    g.bellmanFordAlgorithm(5, 0); // 5 nodes (0 to 4), source = 0
 
     return 0;
 }

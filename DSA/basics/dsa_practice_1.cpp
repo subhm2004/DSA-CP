@@ -14,11 +14,18 @@
 #include <random>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// RANDOM GRID GAME — vector<vector<bool>> se maze/grid banao
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: p×p grid — border walls (*), andar random obstacles
+// mt19937 se random interior cells fill — user move se cell activate
+// COMPLEX: Grid build O(p²)  |  Space O(p²)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Dsa Practice 1
- */
+// ── main: random grid banao, user move accept karo ─────────────────────────
+//   1) p×p bool grid — border true (walls), andar random true
+//   2) grid print — * for true, space for false
+//   3) user (x,y) move — valid ho to cell true, grid reprint
 int main() {
     int p;
     cout<<"Enter the value : "<<endl;
@@ -30,11 +37,11 @@ int main() {
   for (int i = 0; i < p; i++) {
     for (int j = 0; j < p; j++) {
       if (i == 0 || i == p-1 || j == 0 || j == p-1) {
-        cells[i][j] = true;
+        cells[i][j] = true;  // border walls — hamesha blocked
       } else {
         int r = dis(gen);
         if (r == 0) {
-          cells[i][j] = true;
+          cells[i][j] = true;  // random interior obstacle
         }
       }
     }
@@ -56,7 +63,7 @@ int main() {
     cout << "Invalid move." << endl;
     return 1;
   }
-  cells[x][y] = true;
+  cells[x][y] = true;  // user ne is cell ko activate kiya
   for (int i = 0; i < p; i++) {
     for (int j = 0; j < p; j++) {
       if (cells[i][j]) {

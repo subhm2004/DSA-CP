@@ -1,6 +1,20 @@
-#include <bits/stdc++.h> // onion peeling technique se tree ka center nikalne ke liye
-// basically ye topological sort on tree hai, jisme hum repeatedly leaf nodes ko remove karte hain jab tak 1 ya 2 nodes bache na ho
+#include <bits/stdc++.h>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// CENTER OF A TREE — Onion Peeling Technique
+// ────────────────────────────────────────────────────────────────────────────
+// Tree ka center = wo node(s) jinka sabse zyada distance (eccentricity) minimum ho.
+// Ek tree me 1 ya 2 centers hote hain.
+//
+// Onion Peeling: baar-baar leaf nodes (degree=1) hatao jab tak 1-2 nodes bache.
+//   Round 1: sab leaves remove -> unke neighbors ki degree kam
+//   Round 2: naye leaves remove -> repeat
+//   Jab 1-2 nodes bache -> wahi center(s) hain!
+//
+// Topological sort on tree jaisa feel — andar ki taraf peel karte jao.
+// Time: O(V)  |  Space: O(V)
+// ════════════════════════════════════════════════════════════════════════════
 
 class TreeCenter
 {
@@ -9,14 +23,17 @@ private:
     unordered_map<int, list<int>> adjList; // har node ki neighbor list
     unordered_map<int, int> degree;        // har node ki degree (kitne neighbors hain)
 
+    // ── buildGraph: edge list se adjacency list aur degree array banao ─────
     void buildGraph(vector<vector<int>> &edges)
     {
+        // Step 1: har node ke liye empty adjacency list aur degree=0
         for (int i = 0; i < n; i++)
         {
             adjList[i];
             degree[i] = 0;
         }
 
+        // Step 2: har undirected edge dono taraf add, degree count badhao
         for (auto &e : edges)
         {
             adjList[e[0]].push_back(e[1]);
@@ -26,6 +43,7 @@ private:
         }
     }
 
+    // ── printTree: adjacency list debug print ───────────────────────────────
     void printTree()
     {
         cout << "\n--- Adjacency List ---\n";
@@ -39,11 +57,17 @@ private:
     }
 
 public:
+    // Constructor: n nodes aur edges se graph build karo
     TreeCenter(int n, vector<vector<int>> &edges) : n(n)
     {
         buildGraph(edges);
     }
 
+    // ── findCenter: onion peeling se tree ka center dhundo ─────────────────
+    // Base cases: n=1 -> {0}, n=2 -> {0,1}.
+    // Degree=1 wale sab leaves queue me daalo.
+    // Har round me saari current leaves hatao, neighbors ki degree-- karo.
+    // Jab 2 se kam nodes bache -> queue me jo bache wahi center(s).
     vector<int> findCenter()
     {
         if (n == 1)
@@ -53,6 +77,7 @@ public:
 
         printTree();
 
+        // Shuru me sab leaf nodes (degree = 1) queue me daalo
         queue<int> q;
         for (auto &[node, deg] : degree)
             if (deg == 1)
@@ -63,6 +88,7 @@ public:
 
         cout << "\n--- Onion Peeling Rounds ---\n";
 
+        // Jab tak 2 se zyada nodes bache, har round me leaves peel karo
         while (remainingNodes > 2)
         {
             int sz = q.size();
@@ -76,10 +102,11 @@ public:
                 q.pop();
                 cout << leaf << " ";
 
+                // Leaf ke har neighbor ki degree kam karo
                 for (int nei : adjList[leaf])
                 {
                     degree[nei]--;
-                    if (degree[nei] == 1)
+                    if (degree[nei] == 1)  // Naya leaf ban gaya -> queue me daalo
                         q.push(nei);
                 }
             }
@@ -87,6 +114,7 @@ public:
             cout << "| Remaining: " << remainingNodes << "\n";
         }
 
+        // Queue me jo 1-2 nodes bache -> center(s)
         vector<int> centers;
         while (!q.empty())
         {
@@ -96,6 +124,7 @@ public:
         return centers;
     }
 
+    // ── printResult: center node(s) ka result dikhao ───────────────────────
     void printResult(vector<int> &centers)
     {
         cout << "\n--- Result ---\n";
@@ -146,22 +175,3 @@ int main()
 
     return 0;
 }
-
-/*
- * Expected Output:
- *
- * --- Adjacency List ---
- *   Node 0 -> 1 2 3
- *   Node 1 -> 0
- *   Node 2 -> 0
- *   Node 3 -> 0 4
- *   Node 4 -> 3 5
- *   Node 5 -> 4
- *
- * --- Onion Peeling Rounds ---
- *   Round 1 | Removing leaves: 1 2 5 | Remaining: 3
- *   Round 2 | Removing leaves: 0 4   | Remaining: 1
- *
- * --- Result ---
- *   Single Center : Node 3
- */

@@ -14,6 +14,18 @@
 #include <queue>
 #include <vector>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// TWO SUM IN BST — Koi do values ka sum = target?
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: BST me do nodes ki values ka sum target ke barabar hai?
+//
+// Approach: Inorder → sorted array → two pointers
+//   - i=0, j=n-1; sum compare karke move
+//
+// Complexity: Time O(n)  |  Space O(n) array
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -26,13 +38,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: insert ──
 Node* CreateBST(Node* root, int data){
     if(root == NULL){
         root= new Node(data);
@@ -47,13 +53,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * takeInput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takeInput: loop insert ──
 void takeInput(Node* &root){
     int data;
     cout<< "Enter the data"<< endl;
@@ -65,13 +65,7 @@ void takeInput(Node* &root){
     }
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -97,13 +91,9 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root, vector<int>&ans
- * Returns : void
- */
+// ── inorder: sorted array me values collect ──
+//   1) Left → push root → right
+//   2) BST inorder = sorted order
 void inorder(Node* root, vector<int>&ans){
     if(root== NULL){
         return;
@@ -113,14 +103,11 @@ void inorder(Node* root, vector<int>&ans){
     inorder(root-> right, ans);
 }
 
-
-
-/*
- * twosum()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root, int sum, vector<int>&ans
- * Returns : bool
- */
+// ── twosum: two pointers on sorted array ──
+//   1) i=0, j=last
+//   2) sum == target → true
+//   3) sum < target → i++ (bada chahiye)
+//   4) sum > target → j-- (chhota chahiye)
 bool twosum(Node* root, int sum, vector<int>&ans){
     if(root== NULL){
         return false;
@@ -139,15 +126,9 @@ bool twosum(Node* root, int sum, vector<int>&ans){
         }
     }
     return false;
-
-
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Two Sum Bst
- */
+// ── main: two sum check demo ──
 int main(){
     Node* root= NULL;
     int sum=78;
@@ -155,5 +136,4 @@ int main(){
     inorder(root, ans);
     bool final= twosum(root, sum, ans);
     cout<< final<< endl;
-
 }

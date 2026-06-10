@@ -12,48 +12,44 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// HEAD vs TAIL RECURSION — Print order ka farq
+// ────────────────────────────────────────────────────────────────────────────
+// Head (counting): pehle print, phir call -> n n-1 ... 1
+// Tail (counting2): pehle call, phir print -> 1 2 ... n
+// Same logic, sirf print/call order alag — output ulta
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * counting()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int n
- * Returns : void
- */
+// ── counting: HEAD recursion — pehle print, baad me call ────────────────────
+//   1) n==0 -> return
+//   2) cout n — abhi print (descending order)
+//   3) counting(n-1) — chhota number
 void counting(int n) {
-    // Base case: n == 0
     if(n==0) {
         return ;
     }
-    cout<< n<< " ";
+    cout<< n<< " ";  // head — pehle kaam karo
     counting(n-1);
 }
 
-
-/*
- * counting2()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int n
- * Returns : void
- */
+// ── counting2: TAIL recursion — pehle call, baad me print ───────────────────
+//   1) n==0 -> return
+//   2) counting2(n-1) — pehle chhota solve
+//   3) cout n — wapas aate waqt print (ascending order)
 void counting2(int n) {
-    // Base case: n == 0
     if(n==0){
         return;
     }
-    counting2(n-1);
+    counting2(n-1);  // tail — pehle recursive call
     cout<< n<< " ";
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Head And Tail Recursion
- */
+// ── main: dono types ka output compare ──────────────────────────────────────
 int main() {
     int n;
     cout<< "enter any number"<< endl;
     cin>> n;
-    counting(n);
+    counting(n);   // n se 1
     cout<< endl;
-    counting2(n);
+    counting2(n);  // 1 se n
 }

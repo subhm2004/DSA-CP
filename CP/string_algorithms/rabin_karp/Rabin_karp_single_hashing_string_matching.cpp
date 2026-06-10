@@ -18,7 +18,10 @@ public:
     const ll RADIX = 26;
     const ll MOD = 1e9 + 7;
 
-    // 🔹 Compute hash for a string of length m
+    // compute_hash — string ke pehle m chars ka polynomial hash (base 26, mod 1e9+7).
+    // Step 1: Right se left iterate — s[i] * RADIX^position add karo.
+    // Step 2: Har step pe factor = factor * RADIX (position weight badhta hai).
+    // Step 3: MOD pe wrap karke final hash return — Rabin-Karp comparison ke liye.
     ll compute_hash(const string &str, ll m)
     {
         ll hash_val = 0;
@@ -32,7 +35,11 @@ public:
         return hash_val;
     }
 
-    // 🔹 Rabin–Karp function to find first occurrence of pattern in text
+    // Rabin_karp — rolling hash se pattern ka pehla occurrence dhundho.
+    // Step 1: Pattern hash aur MAX_WEIGHT (RADIX^m) precompute karo.
+    // Step 2: Window slide: purana char hatao (×MAX_WEIGHT), naya char add (×RADIX shift).
+    // Step 3: Hash match pe character-by-character verify (spurious hit avoid).
+    // Step 4: Verify pass ho to index return; poora text scan ke baad -1.
     int Rabin_karp(string text, string pattern)
     {
         ll n = text.size();
@@ -80,7 +87,7 @@ public:
     }
 };
 
-// 🧪 Driver Code
+// main — test cases pe Rabin_karp chalao; pehla match index ya "not found" print karo.
 int main()
 {
     ios::sync_with_stdio(false);

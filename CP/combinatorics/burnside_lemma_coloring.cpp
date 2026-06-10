@@ -14,20 +14,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-long long gcdLong(long long a, long long b) {
+// ════════════════════════════════════════════════════════════════════════════
+// BURNSIDE'S LEMMA — symmetry ke saath distinct colorings count
+// ────────────────────────────────────────────────────────────────────────────
+// Necklace: rotation se same wale ek hi maane
+// Distinct = (1/|G|) * Σ_{g∈G} Fix(g)
+// Rotation by d positions → gcd(n,d) independent cycles → k^gcd(n,d) fixed colorings
+// COMPLEX: O(n log MOD) — n rotations
+// ════════════════════════════════════════════════════════════════════════════
+
+long long gcdLong(long long a, long long b)
+{
     a = llabs(a);
     b = llabs(b);
-    while (b) {
+    while (b)
+    {
         a %= b;
         swap(a, b);
     }
     return a;
 }
 
-long long modPow(long long a, long long b, long long mod) {
+long long modPow(long long a, long long b, long long mod)
+{
     long long res = 1;
     a %= mod;
-    while (b) {
+    while (b)
+    {
         if (b & 1)
             res = res * a % mod;
         a = a * a % mod;
@@ -36,18 +49,25 @@ long long modPow(long long a, long long b, long long mod) {
     return res;
 }
 
-long long modInv(long long a, long long mod) {
+long long modInv(long long a, long long mod)
+{
     return modPow(a, mod - 2, mod);
 }
 
-long long necklaceColorings(int n, int k, long long mod = 1e9 + 7) {
+// ── necklaceColorings: n beads, k colors, rotation distinct ──
+//   1) har rotation d = 0..n-1 ke liye fixed colorings = k^gcd(n,d)
+//   2) sum sab rotations ka
+//   3) divide by n (Burnside average) — mod me n^(-1) se multiply
+long long necklaceColorings(int n, int k, long long mod = 1e9 + 7)
+{
     long long sum = 0;
     for (int d = 0; d < n; d++)
         sum = (sum + modPow(k, (int)gcdLong(n, d), mod)) % mod;
     return sum * modInv(n, mod) % mod;
 }
 
-int main() {
+int main()
+{
     int n = 4, k = 3; // 4 beads, 3 colors
     cout << "Distinct necklaces (n=" << n << ", k=" << k << ") = "
          << necklaceColorings(n, k) << endl;

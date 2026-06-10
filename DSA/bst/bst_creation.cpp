@@ -13,6 +13,16 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST CREATION — Insert + saari traversals
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Values insert karke BST banao; preorder/inorder/postorder/level print.
+//
+// Approach: Recursive insert + standard traversals
+// Complexity: Insert O(h)  |  Traversal O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,13 +35,10 @@ class Node{
     }
 };
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: recursive insert ──
+//   1) NULL → naya node return
+//   2) data < root → left subtree
+//   3) data > root → right subtree
 Node* CreateBST(Node* root, int data){
     if(root == NULL){
         root= new Node(data);
@@ -46,13 +53,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * preorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── preorder: Root → Left → Right ──
 void preorder(Node* root){
     if(root== NULL){
         return;
@@ -62,13 +63,7 @@ void preorder(Node* root){
     preorder(root-> right);
 }
 
-
-/*
- * inorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── inorder: Left → Root → Right (BST = sorted) ──
 void inorder(Node* root){
     if(root== NULL){
         return;
@@ -78,13 +73,7 @@ void inorder(Node* root){
     inorder(root-> right);
 }
 
-
-/*
- * postorder()
- * Purpose : Tree DFS in specific visit order.
- * Params  : Node* root
- * Returns : void
- */
+// ── postorder: Left → Right → Root ──
 void postorder(Node* root){
     if(root== NULL){
         return;
@@ -94,13 +83,7 @@ void postorder(Node* root){
     cout<< root-> data<< " ";
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS level-wise ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -126,13 +109,7 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * takeInput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takeInput: -1 tak insert loop ──
 void takeInput(Node* &root){
     int data;
     cout<< "Enter the data"<< endl;
@@ -144,15 +121,9 @@ void takeInput(Node* &root){
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst Creation
- */
+// ── main: input → inorder (sorted) print ──
 int main(){
     Node* root= NULL;
     takeInput(root);
     inorder(root);
-   
-
 }

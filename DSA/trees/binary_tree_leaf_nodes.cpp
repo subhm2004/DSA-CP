@@ -15,6 +15,19 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// FIND LEAVES — Bottom-up height se leaves group karo
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Leaves ko unki "height from bottom" ke hisaab se group karo.
+//          (Leetcode 366 — Find Leaves of Binary Tree)
+//
+// Approach: Post-order DFS
+//   - Height = max(leftH, rightH) + 1
+//   - Leaf height = 0 → result[0] me daalo
+//
+// Complexity: Time O(n)  |  Space O(n)
+// ════════════════════════════════════════════════════════════════════════════
+
 struct TreeNode
 {
     int val;
@@ -23,6 +36,7 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
+// ── buildTree: level-order array se tree ──
 TreeNode *buildTree(const vector<int> &values)
 {
     if (values.empty() || values[0] == -1)
@@ -56,14 +70,7 @@ TreeNode *buildTree(const vector<int> &values)
     return root;
 }
 
-
-
-/*
- * printTree()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : TreeNode *root
- * Returns : void
- */
+// ── printTree: level-order print (null bhi) ──
 void printTree(TreeNode *root)
 {
     if (!root)
@@ -97,14 +104,10 @@ void printTree(TreeNode *root)
 class Solution
 {
 public:
-    
-    
-    /*
-     * findLeaves()
-     * Purpose : Recursive DFS; base case when node == nullptr.
-     * Params  : TreeNode *root
-     * Returns : vector<vector<int>>
-     */
+    // ── findLeaves: public API — leaves by bottom-up height ──
+    //   1) Empty result vector
+    //   2) traverse() se height-wise collect
+    //   3) result return
     vector<vector<int>> findLeaves(TreeNode *root)
     {
         vector<vector<int>> result;
@@ -113,14 +116,12 @@ public:
     }
 
 private:
-    
-    
-    /*
-     * traverse()
-     * Purpose : Recursive DFS; base case when node == nullptr.
-     * Params  : TreeNode *node, vector<vector<int>> &result
-     * Returns : int
-     */
+    // ── traverse: post-order height nikalo, leaf bucket me daalo ──
+    //   1) NULL → height -1
+    //   2) Left/right height lo
+    //   3) currentHeight = max + 1
+    //   4) result[currentHeight] me val push
+    //   5) Height return (parent ke liye)
     int traverse(TreeNode *node, vector<vector<int>> &result)
     {
         if (!node)
@@ -139,14 +140,7 @@ private:
     }
 };
 
-
-
-/*
- * printResult()
- * Purpose : Recursive DFS; base case when node == nullptr.
- * Params  : const vector<vector<int>> &result
- * Returns : void
- */
+// ── printResult: grouped leaves print ──
 void printResult(const vector<vector<int>> &result)
 {
     for (const auto &level : result)
@@ -160,15 +154,10 @@ void printResult(const vector<vector<int>> &result)
     }
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Binary Tree Leaf Nodes
- */
+// ── main: demo ──
 int main()
 {
-    vector<int> values = {1, 2, 3, 4, 5, -1, -1}; // -1 represents nullptr
+    vector<int> values = {1, 2, 3, 4, 5, -1, -1};
     TreeNode *root = buildTree(values);
 
     cout << "Level-order tree: ";

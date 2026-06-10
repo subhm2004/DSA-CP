@@ -1,6 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// BINARY LIFTING — LCA + K-th Ancestor + Distance + Kth Node on Path
+// ────────────────────────────────────────────────────────────────────────────
+// up[i][j] = 2^j-th ancestor. Extra helpers:
+//   distance(u,v) = depth[u]+depth[v]-2*depth[LCA]
+//   kth_node_on_path = u se LCA tak ya LCA se v tak ancestor jump
+// Complexity: preprocess O(n log n), har query O(log n)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Binary_Lifting
 {
 private:
@@ -9,6 +18,10 @@ private:
     vector<int> depth;
     vector<vector<int>> children;
 
+    // ── dfs: depth[] bharno ───────────────────────────────────────────────────
+    //   1) depth[node] = d set karo
+    //   2) har child pe dfs(child, d+1) — children list se traverse
+    //   3) root se poori tree ki depth ready ho jaati hai
     void dfs(int node, int d)
     {
         depth[node] = d;
@@ -16,6 +29,11 @@ private:
             dfs(child, d + 1);
     }
 
+    // ── preCompute: children list, up[][] table, depth build ─────────────────
+    //   1) parent array se children adjacency list banao
+    //   2) up[i][0] = parent[i] — direct parent store
+    //   3) root (parent=-1) se dfs — depth[] fill
+    //   4) j=1..LOG-1: up[i][j] = up[up[i][j-1]][j-1] — binary lifting DP
     void preCompute(const vector<int> &parent)
     {
         children.assign(n, vector<int>());
@@ -37,6 +55,9 @@ private:
     }
 
 public:
+    // ── Binary_Lifting: constructor — tables allocate + preCompute chalao ───
+    //   1) n, LOG set karo, up aur depth arrays allocate
+    //   2) preCompute(parent) se saari preprocessing ek jagah
     Binary_Lifting(int n, const vector<int> &parent)
     {
         this->n = n;
@@ -47,6 +68,10 @@ public:
         preCompute(parent);
     }
 
+    // ── get_Kth_Ancestor: K-th ancestor (binary bits se jump) ───────────────
+    //   1) K ke i-th bit set hai to node = up[node][i] (2^i jump)
+    //   2) node -1 ho gaya to ancestor nahi hai
+    //   3) saare set bits process -> exactly K steps upar
     int get_Kth_Ancestor(int node, int k)
     {
         for (int i = 0; i < LOG; ++i)
@@ -61,6 +86,11 @@ public:
         return node;
     }
 
+    // ── find_LCA: same depth lao, phir saath-saath upar chadho ────────────────
+    //   1) deeper node u ko depth[v] tak upar lao
+    //   2) u==v ho gaya to wahi LCA
+    //   3) bade se chhote jump se dono ko upar le jao jab tak same ancestor na ho
+    //   4) up[u][0] = direct parent = LCA
     int find_LCA(int u, int v)
     {
         if (depth[u] < depth[v])
@@ -74,7 +104,7 @@ public:
             return u;
 
         for (int i = LOG - 1; i >= 0; --i)
-            if (up[u][i] != -1 && up[u][i] != up[v][i])
+            if (up[u][i] != -1 && up[u][i] != up[v][i])  // abhi LCA ke neeche
             {
                 u = up[u][i];
                 v = up[v][i];
@@ -83,8 +113,10 @@ public:
         return up[u][0];
     }
 
-    // ✅ NEW: Distance between two nodes
-    // Formula: depth[u] + depth[v] - 2 * depth[LCA(u,v)]
+    // ── distance: depth[u] + depth[v] - 2*depth[LCA] ───────────────────────
+    //   1) pehle LCA nikalo
+    //   2) formula: u se LCA + v se LCA = total path length (edges)
+    //   3) LCA nahi mila to -1 return
     int distance(int u, int v)
     {
         int lca = find_LCA(u, v);
@@ -93,8 +125,11 @@ public:
         return depth[u] + depth[v] - 2 * depth[lca];
     }
 
-    // ✅ NEW: Kth node on path from u to v (0-indexed from u)
-    // Path: u → LCA → v
+    // ── kth_node_on_path: path u→v pe k-th node (0-indexed from u) ────────
+    //   1) LCA nikalo, dist_u = u se LCA tak, dist_v = v se LCA tak
+    //   2) total = dist_u + dist_v — path ki length
+    //   3) k invalid ho to -1
+    //   4) k <= dist_u -> u se k steps upar; warna v se (total-k) steps upar
     int kth_node_on_path(int u, int v, int k)
     {
         int lca = find_LCA(u, v);
@@ -121,6 +156,7 @@ public:
         }
     }
 
+    // ── getDepth: node ki root se depth return karo ───────────────────────────
     int getDepth(int node) { return depth[node]; }
 };
 
@@ -292,36 +328,4 @@ int main()
     Sample:
     Distance(3, 6) = 3   [3→1→4→6]
     3rd node on path(3,6) = 6  [k=0→3, k=1→1, k=2→4, k=3→6]
-*/
-
-/*
-```
-
----
-
-## Dono Functions ka Logic
-
-### Distance — 1 line formula
-```
-depth[u] + depth[v] - 2 * depth[LCA]
-
-3 se 6 tak:
-depth[3]=2, depth[6]=3, LCA=1, depth[1]=1
-= 2 + 3 - 2*1 = 3 ✅
-```
-
-### Kth Node on Path
-```
-Path(3, 6): 3 → 1 → 4 → 6
-             ↑LCA
-
-dist_u = depth[3] - depth[1] = 1   (3→1)
-dist_v = depth[6] - depth[1] = 2   (6→1)
-total  = 3
-
-k=0 → get_Kth_Ancestor(3, 0) = 3
-k=1 → get_Kth_Ancestor(3, 1) = 1  (LCA)
-k=2 → get_Kth_Ancestor(6, 1) = 4
-k=3 → get_Kth_Ancestor(6, 0) = 6
-
 */

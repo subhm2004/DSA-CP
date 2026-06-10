@@ -12,13 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MERGE SORT PRACTICE — Divide, sort, merge recursively
+// ────────────────────────────────────────────────────────────────────────────
+// merge(): temp left/right arrays, two-pointer merge back
+// mergesort(): s>=e base, mid split, recurse both halves
+// Classic O(n log n) sorting via recursion
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * merge()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int* arr, int s, int e
- * Returns : void
- */
+// ── merge: sorted halves ko ek array me jodo ────────────────────────────────
+//   1) left/right temp arrays banao aur copy karo
+//   2) chhota element arr[k] me daalo
+//   3) leftover copy karo
 void merge(int* arr, int s, int e) {
     int mid = s+(e-s)/2;
     int length1 = mid-s+1;
@@ -53,14 +58,10 @@ void merge(int* arr, int s, int e) {
     }
 }
  
- 
- 
- /*
-  * mergesort()
-  * Purpose : Base case + solve smaller subproblem recursively.
-  * Params  : int* arr, int s, int e
-  * Returns : void
-  */
+// ── mergesort: array ko recursively sort karo ───────────────────────────────
+//   1) s>=e -> base case
+//   2) mid pe divide, dono halves sort
+//   3) merge se jodo
  void mergesort(int* arr, int s, int e) {
     if(s>=e) {
         return;
@@ -72,18 +73,13 @@ void merge(int* arr, int s, int e) {
 
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Recursion Sorting Practice
- */
+// ── main: merge sort demo ─────────────────────────────────────────────────────
 int main() {
     int arr[]= {4,2,12,5,13};
     int size = 5;
     int s=0, e = size-1;
     mergesort(arr,s,e);
     cout<< "sorted array is"<< endl;
-    // Iterate over all elements
     for(int i=0; i< size; i++) {
         cout<< arr[i] << " ";
     }

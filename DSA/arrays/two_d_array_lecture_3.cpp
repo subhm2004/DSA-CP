@@ -12,13 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MATRIX TRANSPOSE — rows ko columns me convert
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: transpose = arr[i][j] ko arr[j][i] ki tarah print karo
+// Nested loop me arr[j][i] access — row-col swap
+// COMPLEX: Time O(n*m)  |  Space O(1)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * transpose()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[3][3]
- * Returns : void
- */
+// ── transpose: matrix ka transpose print karo ──────────────────────────────
+//   1) outer i (rows of output), inner j (cols)
+//   2) arr[j][i] print — original ka transpose
+//   3) har row ke baad newline
 void transpose(int arr[3][3]) {
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
@@ -29,10 +34,10 @@ void transpose(int arr[3][3]) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Two D Array Lecture 3
- */
+// ── main: user input matrix transpose karo ───────────────────────────────────
+//   1) 3x3 matrix input
+//   2) original print
+//   3) transpose() call
 int main() {
     int arr[3][3];
     cout<< "enter the elements of array"<< endl;

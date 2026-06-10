@@ -1,11 +1,7 @@
 /*
-What is Hierholzer's Algorithm?
-Hierholzer’s algorithm is used to find an Eulerian Path (a trail visiting every edge exactly once) or an Eulerian Circuit (a closed trail visiting every edge exactly once) in a graph.
-
-Conditions:
-An Eulerian Circuit exists if all vertices have even degree.
-An Eulerian Path exists if exactly two vertices have odd degree.
-*/
+ * NOTE: Yeh file Hierholzer's Algorithm hai (Eulerian Path/Circuit in graph)
+ * Euler Tour on TREE alag topic hai — dekh Euler_tour_on_trees.cpp
+ */
 
 #include <iostream>
 #include <vector>
@@ -14,31 +10,53 @@ An Eulerian Path exists if exactly two vertices have odd degree.
 #include <stack>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// HIERHOLZER'S ALGORITHM — Eulerian Path / Circuit
+// ────────────────────────────────────────────────────────────────────────────
+// Eulerian Circuit: har edge exactly ek baar, start=end (sab vertices even degree)
+// Eulerian Path: har edge exactly ek baar, start!=end (exactly 2 odd degree)
+//
+// Algorithm: stack use karke edges "khate" jao, jab koi edge nahi bachi
+// wapas path me node daal do. Reverse print = euler path/circuit.
+// ════════════════════════════════════════════════════════════════════════════
+
 class Graph
 {
     int V;
-    unordered_map<int, list<int>> adjList; // Adjacency list
+    unordered_map<int, list<int>> adjList;
 
 public:
+    // ── Graph: V vertices wala empty adjacency list banao ───────────────────
+    //   1) V store karo — kitne nodes hain graph me
+    //   2) adjList abhi khali hai, addEdge se edges add hongi
     Graph(int V)
     {
         this->V = V;
     }
 
+    // ── addEdge: directed edge u -> v ───────────────────────────────────────
+    //   1) adjList[u] me v push karo
+    //   2) directed hai — reverse edge automatically nahi banti
+    //   3) multiple edges bhi allowed (list me duplicate ho sakte hain)
     void addEdge(int u, int v)
     {
         adjList[u].push_back(v);
     }
 
+    // ── findEulerianPathOrCircuit: Hierholzer se path/circuit nikalo ────────
+    //   1) tempAdj me edges copy karo (original graph safe rahe)
+    //   2) koi bhi non-empty node se stack pe shuru karo
+    //   3) jab tak unvisited edge hai -> next push; warna node path me, pop
+    //   4) path reverse print karo — har edge exactly ek baar use hoti hai
     void findEulerianPathOrCircuit()
     {
-        unordered_map<int, list<int>> tempAdj = adjList; // Copy adjacency list
+        unordered_map<int, list<int>> tempAdj = adjList;
 
         stack<int> stk;
         vector<int> path;
         int startNode = 0;
 
-        // Finding a start node (any node with an edge)
+        // koi bhi node jisme edge ho, wahan se shuru karo
         unordered_map<int, list<int>>::iterator it;
         for (it = adjList.begin(); it != adjList.end(); ++it)
         {
@@ -58,19 +76,18 @@ public:
             if (!tempAdj[node].empty())
             {
                 int next = tempAdj[node].front();
-                tempAdj[node].pop_front();
+                tempAdj[node].pop_front();  // edge "kha" li — dobara use nahi hogi
                 stk.push(next);
             }
             else
             {
-                path.push_back(node);
+                path.push_back(node);       // ab is node se aage koi edge nahi
                 stk.pop();
             }
         }
 
-        // Output the Eulerian Path or Circuit
         cout << "Eulerian Path/Circuit: ";
-        for (int i = path.size() - 1; i >= 0; i--)
+        for (int i = path.size() - 1; i >= 0; i--)  // reverse = sahi euler order
             cout << path[i] << " ";
         cout << endl;
     }
@@ -93,4 +110,3 @@ int main()
 
     return 0;
 }
-

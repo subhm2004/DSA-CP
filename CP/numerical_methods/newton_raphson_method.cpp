@@ -1,7 +1,29 @@
-// Newton Raphson Method to find sqaure root of a number
+/*
+ * ============================================================================
+ * TOPIC    : Numerical Methods — Newton-Raphson
+ * FILE     : newton_raphson_method.cpp
+ * PROBLEM  : Find square root of a number with high precision
+ * APPROACH : Newton iteration: x_next = (x + n/x) / 2
+ * COMPLEX  : O(log(1/eps)) iterations  |  Space: O(1)
+ * ============================================================================
+ */
+
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// NEWTON-RAPHSON — Square root nikalo
+// ────────────────────────────────────────────────────────────────────────────
+// f(x) = x² - n = 0 solve karna hai
+// Newton step: x_new = x - f(x)/f'(x) = (x + n/x) / 2
+// Jab |x - x_new| < eps -> converge ho gaya
+// Binary search wala helper integer part ke liye (optional)
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── binary_search_sqrt: integer floor of sqrt(num) ──────────────────────────
+//   1) lo=0, hi=num pe BS
+//   2) mid*mid <= num -> ans=mid, lo=mid+1
+//   3) warna hi=mid-1
 int binary_search_sqrt(int num)
 {
     int left = 0;
@@ -23,15 +45,20 @@ int binary_search_sqrt(int num)
     return ans;
 }
 
+// ── sqrt_newton: n ka square root high precision se ────────────────────────
+//   1) x = 1 initial guess (koi bhi positive guess chalega)
+//   2) nx = (x + n/x) / 2 — Newton formula for sqrt
+//   3) |x - nx| < eps pe stop
+//   4) x return — sqrt(n) approximate
 double sqrt_newton(double n)
 {
-    const double eps = 1e-15; // precision
-    double x = 1;             // initial guess
+    const double eps = 1e-15;
+    double x = 1;
     for (;;)
     {
-        double nx = (x + n / x) / 2; // Newton iteration
+        double nx = (x + n / x) / 2;
         if (abs(x - nx) < eps)
-            break; // stop when change is very small
+            break;
         x = nx;
     }
     return x;
@@ -40,15 +67,7 @@ double sqrt_newton(double n)
 int main()
 {
     double n = 10.0;
-    cout << fixed << setprecision(15); // show 15 digits after decimal
+    cout << fixed << setprecision(15);
     cout << "Square root of " << n << " = " << sqrt_newton(n) << "\n";
     return 0;
 }
-// The above code implements the Newton-Raphson method to find the square root of a number `n` with high precision. The `binary_search_sqrt` function is a helper function that uses binary search to find the integer part of the square root, but it is not used in the main function. The `sqrt_newton` function performs the Newton-Raphson iteration until the change in value is less than a specified epsilon, ensuring a precise result.
-// The main function demonstrates the usage of the `sqrt_newton` function by calculating and printing the square root of 10 with 15 decimal places of precision.
-// Note that the `binary_search_sqrt` function can be used to find the integer part of the square root if needed, but in this implementation, we directly use the Newton-Raphson method for a more accurate result.
-// The code is written in C++14 and uses standard libraries for input/output and mathematical operations.
-// Time Complexity: O(log(n)) for the binary search part and O(log(1/eps)) for the Newton-Raphson iteration, where `eps` is the precision. Overall, the method is efficient for finding square roots with high precision.
-// Space Complexity: O(1) as we are using only a constant amount of extra space for variables.
-// Example Output:
-// Square root of 10.000000000000000 = 3.162277660168380

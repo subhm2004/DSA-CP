@@ -12,70 +12,57 @@
 
 #include <iostream>
 using namespace std;
-class Node{
-    public:
-    int data;
-    Node* next;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MIDDLE OF LINKED LIST + CYCLE — slow/fast pointer technique
+// ────────────────────────────────────────────────────────────────────────────
+// slow 1 step, fast 2 step — fast end pe slow = middle
+// cycle: meet hone ke baad slow=head, dono 1 step → start point
+// ════════════════════════════════════════════════════════════════════════════
+
+class Node {
+public:
+    int data;
+    Node *next;
 };
 
-
-/*
- * checkloop()
- * Purpose : Floyd's slow/fast pointers detect cycle.
- * Params  : Node* head
- * Returns : bool
- */
-bool checkloop(Node* head){
-    Node* slow= head;
-    Node* fast= head;
-    while(fast!= NULL){
-        fast= fast-> next;
-        if(fast!= NULL){
-            fast= fast-> next;
-            slow= slow-> next;
+// ── checkloop: Floyd's cycle detection ─────────────────────────────────────
+bool checkloop(Node *head) {
+    Node *slow = head;
+    Node *fast = head;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;             // fast 2 step
+            slow = slow->next;             // slow 1 step
         }
-        if(fast== slow){
+        if (fast == slow) {
             return true;
         }
     }
     return false;
 }
 
-
-/*
- * startingpoint()
- * Purpose : Node* pointers; handle empty and single-node cases.
- * Params  : Node* head
- * Returns : Node*
- */
-Node* startingpoint(Node* head){
-    Node* fast= head;
-    Node* slow= head;
-    while(fast!= NULL){
-        fast= fast-> next;
-        if(fast!= NULL){
-            fast = fast-> next;
-            slow = slow-> next;
+// ── startingpoint: cycle entry node ─────────────────────────────────────────
+Node *startingpoint(Node *head) {
+    Node *fast = head;
+    Node *slow = head;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;
+            slow = slow->next;
         }
-        if(fast == slow){
+        if (fast == slow) {
             fast = head;
-            while(fast!= slow){
-                fast= fast-> next;
-                slow= slow-> next;
+            while (fast != slow) {
+                fast = fast->next;
+                slow = slow->next;         // phase 2 — entry point find
             }
-            Node* start= slow;
-           
+            Node *start = slow;
         }
     }
 }
 
-
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Middle Of Linked List
- */
-int main(){
-    
+int main() {
 }

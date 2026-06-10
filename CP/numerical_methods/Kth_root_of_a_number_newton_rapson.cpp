@@ -1,13 +1,17 @@
-#include <bits/stdc++.h> // LC 3932  (Kth root of a number find krte h isme )
+#include <bits/stdc++.h> // LC 3932 — Kth root of a number
 using namespace std;
 typedef long long ll;
 
-// ================================================================
-//  mul — safe multiplication with overflow check
-// ================================================================
-//  अगर a*b > limit हो जाए तो (limit+1) return करो = "infinity signal"
-//  यह fastPower को overflow से बचाता है
+// ════════════════════════════════════════════════════════════════════════════
+// K-th ROOT — Newton-Raphson + Binary Search (LeetCode 3932 style)
+// ────────────────────────────────────────────────────────────────────────────
+// Goal: floor(n^(1/k)) exactly nikalo
+// Newton: x_next = [(k-1)*x + n/x^(k-1)] / k
+// Phase 2/3: float error fix — root up/down nudge via fastPower check
+// Count kth powers in [l,r]: floor(r^(1/k)) - floor((l-1)^(1/k))
+// ════════════════════════════════════════════════════════════════════════════
 
+// ── mul: safe multiply — overflow pe limit+1 return ───────────────────────
 ll mul(ll a, ll b, ll limit)
 {
     if (a == 0 || b == 0)
@@ -17,20 +21,7 @@ ll mul(ll a, ll b, ll limit)
     return a * b;
 }
 
-// ================================================================
-//  fastPower — modPow pattern with overflow guard
-// ================================================================
-//
-//  Standard modPow pattern:
-//  while (exp) {
-//    if (exp & 1)
-//      ans = mul(ans, base);
-//    base = mul(base, base);
-//    exp >>= 1;
-//  }
-//
-//  If result would exceed `limit`, returns limit+1 ("infinity signal").
-
+// ── fastPower: base^exp with overflow guard (returns limit+1 if exceeds) ────
 ll fastPower(ll base, int exp, ll limit)
 {
     ll ans = 1;
@@ -44,34 +35,11 @@ ll fastPower(ll base, int exp, ll limit)
     return ans;
 }
 
-// ================================================================
-//  APPROACH 1 — Newton-Raphson
-// ================================================================
-//
-//  DERIVATION of the update formula:
-//
-//  Goal: solve  f(x) = x^k - n = 0
-//  f'(x) = k * x^(k-1)
-//
-//  Newton step:
-//    x_next = x - f(x)/f'(x)
-//           = x - (x^k - n) / (k * x^(k-1))
-//
-//  Split the fraction:
-//    = x - x^k/(k*x^(k-1))  +  n/(k*x^(k-1))
-//    = x - x/k               +  n/(k*x^(k-1))
-//    = x*(1 - 1/k)           +  n/(k*x^(k-1))
-//    = x*(k-1)/k             +  n/(k*x^(k-1))
-//
-//  Multiply through by k:
-//    k * x_next = (k-1)*x  +  n / x^(k-1)
-//
-//  Divide by k:
-//    x_next = [ (k-1)*x  +  n/x^(k-1) ] / k     ← CODE COMPUTES THIS
-//
-//  Convergence: quadratic (correct digits double each step)
-//  Typically ~10-15 iterations for n up to 1e18.
-
+// ── kthRoot_Newton: floor(n^(1/k)) via Newton + precision fix ───────────────
+//   1) Newton float iterations: x_next = [(k-1)*x + n/x^(k-1)] / k
+//   2) truncate to ll, phir while (root+1)^k <= n -> root++ (nudge up)
+//   3) while root^k > n -> root-- (nudge down)
+//   4) exact floor return
 ll kthRoot_Newton(ll n, int k)
 {
     if (n < 0)
@@ -129,22 +97,9 @@ ll kthRoot_Newton(ll n, int k)
     return root;
 }
 
-// ================================================================
-//  APPROACH 2 — Binary Search
-// ================================================================
-//
-//  x^k is strictly increasing for x >= 0.
-//  So we binary search for the LARGEST x where x^k <= n.
-//
-//  lo=1, hi=n (safe upper bound: when k=1 root=n; k>=2 root << n)
-//
-//  Trace for n=27, k=3:
-//    lo=1  hi=27  mid=14  14^3=2744>27  hi=13
-//    lo=1  hi=13  mid=7    7^3=343>27   hi=6
-//    lo=1  hi=6   mid=3    3^3=27<=27   ans=3, lo=4
-//    lo=4  hi=3   EXIT
-//    return 3  (correct: floor(27^(1/3))=3)
-
+// ── kthRoot_BinarySearch: floor(n^(1/k)) via BS on x ────────────────────────
+//   1) x^k monotonic increasing -> BS for largest x with x^k <= n
+//   2) fastPower(mid,k,n) overflow-safe compare
 ll kthRoot_BinarySearch(ll n, int k)
 {
     if (n < 0)
@@ -173,38 +128,8 @@ ll kthRoot_BinarySearch(ll n, int k)
     return ans;
 }
 
-// ================================================================
-//  WHY floor(r^(1/k)) - floor((l-1)^(1/k)) ?
-// ================================================================
-//
-//  We want: count of integers y in [l,r] where y = x^k for some x
-//  Equivalently: count integers x where x^k in [l,r]
-//                             i.e., l <= x^k <= r
-//                             i.e., l^(1/k) <= x <= r^(1/k)
-//
-//  Count of integers in [a, b] = floor(b) - floor(a) + 1
-//                               = floor(b) - (floor(a) - 1)
-//                               = floor(b) - floor(a-1)     [since a is integer]
-//
-//  Here a = ceil(l^(1/k))  (smallest valid x)
-//       b = floor(r^(1/k)) (largest valid x)
-//
-//  Count = floor(r^(1/k)) - floor(l^(1/k) - 1)
-//        = floor(r^(1/k)) - floor((l-1)^(1/k))   [key identity]
-//
-//  This identity holds because:
-//    floor(l^(1/k) - 1) = floor((l-1)^(1/k))
-//    (the largest integer strictly less than l^(1/k)
-//     equals the floor of (l-1)^(1/k))
-//
-//  Concrete check — l=8, r=30, k=2:
-//    floor(sqrt(30))   = 5
-//    floor(sqrt(8-1))  = floor(sqrt(7)) = 2
-//    Answer = 5 - 2 = 3  (x=3,4,5 → y=9,16,25)  ✓
-//
-//  l=0 edge case: l-1 = -1 → use max(l-1, 0) = 0
-//    kthRoot(0, k) = 0 always (0^k = 0 ≤ 0)
-
+// ── countKthPowers_Newton: [l,r] me kitne perfect k-th powers ───────────────
+//   count = floor(r^(1/k)) - floor((l-1)^(1/k))
 int countKthPowers_Newton(int l, int r, int k)
 {
     ll right = kthRoot_Newton((ll)r, k);
@@ -213,18 +138,15 @@ int countKthPowers_Newton(int l, int r, int k)
     return (int)(right - left);
 }
 
+// ── countKthPowers_BinarySearch: same count, BS approach se ─────────────────
 int countKthPowers_BinarySearch(int l, int r, int k)
 {
-
     ll right = kthRoot_BinarySearch((ll)r, k);
     ll left = kthRoot_BinarySearch((ll)l - 1, k);
 
     return (int)(right - left);
 }
 
-// ================================================================
-//  main
-// ================================================================
 int main()
 {
     ios_base::sync_with_stdio(false);

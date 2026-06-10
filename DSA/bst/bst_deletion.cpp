@@ -13,6 +13,20 @@
 #include <iostream>
 #include <queue>
 using namespace std;
+
+// ════════════════════════════════════════════════════════════════════════════
+// BST DELETION — Node delete karo BST property maintain karke
+// ────────────────────────────────────────────────────────────────────────────
+// Problem: Target node hatao, BST valid rahe.
+//
+// Cases:
+//   1) Leaf → NULL return
+//   2) Ek child → child return
+//   3) Do child → left subtree ka max (ya right ka min) replace karo
+//
+// Complexity: Time O(h)  |  Space O(h)
+// ════════════════════════════════════════════════════════════════════════════
+
 class Node{
     public:
     int data;
@@ -25,13 +39,7 @@ class Node{
     }
 };
 
-
-/*
- * CreateBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int data
- * Returns : Node*
- */
+// ── CreateBST: insert ──
 Node* CreateBST(Node* root, int data){
     if(root== NULL){
         root= new Node(data);
@@ -46,13 +54,7 @@ Node* CreateBST(Node* root, int data){
     return root;
 }
 
-
-/*
- * takinginput()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* &root
- * Returns : void
- */
+// ── takinginput: loop insert ──
 void takinginput(Node* &root){
     int data;
     cout<< "Enter data"<< endl;
@@ -64,13 +66,7 @@ void takinginput(Node* &root){
     }
 }
 
-
-/*
- * searchInBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int target
- * Returns : Node*
- */
+// ── searchInBST: node pointer return ──
 Node* searchInBST(Node* root, int target){
     if(root == NULL){
         return NULL;
@@ -84,16 +80,9 @@ Node* searchInBST(Node* root, int target){
     else {
         return searchInBST(root-> right, target);
     }
-
 }
 
-
-/*
- * levelordertraversal()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : void
- */
+// ── levelordertraversal: BFS print ──
 void levelordertraversal(Node* root){
     queue<Node*>q;
     q.push(root);
@@ -119,13 +108,7 @@ void levelordertraversal(Node* root){
     }
 }
 
-
-/*
- * FindMaximum()
- * Purpose : Exploit sorted BST property for O(h) operations.
- * Params  : Node* root
- * Returns : int
- */
+// ── FindMaximum: left subtree ka max (inorder predecessor) ──
 int FindMaximum(Node* root){
     if(root== NULL){
         return -1;
@@ -134,17 +117,13 @@ int FindMaximum(Node* root){
         root= root-> right;
     }
     return root-> data;
-
 }
 
-
-
-/*
- * deletionInBST()
- * Purpose : Use BST property: left < root < right.
- * Params  : Node* root, int target
- * Returns : Node*
- */
+// ── deletionInBST: target node delete ──
+//   1) NULL → NULL
+//   2) Match mila → 3 cases handle (0/1/2 child)
+//   3) 2 child → left max se replace, left se woh delete
+//   4) Nahi mila → left/right recurse
 Node* deletionInBST(Node* root, int target){
     if(root== NULL){
         return NULL;
@@ -152,20 +131,20 @@ Node* deletionInBST(Node* root, int target){
     if(root-> data == target){
          if(root-> left== NULL && root-> right== NULL){
         delete root;
-        return NULL;
+        return NULL;  // leaf delete
     }
     else if(root-> left!= NULL && root -> right== NULL){
         Node* child= root-> left;
         delete root;
-        return child;
+        return child;  // sirf left child
     }
     else if(root-> left== NULL && root-> right!= NULL){
         Node* child= root-> right;
         delete root;
-        return child;
+        return child;  // sirf right child
     }
     else {
-        int child = FindMaximum(root-> left);
+        int child = FindMaximum(root-> left);  // inorder predecessor
         root-> data= child;
         root-> left = deletionInBST(root-> left, child);
         return root;
@@ -181,11 +160,7 @@ Node* deletionInBST(Node* root, int target){
     
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Bst Deletion
- */
+// ── main: build → delete → print ──
 int main(){
     Node* root= NULL;
     takinginput(root);
@@ -194,5 +169,4 @@ int main(){
     cin>> target;
     deletionInBST(root, target);
     levelordertraversal(root);
-
 }

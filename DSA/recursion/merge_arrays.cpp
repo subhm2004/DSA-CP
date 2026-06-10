@@ -13,12 +13,18 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// MERGE TWO SORTED ARRAYS — Two-pointer technique
+// ────────────────────────────────────────────────────────────────────────────
+// arr1 aur arr2 sorted — chhota element ans me daalo
+// Jab ek khatam -> baaki copy karo
+// Merge sort ka merge step — O(n+m) time
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Merge Arrays
- */
+// ── main: do sorted arrays merge karke print ────────────────────────────────
+//   1) i, j pointers — dono arrays ke start
+//   2) chhota element ans[k] me, pointer aage
+//   3) leftover elements copy karo
 int main() {
     int arr1[] = {2,4,6};
     int size1= 3;
@@ -37,18 +43,17 @@ int main() {
     }
     k++;
     }
-    while(i< size1) {
+    while(i< size1) {  // arr1 ka baaki hissa
         ans[k] = arr1[i];
         i++;
         k++;
     }
-    while(j< size2) {
+    while(j< size2) {  // arr2 ka baaki hissa
         ans[k] = arr2[j];
         j++;
         k++;
     }
 
-    // Iterate over all elements
     for(int i=0; i< (size1 + size2); i++) {
         cout<< ans[i]<< "  ";
     }

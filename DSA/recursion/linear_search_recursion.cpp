@@ -12,27 +12,27 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// LINEAR SEARCH (Recursion) — Array me target dhundho
+// ────────────────────────────────────────────────────────────────────────────
+// Index i se start karo, har step pe i+1 pe jao
+// Base: arr[i]==target mil gaya -> print index
+// Worst case O(n) — poora array traverse
+// ════════════════════════════════════════════════════════════════════════════
 
-
-/*
- * linearsearch()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int i, int& target
- * Returns : void
- */
+// ── linearsearch: index i se target search ────────────────────────────────
+//   1) arr[i] == target -> index print, return
+//   2) warna i+1 pe recursive call — aage badho
+//   3) implicitly end pe kuch nahi (target nahi mila)
 void linearsearch(int arr[], int& size,int i, int& target) {
     if(arr[i] == target) {
         cout<< "target found at index "<< i<< endl;
         return;
     }
-    linearsearch(arr, size, i+1, target);
+    linearsearch(arr, size, i+1, target);  // agla element check karo
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Linear Search Recursion
- */
+// ── main: fixed array pe linear search demo ─────────────────────────────────
 int main() {
     int arr[] = {1,34,23,21,45,43};
     int size= 6;

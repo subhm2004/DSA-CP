@@ -12,30 +12,31 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// CHECK SORTED ARRAY — Adjacent pairs compare karo
+// ────────────────────────────────────────────────────────────────────────────
+// arr[i] < arr[i+1] -> aage check karo (i+1)
+// arr[i] >= arr[i+1] -> sorted nahi, false
+// Base: i==size-1 -> true (last element tak sab theek)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * sortedarray()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int size, int i
- * Returns : bool
- */
+// ── sortedarray: array ascending sorted hai? ──────────────────────────────────
+//   1) i==size-1 -> base case, return true
+//   2) arr[i]<arr[i+1] -> next pair check karo
+//   3) warna return false — order break hua
 bool sortedarray(int arr[], int size, int i) {
     if(i == size-1) {
-        return true;
+        return true;  // last index — sab theek
     }    
     if(arr[i]< arr[i+1]) {
-        sortedarray(arr,size, i+1);    
+        sortedarray(arr,size, i+1);  // agla pair check    
     }
     else {
-        return false;
+        return false;  // descending ya equal — sorted nahi
     } 
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Check Sorted Array
- */
+// ── main: sorted check demo ─────────────────────────────────────────────────
 int main() {
     int arr[] = {12, 34,45,57,677,78};
     int size = 6;

@@ -11,6 +11,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PAINTER'S PARTITION — K painters, boards sequentially paint karo
+// ────────────────────────────────────────────────────────────────────────────
+// BS on answer = max time ek painter ko (book allocation jaisa hi)
+// canPaint: greedy partition — boards jodo jab tak maxTime exceed na ho
+// MIN answer: minimize maximum load on any painter
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── canPaint: maxTime cap pe K painters kaafi hain? ─────────────────────────
+//   1) board > maxTime -> impossible
+//   2) greedy: curr painter me jodo, exceed -> naya painter
+//   3) painters used <= k -> true
 bool canPaint(const vector<int> &boards, int k, int maxTime) {
     int painters = 1, curr = 0;
     for (int b : boards) {
@@ -26,6 +38,9 @@ bool canPaint(const vector<int> &boards, int k, int maxTime) {
     return painters <= k;
 }
 
+// ── minPaintTime: minimum possible maximum paint time ───────────────────────
+//   1) lo = max board, hi = total sum
+//   2) BS: possible -> ans=mid, hi=mid-1 (minimize)
 int minPaintTime(const vector<int> &boards, int k) {
     int lo = *max_element(boards.begin(), boards.end());
     int hi = accumulate(boards.begin(), boards.end(), 0);

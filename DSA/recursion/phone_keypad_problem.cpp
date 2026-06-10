@@ -10,4 +10,11 @@
  * ============================================================================
  */
 
-
+// ════════════════════════════════════════════════════════════════════════════
+// PHONE KEYPAD — Digit string se letter combinations
+// ────────────────────────────────────────────────────────────────────────────
+// Har digit ke corresponding letters (2->abc, 3->def, ...)
+// Backtracking: har digit pe ek letter choose, recurse, undo
+// Example: "23" -> ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+// Note: Is file me abhi sirf header hai — implementation add karni hogi
+// ════════════════════════════════════════════════════════════════════════════

@@ -14,12 +14,20 @@
 using namespace std;
 
 
-/*
- * missingelement()
- * Purpose : Binary search on sorted array or on answer.
- * Params  : int *arr, int& size
- * Returns : int
- */
+
+// ════════════════════════════════════════════════════════════════════════════
+// MISSING ELEMENT — Sorted 1..n me missing (Leetcode 268 variant)
+// ────────────────────────────────────────────────────────────────────────────
+// arr[mid] should be mid+1 — nahi hai to missing left me
+// BS on index — O(log n)
+// ════════════════════════════════════════════════════════════════════════════
+
+
+// ── missingelement: missing number BS ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int missingelement(int *arr, int& size){
     int s=0, e= size-1;
     int mid= s+(e-s)/2;
@@ -42,10 +50,12 @@ int missingelement(int *arr, int& size){
 
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Missing Element
- */
+
+// ── main: demo ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     int arr[] = {1,2,3,4,5,6,7,9};
     int size = 8;

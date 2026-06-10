@@ -13,13 +13,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// QUICK SORT — Partition based in-place sort
+// ────────────────────────────────────────────────────────────────────────────
+// Pivot choose, uske left chhote right bade
+// Recursively sort [s,p-1] aur [p+1,e]
+// Average O(n log n), worst O(n²) — pivot choice matter karta hai
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * partition()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int *arr, int s, int e
- * Returns : int
- */
+// ── partition: pivot ko sahi index pe fix ───────────────────────────────────
+//   1) count kitne <= pivot
+//   2) pivot swap to s+count
+//   3) i,j se galat elements swap
 int partition(int *arr, int s, int e){
     int pivotindex= s;
     int pivotelement= arr[s];
@@ -49,13 +54,7 @@ int partition(int *arr, int s, int e){
     return pivotindex;
 }
 
-
-/*
- * quicksort()
- * Purpose : Standard DSA solution for this problem.
- * Params  : int* arr, int s, int e
- * Returns : void
- */
+// ── quicksort: partition + recursive sort ─────────────────────────────────────
 void quicksort(int* arr, int s, int e){
     if(s>=e){
         return ;
@@ -65,17 +64,12 @@ void quicksort(int* arr, int s, int e){
     quicksort(arr,index+1,e);
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Quick Sort
- */
+// ── main: quick sort demo ───────────────────────────────────────────────────
 int main(){
     int arr[]= {12,11,1,56,34,23,22};
     int size= 7;
     int s=0, e= size-1;
     quicksort(arr,s,e);
-    // Iterate over all elements
     for(int i=0; i< size; i++){
         cout<< arr[i]<< " ";
     }

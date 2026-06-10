@@ -13,11 +13,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// ROTATE MATRIX 90° — transpose + reverse rows approach
+// ────────────────────────────────────────────────────────────────────────────
+// Funda: 90° clockwise = transpose karke har row reverse
+// Yahan column-wise copy attempt — arr[i][j] -> c[j][k]
+// COMPLEX: Time O(n²)  |  Space O(n²) for output matrix
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Rotate Matrix
- */
+// ── main: 3x3 matrix 90° rotate karo ───────────────────────────────────────
+//   1) original arr[3][3] declare
+//   2) column-wise copy into rotated matrix c
+//   3) rotated matrix print karo
 int main() {
     int arr[3][3] = {{1,2,3},
                      {4,5,6},

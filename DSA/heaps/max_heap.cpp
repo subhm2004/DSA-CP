@@ -13,20 +13,24 @@
 #include <queue>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// K SMALLEST VIA MAX HEAP — STL priority_queue demo
+// ────────────────────────────────────────────────────────────────────────────
+// Size-k max heap: top hamesha k elements me sabse bada (= k-th smallest)
+// File name max_heap but logic k-smallest ke liye max heap of size k
+// Same pattern as find_k_smallest_elements.cpp
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * getksmallest()
- * Purpose : priority_queue for O(log n) min/max access.
- * Params  : int arr[], int &size, int &k
- * Returns : int
- */
+// ── getksmallest: k-th smallest with max heap of size k ────────────────────
+//   1) pehle k elements max-heap me push
+//   2) baaki elements: chhota mila to pop+push
+//   3) heap size k maintain — top = k-th smallest
+//   4) top return
 int getksmallest(int arr[], int &size, int &k){
-    // Min heap — smallest element at top
-    priority_queue<int>pq;
+    priority_queue<int>pq; // default = max heap
     for(int i=0; i<k; i++){
         pq.push(arr[i]);
     }
-    // Iterate over all elements
     for(int i=k; i< size; i++){
         if(arr[i]< pq.top()){
             pq.pop();
@@ -36,11 +40,7 @@ int getksmallest(int arr[], int &size, int &k){
     return pq.top();
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Max Heap
- */
+// ── main: k=3 pe test ───────────────────────────────────────────────────────
 int main(){
     int arr[]= {3,4,7,9,8,1,6};
     int size= 7;

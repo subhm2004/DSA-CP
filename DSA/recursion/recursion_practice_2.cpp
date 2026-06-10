@@ -16,13 +16,21 @@
 #include <limits.h>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// RECURSION PRACTICE 2 — Advanced recursive drills
+// ────────────────────────────────────────────────────────────────────────────
+// Climbing stairs, linear/binary search, min/max, digits, rod cutting
+// Return-value vs void recursion — dono styles practice
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * climbstairs()
- * Purpose : Use BST property: left < root < right.
- * Params  : int n
- * Returns : int
- */
+
+
+
+// ── climbstairs: climbstairs logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int climbstairs(int n){
     if(n==0 || n==1){
         return 1;
@@ -31,12 +39,12 @@ int climbstairs(int n){
 }
 
 
-/*
- * printarray()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int index
- * Returns : void
- */
+
+// ── printarray: printarray logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void printarray(int arr[], int& size, int index){
     if(index>= size){
         return;
@@ -46,12 +54,12 @@ void printarray(int arr[], int& size, int index){
 }
 
 
-/*
- * linearsearch()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int index, int& target
- * Returns : int
- */
+
+// ── linearsearch: linearsearch logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int linearsearch(int arr[], int& size, int index, int& target){
     if(index>= size){
         return -1;
@@ -65,12 +73,12 @@ int linearsearch(int arr[], int& size, int index, int& target){
 }
 
 
-/*
- * minnumber()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int index, int minimum
- * Returns : int
- */
+
+// ── minnumber: minnumber logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int minnumber(int arr[], int& size, int index, int minimum){
     if(index>= size){
         return minimum;
@@ -78,6 +86,12 @@ int minnumber(int arr[], int& size, int index, int minimum){
      int mini= min(arr[index], minimum);
      return minnumber(arr,size,index+1,minimum);
 }
+
+// ── checkeven: checkeven recursive logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — smaller subproblem
+//   4) return ans ya void
 vector<int>checkeven(int arr[],int index, int size, vector<int>&ans){
     if(index>= size){
         return ans;
@@ -89,12 +103,12 @@ vector<int>checkeven(int arr[],int index, int size, vector<int>&ans){
 }
 
 
-/*
- * doubleeach()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int size, int index
- * Returns : void
- */
+
+// ── doubleeach: doubleeach logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void doubleeach(int arr[], int size, int index){
     if(index>= size){
         return;
@@ -104,12 +118,12 @@ void doubleeach(int arr[], int size, int index){
 }
 
 
-/*
- * maxnumber()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int index, int& maxi
- * Returns : int
- */
+
+// ── maxnumber: maxnumber logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int maxnumber(int arr[], int& size, int index, int& maxi){
     if(index>= size){
         return maxi;
@@ -121,12 +135,12 @@ int maxnumber(int arr[], int& size, int index, int& maxi){
 }
 
 
-/*
- * indexoccurrence()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int *arr, int& size, int index, int& target, vector<int>&ans
- * Returns : vector<int>
- */
+
+// ── indexoccurrence: indexoccurrence recursive logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — smaller subproblem
+//   4) return ans ya void
 vector<int> indexoccurrence(int *arr, int& size, int index, int& target, vector<int>&ans){
     if(index>= size){
         return ans;
@@ -139,12 +153,12 @@ vector<int> indexoccurrence(int *arr, int& size, int index, int& target, vector<
 }
 
 
-/*
- * printdigits()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int n
- * Returns : void
- */
+
+// ── printdigits: printdigits logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void printdigits(int n){
     // Base case: n == 0
     if(n==0){
@@ -157,12 +171,12 @@ void printdigits(int n){
 }
 
 
-/*
- * printnumber()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int track, int& size, int& num, int index
- * Returns : void
- */
+
+// ── printnumber: printnumber logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void printnumber(int arr[], int track, int& size,int& num, int index){
     if(index>= size){
         return;
@@ -174,12 +188,12 @@ void printnumber(int arr[], int track, int& size,int& num, int index){
 }
 
 
-/*
- * checksorted()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int size, int index
- * Returns : bool
- */
+
+// ── checksorted: checksorted logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 bool checksorted(int arr[], int size, int index){
     if(index >= size-1){
         return true;
@@ -193,12 +207,12 @@ bool checksorted(int arr[], int size, int index){
 }
 
 
-/*
- * binarysearch()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int arr[], int& size, int s, int e, int& target
- * Returns : int
- */
+
+// ── binarysearch: binarysearch logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int binarysearch(int arr[],int& size, int s, int e, int& target){
     if(s>e){
         return -1;
@@ -218,12 +232,12 @@ int binarysearch(int arr[],int& size, int s, int e, int& target){
 }
 
 
-/*
- * subseq()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : string& str, string& output, int index
- * Returns : void
- */
+
+// ── subseq: subseq logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 void subseq(string& str, string& output, int index){
     if(index>= str.length()){
         return;
@@ -235,12 +249,12 @@ void subseq(string& str, string& output, int index){
 }
 
 
-/*
- * segmentlength()
- * Purpose : Base case + solve smaller subproblem recursively.
- * Params  : int n, int x, int y, int z
- * Returns : int
- */
+
+// ── segmentlength: segmentlength logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int segmentlength(int n, int x, int y, int z){
     if(n<0){
         return INT_MIN;
@@ -258,10 +272,12 @@ int segmentlength(int n, int x, int y, int z){
 
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Recursion Practice 2
- */
+
+// ── main: main logic ─────────────────────────────────────────────────────────
+//   1) problem-specific logic yahan apply hoti hai
+//   2) base case / boundary check pehle
+//   3) recursive ya iterative step — chhota subproblem
+//   4) return ans ya void
 int main() {
     int n;
     cout<< "enter the amount to be made "<< endl;

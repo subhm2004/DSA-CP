@@ -12,16 +12,18 @@
 #include <iostream>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// UNIQUE OCCURRENCE + XOR DUPLICATE — frequency aur XOR
+// ────────────────────────────────────────────────────────────────────────────
+// uniqueocc(): 1,2,3 ki frequency count — sab alag ho to true
+// duplicate(): XOR se odd-frequency element nikalo
+// COMPLEX: Count O(n)  |  XOR O(n)
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * printarray()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── printarray: array print karo ─────────────────────────────────────────────
+//   1) label + elements space-separated print
 void printarray(int arr[], int size) {
     cout<< "array is"<< " ";
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         cout<< arr[i]<< " ";
 
@@ -30,15 +32,12 @@ void printarray(int arr[], int size) {
 }
 
 
-/*
- * uniqueocc()
- * Purpose : Iterate with two pointers / sliding window / prefix sum.
- * Params  : int arr[], int size
- * Returns : bool
- */
+// ── uniqueocc: kya har value ki unique frequency hai? ──────────────────────
+//   1) a,b,c counters — 1, 2, 3 (ya else) count
+//   2) teeno frequencies print
+//   3) a!=b && b!=c && c!=a ho to true — sab alag
 bool uniqueocc(int arr[], int size) {
     int a=0, b=0, c=0;
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         if(arr[i] == 1) {
             a++;
@@ -63,15 +62,11 @@ bool uniqueocc(int arr[], int size) {
 }
 
 
-/*
- * duplicate()
- * Purpose : Hash set or sorting to find duplicates.
- * Params  : int arr[], int size
- * Returns : void
- */
+// ── duplicate: XOR se single odd-occurrence element ────────────────────────
+//   1) ans=0, har element XOR — pairs cancel
+//   2) bacha hua ans print — unique element
 void duplicate(int arr[], int size) {
     int ans=0;
-    // Iterate over all elements
     for(int i=0; i<size; i++) {
         ans = ans^arr[i];
         cout<< ans<< " ";
@@ -79,10 +74,9 @@ void duplicate(int arr[], int size) {
 }
 
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Unique Occurrence
- */
+// ── main: print array + XOR duplicate demo ─────────────────────────────────
+//   1) array print
+//   2) XOR se unique element trace
 int main() {
     int arr[]= { 1, 2 ,3,3,4};
     int size = 5;

@@ -13,11 +13,20 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// DYNAMIC 2D ARRAY — heap pe row×col matrix allocate
+// ────────────────────────────────────────────────────────────────────────────
+// int** arr = array of row pointers
+// Har row: new int[col] — alag heap block
+// Print: nested loops se values (default 0)
+// Cleanup: pehle har row delete[], phir arr delete[]
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * main()
- * Purpose : Entry point — demo/test for Dynamictwo D
- */
+// ── main: dynamic 2D array create, print, free ────────────────────────────
+//   1) row=5, col=3 set karo
+//   2) arr = new int*[row] — row pointers array
+//   3) har i: arr[i] = new int[col] — har row allocate
+//   4) nested loop se print, phir har row + main array delete
 int main(){
     int row= 5;
     int col=3;

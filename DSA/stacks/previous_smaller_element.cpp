@@ -15,39 +15,34 @@
 #include <vector>
 using namespace std;
 
+// ════════════════════════════════════════════════════════════════════════════
+// PREVIOUS SMALLER ELEMENT — left side pe pehla chhota element
+// ────────────────────────────────────────────────────────────────────────────
+// left-to-right scan; monotonic increasing stack
+// stack top < arr[i] → answer; warna pop
+// ════════════════════════════════════════════════════════════════════════════
 
-/*
- * prevsmallerelement()
- * Purpose : LIFO stack — push on open, pop on match.
- * Params  : int arr[], int& index, int& size
- * Returns : void
- */
-void prevsmallerelement(int arr[], int& index, int& size){
-    stack<int>sp;
-    vector<int>ans;
-    // Opening bracket — push onto stack
-    sp.push(-1);
-    while(index< size){
-        if(!sp.empty() && (sp.top()< arr[index])){
+// ── prevsmallerelement: har index ka previous smaller ──────────────────────
+//   1) left se right scan
+//   2) stack top < arr[index] → ans push, current push
+//   3) warna pop — chhota dhundho
+void prevsmallerelement(int arr[], int &index, int &size) {
+    stack<int> sp;
+    vector<int> ans;
+    sp.push(-1);                           // sentinel — left mein koi nahi
+    while (index < size) {
+        if (!sp.empty() && (sp.top() < arr[index])) {
             ans.push_back(sp.top());
-            // Opening bracket — push onto stack
-            sp.push(arr[index]);
+            sp.push(arr[index]);           // monotonic stack maintain
             index++;
-        }
-        else {
-            // Matching bracket — pop from stack
-            sp.pop();
+        } else {
+            sp.pop();                      // bada/equal — hatao
         }
     }
 }
 
-
-/*
- * main()
- * Purpose : Entry point — demo/test for Previous Smaller Element
- */
-int main(){
-    int arr[]= {8,4,6,1,2,3};
-    int size= 6;
-    int index= 0;
+int main() {
+    int arr[] = {8, 4, 6, 1, 2, 3};
+    int size = 6;
+    int index = 0;
 }
