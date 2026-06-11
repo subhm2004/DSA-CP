@@ -15,6 +15,7 @@ Competitive programming DP — all subtypes.
 | [grid_dp/](./grid_dp/) | [Open →](./grid_dp/README.md) | (2 files)
 | [interval_dp/](./interval_dp/) | [Open →](./interval_dp/README.md) | (1 files)
 | [knapsack/](./knapsack/) | [Open →](./knapsack/README.md) | (2 files)
+| [LCA/](./LCA/) | [Open →](./LCA/README.md) | (4 files)
 | [lcs/](./lcs/) | [Open →](./lcs/README.md) | (2 files)
 | [lis/](./lis/) | [Open →](./lis/README.md) | (2 files)
 | [partition_dp/](./partition_dp/) | [Open →](./partition_dp/README.md) | (4 files)
