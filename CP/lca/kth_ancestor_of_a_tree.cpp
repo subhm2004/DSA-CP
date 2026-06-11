@@ -1,74 +1,82 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 // ════════════════════════════════════════════════════════════════════════════
-// K-th ANCESTOR — Binary Tree (Recursive DFS approach)
+// BINARY LIFTING — K-th Ancestor (Basic)
 // ────────────────────────────────────────────────────────────────────────────
-// Target node p dhoondho. Jab wapas aa rahe ho (post-order) to k-- karo.
-// Jab k==0 ho, current node = k-th ancestor hai.
+// up[i][j] = node i ka 2^j-th ancestor (j=0 -> direct parent)
+// Fill: up[i][j] = up[ up[i][j-1] ][j-1]  (jump double karo)
+//
+// K-th ancestor: K ke binary bits check karo, j-th bit set ho to
+//               node = up[node][j]
+// Complexity: preprocess O(n log n), query O(log n)
 // ════════════════════════════════════════════════════════════════════════════
 
-struct node
+class BinaryLifting
 {
-    int data;
-    node *left;
-    node *right;
-    node(int x) : data(x), left(nullptr), right(nullptr) {}
+    int n, maxLog;
+    vector<vector<int>> up; // up[i][j] -> 2^j-th ancestor of node i
+
+public:
+    // ── Constructor: parent array se up[][] table banao ─────────────────────
+    //   1) maxLog = log2(n)+1 — kitne jump levels
+    //   2) up[i][0] = parent[i] — direct parent (2^0 ancestor)
+    //   3) j=1..maxLog-1: up[i][j] = up[ up[i][j-1] ][j-1]
+    //   4) DP se har node ka 2^j-th ancestor precompute — query O(log n)
+    BinaryLifting(int n, vector<int> &parent)
+    {
+        this->n = n;
+        maxLog = log2(n) + 1;
+        up.assign(n, vector<int>(maxLog, -1));
+
+        // 2^0-th ancestor = direct parent
+        for (int i = 0; i < n; i++)
+        {
+            up[i][0] = parent[i];
+        }
+
+        // DP: har power of 2 ke liye ancestor precompute
+        for (int j = 1; j < maxLog; j++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (up[i][j - 1] != -1)
+                {
+                    up[i][j] = up[up[i][j - 1]][j - 1];  // do 2^(j-1) jumps = 2^j jump
+                }
+            }
+        }
+    }
+
+    // ── getKthAncestor: node ka K-th ancestor (root se upar) ────────────────
+    //   1) K ke har set bit j ke liye: node = up[node][j]
+    //   2) -1 mila to ancestor exist nahi — return -1
+    //   3) binary representation se exactly K steps upar pahunch jaate ho
+    int getKthAncestor(int node, int k)
+    {
+        for (int j = 0; j < maxLog; j++)
+        {
+            if (k & (1 << j))
+            {
+                node = up[node][j];
+                if (node == -1)
+                    return -1;
+            }
+        }
+        return node;
+    }
 };
-
-// ── kth_ancestor: root se target p dhoondho, k-th ancestor print karo ───────
-//   1) base: root NULL -> false; root==p -> true (target mil gaya)
-//   2) left/right subtree me recursively p dhoondo
-//   3) return path pe aate waqt k-- (har ancestor ek step upar)
-//   4) k==0 ho to current node print, k=-1 set (aur recursion rok do)
-bool kth_ancestor(node *root, int &k, node *p)
-{
-    if (root == nullptr)
-    {
-        return false;
-    }
-
-    if (root->data == p->data)
-    {
-        return true;             // target mil gaya — ab wapas jaate waqt k decrement hoga
-    }
-
-    bool left = kth_ancestor(root->left, k, p);
-    bool right = kth_ancestor(root->right, k, p);
-
-    if (left || right)
-    {
-        k--;                     // is node se ek level upar gaye — k kam karo
-    }
-
-    if (k == 0)
-    {
-        cout << root->data << endl;
-        k = -1; // mil gaya, aur recursion rok do
-    }
-
-    return left || right;
-}
 
 int main()
 {
-    node *root = new node(1);
-    root->left = new node(2);
-    root->right = new node(3);
-    root->left->left = new node(4);
-    root->left->right = new node(5);
-    root->left->left->left = new node(6);
+    int n = 10;
+    vector<int> parent = {-1, 0, 0, 1, 1, 2, 2, 3, 3, 4};
 
-    node *target = root->left->left->left;
+    BinaryLifting bl(n, parent);
 
-    int k = 2;
-    if (!kth_ancestor(root, k, target))
-    {
-        if (k != -1)
-        {
-            cout << "No such ancestor found." << endl;
-        }
-    }
+    cout << "3rd ancestor of node 9: " << bl.getKthAncestor(9, 3) << endl;
+    cout << "2nd ancestor of node 6: " << bl.getKthAncestor(6, 2) << endl;
+    cout << "1st ancestor of node 8: " << bl.getKthAncestor(8, 1) << endl;
 
     return 0;
 }
