@@ -20,6 +20,7 @@ Competitive programming DP — all subtypes.
 | [lis/](./lis/) | [Open →](./lis/README.md) | (2 files)
 | [partition_dp/](./partition_dp/) | [Open →](./partition_dp/README.md) | (4 files)
 | [probability_dp/](./probability_dp/) | [Open →](./probability_dp/README.md) | (3 files)
+| [rerooting_dp/](./rerooting_dp/) | [Open →](./rerooting_dp/README.md) | (3 files)
 | [subset_sum/](./subset_sum/) | [Open →](./subset_sum/README.md) | (4 files)
 | [tree_dp/](./tree_dp/) | [Open →](./tree_dp/README.md) | (1 files)
 

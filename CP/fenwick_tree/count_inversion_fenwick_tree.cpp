@@ -1,46 +1,46 @@
 #include <bits/stdc++.h>
+#include "../coordinate_compression/coordinate_compression.h"
 using namespace std;
 using ll = long long;
 
 // ════════════════════════════════════════════════════════════════════════════
-// INVERSION COUNT — Fenwick Tree + Coordinate Compression
+// INVERSION COUNT — Fenwick Tree + Coordinate_Compression
 // ────────────────────────────────────────────────────────────────────────────
-// Idea: left se right scan karo. Har element ke liye:
-//   "mere se pehle kitne MERE SE BADE elements aaye?" = total - count<=me
-// BIT me frequencies store karte hain compressed indices pe.
+// Inversion = pair (i,j) jahan i < j aur arr[i] > arr[j]
+//
+// LEFT → RIGHT scan:
+//   BIT me arr[0..i-1] ki frequencies
+//   "kitne pehle wale CURRENT se bade?" = totalSeen - count(≤ current)
 // ════════════════════════════════════════════════════════════════════════════
 
-class BIT
-{
+class BIT {
 public:
     int n;
     vector<ll> bit;
 
-    // ── BIT: frequency BIT initialize ──
-    //   1) n = compressed value range size
-    //   2) bit size n+1, 1-indexed
-    BIT(int n)
-    {
-        this->n = n;
-        bit.assign(n + 1, 0);
-    }
+    /*
+     * BIT(n)
+     * n = unique compressed values count.
+     * bit size n+1, 1-indexed Fenwick array.
+     */
+    BIT(int n) : n(n), bit(n + 1, 0) {}
 
-    // ── update: index 'i' pe 'x' add karo ──
-    //   1) i se n tak har BIT node pe x add (frequency increment)
-    //   2) i += (i & -i) — LSB jump se parent nodes update
-    void update(int i, ll x)
-    {
-        for (; i <= n; i += (i & -i))  // i & -i = lowest set bit
+    /*
+     * update(i, x)
+     * Index i (1-indexed) pe frequency +x.
+     * i += i & -i se parent nodes update — O(log n).
+     */
+    void update(int i, ll x) {
+        for (; i <= n; i += (i & -i))
             bit[i] += x;
     }
 
-    // ── sum: [1, i] ka prefix sum (kitne elements <= compressed index i-1) ──
-    //   1) total = 0, i > 0 tak loop
-    //   2) bit[i] add karo — cumulative frequency count
-    //   3) i -= (i & -i) se pichla node
-    //   4) sum(idx) = kitne processed elements ki compressed value < idx
-    ll sum(int i)
-    {
+    /*
+     * sum(i)
+     * [1..i] prefix frequency count.
+     * Kitne processed elements ki compressed value < i (0-based rank sense).
+     */
+    ll sum(int i) {
         ll total = 0;
         for (; i > 0; i -= (i & -i))
             total += bit[i];
@@ -48,79 +48,39 @@ public:
     }
 };
 
-// ── Coordinate_Compression: bade values ko 0..K-1 me map karo ──
-class Coordinate_Compression
-{
-public:
-    unordered_map<int, int> compress;
-    vector<int> rev_map;
-
-    // ── Coordinate_Compression: unique values compress karo ──
-    //   1) array ke unique values set me daalo (auto sorted)
-    //   2) har unique value ko 0, 1, 2, ... id do
-    //   3) compress map: original -> id, rev_map: id -> original
-    Coordinate_Compression(const vector<int> &arr)
-    {
-        set<int> st(arr.begin(), arr.end());
-        int id = 0;
-        for (int x : st)
-        {
-            compress[x] = id;
-            rev_map.push_back(x);
-            id++;
-        }
-    }
-
-    // ── get_compressed: poori array ko compressed indices me convert ──
-    //   1) har element arr[i] ka compress[arr[i]] nikalo
-    //   2) result vector same size, 0-based compressed ids
-    vector<int> get_compressed(const vector<int> &arr)
-    {
-        vector<int> res(arr.size());
-        for (int i = 0; i < (int)arr.size(); i++)
-            res[i] = compress[arr[i]];
-        return res;
-    }
-
-    // ── get_original: compressed id se original value ──
-    //   1) rev_map[val] return — reverse lookup
-    int get_original(int val)
-    {
-        return rev_map[val];
-    }
-};
-
-// ── count_Inversions: BIT se inversion count ──
-//   1) coordinate compression karo — values ko 0..m-1 me map
-//   2) left se right scan: har element ke liye pehle se kitne bade aaye?
-//   3) count += sum(m) - sum(idx) — total processed minus <= current
-//   4) current element ko BIT me +1 frequency daal do
-ll count_Inversions(vector<int> &arr)
-{
-    int n = arr.size();
+/*
+ * count_Inversions(arr)
+ * ---------------------
+ * Poori array me inversion pairs count.
+ *
+ * Step 1: Coordinate_Compression — values → 0..m-1
+ * Step 2: get_compressed — har element ki compressed id
+ * Step 3: Left → right:
+ *           idx = comp[i] + 1  (1-indexed BIT)
+ *           count += sum(m) - sum(idx)  → kitne pehle wale > arr[i]
+ *           update(idx, 1)               → arr[i] ko BIT me daalo
+ */
+ll count_Inversions(vector<int>& arr) {
+    int n = (int)arr.size();
 
     Coordinate_Compression cc(arr);
     vector<int> comp = cc.get_compressed(arr);
 
-    int m = cc.rev_map.size();
+    int m = cc.size();
     BIT bit(m);
 
     ll count = 0;
 
-    for (int i = 0; i < n; i++)
-    {
-        int idx = comp[i] + 1;  // 1-indexed for BIT (compressed value + 1)
-
-        count += bit.sum(m) - bit.sum(idx);  // total seen - <= current = greater than current
-        bit.update(idx, 1);                   // current element BIT me daal do
+    for (int i = 0; i < n; i++) {
+        int idx = comp[i] + 1;
+        count += bit.sum(m) - bit.sum(idx);
+        bit.update(idx, 1);
     }
 
     return count;
 }
 
-// ── main: multiple test arrays pe inversion count ──
-int main()
-{
+int main() {
     vector<vector<int>> tests = {
         {8, 4, 2, 1},
         {3, 1, 2},
@@ -130,8 +90,7 @@ int main()
         {1000000, 999999, 2, 1, 5000},
         {5, 3, 5, 1, 3}};
 
-    for (auto &arr : tests)
-    {
+    for (auto& arr : tests) {
         cout << "Array: ";
         for (int x : arr)
             cout << x << " ";
