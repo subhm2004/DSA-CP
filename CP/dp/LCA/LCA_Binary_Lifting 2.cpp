@@ -34,8 +34,9 @@ private:
      */
     void computeDepth(const vector<int>& parent) {
         depth[0] = 0;
-        for (int i = 1; i < n; ++i)
+        for (int i = 1; i < n; ++i) {
             depth[i] = depth[parent[i]] + 1;
+        }
     }
 
 public:
@@ -72,17 +73,22 @@ public:
         up.assign(n, vector<int>(LOG, -1));
         depth.assign(n, 0);
 
-        // Base case: 2^0 = 1 step = direct parent
-        for (int i = 0; i < n; ++i)
+        // Step 2: Base case — 2^0 = 1 step = direct parent
+        for (int i = 0; i < n; ++i) {
             up[i][0] = parent[i];
+        }
 
+        // Step 3: Depth compute
         computeDepth(parent);
 
-        // DP: 2^j ancestor = 2^(j-1) ancestor ka 2^(j-1) ancestor
-        for (int j = 1; j < LOG; ++j)
-            for (int i = 0; i < n; ++i)
-                if (up[i][j-1] != -1)
-                    up[i][j] = up[up[i][j-1]][j-1];
+        // Step 4: DP — 2^j ancestor = 2^(j-1) ancestor ka 2^(j-1) ancestor
+        for (int j = 1; j < LOG; ++j) {
+            for (int i = 0; i < n; ++i) {
+                if (up[i][j - 1] != -1) {
+                    up[i][j] = up[up[i][j - 1]][j - 1];
+                }
+            }
+        }
     }
 
     /*
@@ -108,9 +114,11 @@ public:
      */
     int getKthAncestor(int node, int k) {
         for (int i = 0; i < LOG; ++i) {
-            if (k & (1 << i)) {           // agar k ka i-th bit set hai
-                node = up[node][i];       // 2^i steps upar jump karo
-                if (node == -1) return -1; // root se upar nahi ja sakte
+            if (k & (1 << i)) {              // agar k ka i-th bit set hai
+                node = up[node][i];          // 2^i steps upar jump karo
+                if (node == -1) {            // root se upar nahi ja sakte
+                    return -1;
+                }
             }
         }
         return node;
@@ -145,20 +153,25 @@ public:
      */
     int lca(int u, int v) {
         // Step 1: u ko hamesha neeche wale node par rakho (zyada depth wala)
-        if (depth[u] < depth[v]) swap(u, v);
+        if (depth[u] < depth[v]) {
+            swap(u, v);
+        }
 
         // u ko utna upar lao jitna v neeche hai — ab dono same level par
         u = getKthAncestor(u, depth[u] - depth[v]);
 
         // Step 2: agar same node ho gaye, wahi LCA hai
-        if (u == v) return u;
+        if (u == v) {
+            return u;
+        }
 
         // Step 3: bade jump se chhote tak — LCA ke just neeche ruk jao
-        for (int j = LOG - 1; j >= 0; --j)
+        for (int j = LOG - 1; j >= 0; --j) {
             if (up[u][j] != up[v][j]) {
                 u = up[u][j];
                 v = up[v][j];
             }
+        }
 
         // Step 4: ab u aur v siblings hain (same parent) — wahi LCA
         return up[u][0];
@@ -179,24 +192,30 @@ public:
  *   lcaQueries  — (u, v) pairs jinke LCA nikalne hain
  *   kthQueries  — (node, k) pairs jinke k-th ancestor nikalne hain
  */
-void solveTree(int treeNum, vector<int>& parent, vector<pair<int,int>>& lcaQueries, vector<pair<int,int>>& kthQueries) {
+void solveTree(int treeNum, vector<int>& parent,
+               vector<pair<int, int>>& lcaQueries,
+               vector<pair<int, int>>& kthQueries) {
     cout << "\n===== Tree " << treeNum << " =====\n";
 
     int n = parent.size();
     BinaryLifting bl(n, parent);
 
     cout << "Parent Array: ";
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; ++i) {
         cout << parent[i] << " ";
+    }
     cout << "\n";
 
     cout << "\n-- LCA Queries --\n";
-    for (auto& [u, v] : lcaQueries)
+    for (auto& [u, v] : lcaQueries) {
         cout << "LCA(" << u << ", " << v << ") = " << bl.lca(u, v) << "\n";
+    }
 
     cout << "\n-- Kth Ancestor Queries --\n";
-    for (auto& [node, k] : kthQueries)
-        cout << "getKthAncestor(" << node << ", " << k << ") = " << bl.getKthAncestor(node, k) << "\n";
+    for (auto& [node, k] : kthQueries) {
+        cout << "getKthAncestor(" << node << ", " << k << ") = "
+             << bl.getKthAncestor(node, k) << "\n";
+    }
 }
 
 /*
@@ -225,8 +244,8 @@ int main() {
     // -------------------------------------------------------
     {
         vector<int> parent = {-1, 0, 0, 1, 1};
-        vector<pair<int,int>> lcaQ  = {{3, 4}, {3, 2}, {1, 2}};
-        vector<pair<int,int>> kthQ  = {{3, 1}, {3, 2}, {4, 1}};
+        vector<pair<int, int>> lcaQ = {{3, 4}, {3, 2}, {1, 2}};
+        vector<pair<int, int>> kthQ = {{3, 1}, {3, 2}, {4, 1}};
         solveTree(1, parent, lcaQ, kthQ);
     }
 
@@ -237,8 +256,8 @@ int main() {
     // -------------------------------------------------------
     {
         vector<int> parent = {-1, 0, 1, 2, 3, 4};
-        vector<pair<int,int>> lcaQ  = {{5, 3}, {4, 2}, {5, 1}};
-        vector<pair<int,int>> kthQ  = {{5, 2}, {5, 5}, {3, 1}};
+        vector<pair<int, int>> lcaQ = {{5, 3}, {4, 2}, {5, 1}};
+        vector<pair<int, int>> kthQ = {{5, 2}, {5, 5}, {3, 1}};
         solveTree(2, parent, lcaQ, kthQ);
     }
 
@@ -255,8 +274,8 @@ int main() {
     // -------------------------------------------------------
     {
         vector<int> parent = {-1, 0, 0, 0, 0, 1, 1, 3, 5};
-        vector<pair<int,int>> lcaQ  = {{8, 7}, {6, 7}, {8, 2}, {5, 4}};
-        vector<pair<int,int>> kthQ  = {{8, 1}, {8, 3}, {7, 2}};
+        vector<pair<int, int>> lcaQ = {{8, 7}, {6, 7}, {8, 2}, {5, 4}};
+        vector<pair<int, int>> kthQ = {{8, 1}, {8, 3}, {7, 2}};
         solveTree(3, parent, lcaQ, kthQ);
     }
 
