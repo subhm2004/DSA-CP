@@ -27,15 +27,19 @@ private:
         depth[node] = d;
         up[node][0] = parent;
 
-        for (int j = 1; j < LOG; ++j)
-            if (up[node][j - 1] != -1)
+        for (int j = 1; j < LOG; ++j) {
+            if (up[node][j - 1] != -1) {
                 up[node][j] = up[up[node][j - 1]][j - 1];
-            else
+            } else {
                 up[node][j] = -1;
+            }
+        }
 
-        for (int child : adjList[node])
-            if (child != parent)
+        for (int child : adjList[node]) {
+            if (child != parent) {
                 dfs(child, node, d + 1);
+            }
+        }
     }
 
 public:
@@ -98,9 +102,11 @@ public:
      */
     int get_Kth_Ancestor(int node, int k) {
         for (int i = 0; i < LOG; ++i) {
-            if (k & (1 << i)) {           // k ka i-th bit check — 2^i jump chahiye?
-                node = up[node][i];       // 2^i steps ek saath upar jump
-                if (node == -1) return -1; // root(1) ka parent -1 hai, aage nahi
+            if (k & (1 << i)) {              // k ka i-th bit check — 2^i jump chahiye?
+                node = up[node][i];          // 2^i steps ek saath upar jump
+                if (node == -1) {            // root(1) ka parent -1 hai, aage nahi
+                    return -1;
+                }
             }
         }
         return node;
@@ -156,49 +162,57 @@ public:
      */
     int get_LCA(int u, int v) {
         // Step 1: u ko neeche wale node par lao (zyada depth wala)
-        if (depth[u] < depth[v])
+        if (depth[u] < depth[v]) {
             swap(u, v);
+        }
 
         // u ko utna upar uthao jitna v neeche hai — ab same level
         u = get_Kth_Ancestor(u, depth[u] - depth[v]);
 
         // Step 2: ek dusre ka ancestor hai to wahi LCA
-        if (u == v)
+        if (u == v) {
             return u;
+        }
 
         // Step 3: bade jump se chhote tak — LCA ke just neeche ruk jao
-        for (int i = LOG - 1; i >= 0; --i)
+        for (int i = LOG - 1; i >= 0; --i) {
             if (up[u][i] != up[v][i]) {
                 u = up[u][i];
                 v = up[v][i];
             }
+        }
 
         // Step 4: ab u aur v ke parent = LCA
         return up[u][0];
     }
 
-    int get_Depth(int node) { return depth[node]; }
+    int get_Depth(int node) {
+        return depth[node];
+    }
 };
 
 void solveTree(int treeNum, int n, vector<vector<int>>& edges,
-               vector<pair<int,int>>& lcaQ, vector<pair<int,int>>& kthQ) {
+               vector<pair<int, int>>& lcaQ, vector<pair<int, int>>& kthQ) {
     cout << "\n===== Tree " << treeNum << " (Edges se build) =====\n";
 
     BinaryLifting bl(n, edges);
 
     cout << "Edges: ";
-    for (auto& e : edges)
+    for (auto& e : edges) {
         cout << "(" << e[0] << "," << e[1] << ") ";
+    }
     cout << "\n";
 
     cout << "\n-- LCA Queries --\n";
-    for (auto& [u, v] : lcaQ)
+    for (auto& [u, v] : lcaQ) {
         cout << "LCA(" << u << ", " << v << ") = " << bl.get_LCA(u, v) << "\n";
+    }
 
     cout << "\n-- Kth Ancestor Queries --\n";
-    for (auto& [node, k] : kthQ)
+    for (auto& [node, k] : kthQ) {
         cout << "get_Kth_Ancestor(" << node << ", " << k << ") = "
              << bl.get_Kth_Ancestor(node, k) << "\n";
+    }
 }
 
 int main() {
@@ -215,9 +229,9 @@ int main() {
     // -------------------------------------------------------
     {
         int n = 5;
-        vector<vector<int>> edges = {{1,2}, {1,3}, {2,4}, {2,5}};
-        vector<pair<int,int>> lcaQ  = {{4, 5}, {4, 3}, {2, 3}};
-        vector<pair<int,int>> kthQ  = {{4, 1}, {4, 2}, {5, 1}};
+        vector<vector<int>> edges = {{1, 2}, {1, 3}, {2, 4}, {2, 5}};
+        vector<pair<int, int>> lcaQ = {{4, 5}, {4, 3}, {2, 3}};
+        vector<pair<int, int>> kthQ = {{4, 1}, {4, 2}, {5, 1}};
         solveTree(1, n, edges, lcaQ, kthQ);
     }
 
@@ -227,9 +241,9 @@ int main() {
     // -------------------------------------------------------
     {
         int n = 6;
-        vector<vector<int>> edges = {{1,2}, {2,3}, {3,4}, {4,5}, {5,6}};
-        vector<pair<int,int>> lcaQ  = {{6, 4}, {5, 3}, {6, 2}};
-        vector<pair<int,int>> kthQ  = {{6, 2}, {6, 5}, {4, 1}};
+        vector<vector<int>> edges = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}};
+        vector<pair<int, int>> lcaQ = {{6, 4}, {5, 3}, {6, 2}};
+        vector<pair<int, int>> kthQ = {{6, 2}, {6, 5}, {4, 1}};
         solveTree(2, n, edges, lcaQ, kthQ);
     }
 
@@ -246,11 +260,11 @@ int main() {
     {
         int n = 9;
         vector<vector<int>> edges = {
-            {1,2}, {1,3}, {1,4}, {1,5},
-            {2,6}, {2,7}, {4,8}, {6,9}
+            {1, 2}, {1, 3}, {1, 4}, {1, 5},
+            {2, 6}, {2, 7}, {4, 8}, {6, 9}
         };
-        vector<pair<int,int>> lcaQ  = {{9, 8}, {7, 8}, {9, 3}, {6, 5}};
-        vector<pair<int,int>> kthQ  = {{9, 1}, {9, 3}, {8, 2}};
+        vector<pair<int, int>> lcaQ = {{9, 8}, {7, 8}, {9, 3}, {6, 5}};
+        vector<pair<int, int>> kthQ = {{9, 1}, {9, 3}, {8, 2}};
         solveTree(3, n, edges, lcaQ, kthQ);
     }
 
