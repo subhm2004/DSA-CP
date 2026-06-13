@@ -21,17 +21,19 @@ Total: O(√n)
 | Situation | Approach |
 |-----------|----------|
 | Range sum + point update | `sqrt_decomposition.cpp` |
+| Range XOR + point update | `sqrt_range_xor_query.cpp` |
 | Range min + point update | `sqrt_range_min_query.cpp` |
 | Range GCD (non-invertible) | `sqrt_range_gcd_query.cpp` |
 | Range add + range sum | `sqrt_lazy_range_add_sum.cpp` |
 | Count distinct in range (offline) | `mos_algorithm_count_distinct.cpp` |
 | Count value freq in range (LC 2080) | `leetcode_2080_range_frequency_queries.cpp` |
 
-## Files (6)
+## Files (7)
 
 | File | Problem / Notes |
 |------|------------------|
 | [sqrt_decomposition.cpp](./sqrt_decomposition.cpp) | Range sum + point update |
+| [sqrt_range_xor_query.cpp](./sqrt_range_xor_query.cpp) | Range XOR + point update |
 | [sqrt_range_min_query.cpp](./sqrt_range_min_query.cpp) | Range min + point update |
 | [sqrt_range_gcd_query.cpp](./sqrt_range_gcd_query.cpp) | Range GCD + point update |
 | [sqrt_lazy_range_add_sum.cpp](./sqrt_lazy_range_add_sum.cpp) | Range add + range sum (lazy on blocks) |
@@ -54,6 +56,7 @@ Total: O(√n)
 | Code | Easy | Medium | Easy |
 | Query | O(√n) | O(log n) | O(log n) |
 | Sum | ✅ | ✅ | ✅ |
+| XOR | ✅ | ✅ | ✅ (fenwick_tree_xor) |
 | Min/GCD | ✅ (rebuild block) | ✅ | ❌ |
 | Offline distinct | ✅ Mo's | Overkill | ❌ |
 
