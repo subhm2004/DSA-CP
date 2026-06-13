@@ -16,7 +16,7 @@ using namespace std;
 class XorSeg_RangeUpdate_RangeQuery
 {
 private:
-    vector<int> segTree, lazy; // segTree = segment XOR, lazy = pending XOR flip
+    vector<int> segTree, lazyXor; // segTree = segment XOR, lazy = pending XOR flip
     int n;
 
     // Har recursive function me ye params baar baar aate hain, ek baar samajh le:
@@ -36,7 +36,7 @@ private:
     //
     // XOR lazy rule (SUM se alag):
     //   segTree[i] ^= v  SIRF jab segment length ODD ho
-    //   lazy[i] ^= v     HAMESHA (pending flip bachho tak pass)
+    //   lazyXor[i] ^= v     HAMESHA (pending flip bachho tak pass)
 
     // ── build: array se XOR tree banao ──────────────────────────────────────
     // Params: arr = input array, i = current node, l/r = segment bounds
@@ -57,12 +57,11 @@ private:
         segTree[i] = segTree[2 * i + 1] ^ segTree[2 * i + 2];
     }
 
-    // ── apply: segment [l,r] ke SAB elements ^= v (XOR lazy ka core rule) ─────
-    // Params: i = current node, l/r = segment bounds, v = flip value
-    // Steps:
-    //   1) len = r - l + 1 nikalo
-    //   2) Agar len ODD → segTree[i] ^= v  (odd baar flip = v, even baar = 0)
-    //   3) lazy[i] ^= v HAMESHA — pending flip store (bachho ko baad me pass hoga)
+    // ── apply: RANGE XOR update lagao (push isse call karta hai) ────────────
+    //   lazy UPDATE type = XOR flip (^=v) | merge (query) = ^ alag cheez hai
+    //   1) len = r-l+1
+    //   2) len ODD → segTree[i] ^= v   (odd flips = v, even = 0)
+    //   3) lazyXor[i] ^= v HAMESHA     (pending flip store)
     void apply(int i, int l, int r, int v)
     {
         int len = r - l + 1;
@@ -70,25 +69,26 @@ private:
         {
             segTree[i] ^= v;
         }
-        lazy[i] ^= v;
+        lazyXor[i] ^= v;
     }
 
-    // ── push: pending lazy XOR bachho tak propagate karo ─────────────────────
-    // Params: i = current node, l/r = segment bounds
-    // Steps:
-    //   1) Agar lazy[i] == 0 → return
-    //   2) mid nikalo, apply() se dono bachho par lazy[i] pass karo
-    //   3) lazy[i] = 0 — apna pending clear
+    // ── push: LAZY UPDATE = RANGE XOR (^=v) | MERGE (query) = ^ ─────────────
+    //   ⚠️ push me merge (^) NAHI lagta seedha — apply() odd-length rule use karta hai!
+    //   lazyXor[i] = pending XOR flip sab elements par
+    //   1) lazyXor[i] == 0 → return
+    //   2) apply(left child, lazyXor[i])  — odd len pe segTree ^= v
+    //   3) apply(right child, lazyXor[i]) — lazyXor child ^= v hamesha
+    //   4) lazyXor[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] == 0)
+        if (lazyXor[i] == 0)
         {
             return;
         }
         int mid = (l + r) / 2;
-        apply(2 * i + 1, l, mid, lazy[i]);
-        apply(2 * i + 2, mid + 1, r, lazy[i]);
-        lazy[i] = 0;
+        apply(2 * i + 1, l, mid, lazyXor[i]);
+        apply(2 * i + 2, mid + 1, r, lazyXor[i]);
+        lazyXor[i] = 0;
     }
 
     // ── update_Range: [start, end] ^= val, partial pe parent XOR refresh ────
@@ -115,6 +115,8 @@ private:
         int mid = (l + r) / 2;
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = segTree[2 * i + 1] ^ segTree[2 * i + 2];
     }
 
@@ -152,7 +154,7 @@ public:
     {
         n = (int)arr.size();
         segTree.assign(4 * max(n, 1), 0);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyXor.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

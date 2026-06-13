@@ -5,11 +5,19 @@ using namespace std;
  * ════════════════════════════════════════════════════════════════════════════
  * OPERATION : MAX
  * VARIATION : Range Update + Range Query
- * LAZY      : YES (range add lazy propagation)
+ * LAZY      : YES (range ADD lazy — ⚠️ lazy me MAX nahi, ADD pending hai!)
  * COMPLEXITY: build O(n) | range update O(log n) | range query O(log n)
  * ════════════════════════════════════════════════════════════════════════════
- * Range me +val add karo aur range ka max bhi maango.
- * Partial update ke baad parent ka max refresh karna zaroori hai.
+ * ⚠️ CONFUSION MAT KARO — do alag cheezein:
+ *
+ *   segTree[i]  →  is segment ka MAXIMUM (query ka answer yahi hai)
+ *   lazyAdd[i]  →  har element me kitna +ADD pending hai (MAX value NAHI!)
+ *
+ * Range me +val add karo → segment ke SAARE elements +val → MAX bhi +val badhega.
+ * Isliye push me:  segTree[i] += lazyAdd[i]     (sirf ek baar!)
+ * SUM wale me hota: segTree[i] += lazy * len    (sum ke liye multiply — MAX me NAHI)
+ *
+ * Partial update ke baad parent ka max refresh = max(left child, right child).
  * ════════════════════════════════════════════════════════════════════════════
  */
 
@@ -28,8 +36,8 @@ private:
     //     2) FULL overlap  -> start <= l && r <= end (query: segTree[i]; update: lazy += val)
     //     3) PARTIAL        -> dono bachho me recurse karo, max(leftAns, rightAns)
     //
-    //   MAX tree: merge = max(), identity = INT_MIN, lazy add se segment max +lazy se badhega
-    vector<int> segTree, lazy;
+    //   MAX tree: segTree = segment MAX | lazyAdd = pending +ADD (SUM jaisa *len NAHI)
+    vector<int> segTree, lazyAdd;
     int n;
     static constexpr int IDENTITY = INT_MIN;
 
@@ -51,31 +59,43 @@ private:
         segTree[i] = max(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
-    // ── push: lazy add apply karo — segment max bhi +lazy se badhega ──────────
-    //   Params: i = current node, l/r = is node ka segment range
-    //   1) lazy[i] == 0 ho to kuch pending nahi — seedha return
-    //   2) segTree[i] += lazy[i] — range add se har element +lazy badhta hai, max bhi +lazy badhega
-    //   3) leaf nahi (l != r) to wahi lazy dono bachho ke lazy me += karo
-    //   4) apna lazy[i] = 0 kar do — pending clear
+    // ── push: pending +ADD lazy apply karo (⚠️ yahan max() NAHI lagta!) ───────
+    //
+    //   segTree[i]  = is segment ka MAXIMUM (stored answer)
+    //   lazyAdd[i]  = har element me kitna +ADD abhi pending hai
+    //
+    //   Kyun += aur max() nahi?
+    //     {3,8,5} max=8, sabko +5 → {8,13,10} max=13 = 8+5
+    //     max(8,5)=8 ❌  |  8+5=13 ✅
+    //
+    //   max() sirf merge me: segTree[i] = max(left, right)  (build/query/refresh)
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] == 0)
         {
-            segTree[i] += lazy[i];
-            if (l != r)
-            {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
-            }
-            lazy[i] = 0;
+            return; // kuch pending nahi
         }
+
+        int add = lazyAdd[i]; // pehle save karo — niche lazyAdd[i]=0 hoga
+
+        // RANGE ADD apply: segment max bhi utna hi badhega (× len NAHI — wo SUM ka rule)
+        segTree[i] += add;
+
+        if (l != r) // internal node — pending add bachho tak pass karo
+        {
+            lazyAdd[2 * i + 1] += add;
+            lazyAdd[2 * i + 2] += add;
+        }
+        // leaf pe bachho me pass nahi — leaf = ek hi element, yahi pe apply ho gaya
+
+        lazyAdd[i] = 0; // is node ka pending clear — ab segTree[i] updated hai
     }
 
     // ── update_Range: [start, end] me val add karo, parent max refresh ────────
     //   Params: i, l, r = current node; start/end = update range; val = kitna add karna hai
     //   1) pehle push(i,l,r) — purana pending apply karo
     //   2) Case 1 NO overlap (r < start || l > end) -> return
-    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL -> mid split, dono bachho me recurse, parent max refresh (max of children)
     void update_Range(int i, int l, int r, int start, int end, int val)
     {
@@ -86,13 +106,15 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
         int mid = (l + r) / 2;
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = max(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
@@ -128,7 +150,7 @@ public:
     {
         n = (int)arr.size();
         segTree.assign(4 * max(n, 1), IDENTITY);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);
@@ -156,12 +178,16 @@ int main()
 {
     vector<int> arr = {5, 3, 8, 6, 1, 4, 7, 9, 2, 0};
 
-    cout << "---- MAX | Range Update + Range Query ----\n";
+    cout << "---- MAX | Range Update (+ADD lazy) + Range MAX Query ----\n";
     MaxSeg_RangeUpdate_RangeQuery st(arr);
-    st.update_Range(2, 6, 5);
-    st.update_Range(0, 4, 10);
-    cout << "Max [0,4]: " << st.query_Range(0, 4) << endl;
-    cout << "Max [2,6]: " << st.query_Range(2, 6) << endl;
+
+    // arr = {5,3,8,6,1,4,7,9,2,0}
+    st.update_Range(2, 6, 5);  // [2..6] += 5  →  {5,3,13,11,6,9,12,9,2,0}
+    st.update_Range(0, 4, 10); // [0..4] += 10 →  {15,13,23,21,16,9,12,9,2,0}
+
+    cout << "Max [0,4]: " << st.query_Range(0, 4) << " (expected 23)\n";
+    cout << "Max [2,6]: " << st.query_Range(2, 6) << " (expected 23)\n";
+    cout << "Max [7,9]: " << st.query_Range(7, 9) << " (expected 9)\n";
 
     return 0;
 }

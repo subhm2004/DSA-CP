@@ -19,7 +19,7 @@ using namespace std;
 class MinMaxSeg_RangeUpdate_PointQuery
 {
 private:
-    vector<int> miniTree, maxiTree, lazy;
+    vector<int> miniTree, maxiTree, lazyAdd;
     int n;
     static constexpr int MIN_ID = INT_MAX;
     static constexpr int MAX_ID = INT_MIN;
@@ -36,7 +36,7 @@ private:
     // Range add uniform hai — sab elements +val → min aur max dono +val.
     // Har range update me node [l,r] vs update [start,end] — 3 case:
     //   1) NO overlap    -> return
-    //   2) FULL overlap  -> lazy[i] += val, push, return
+    //   2) FULL overlap  -> lazyAdd[i] += val, push, return
     //   3) PARTIAL       -> dono bachho me recurse (parent refresh nahi — point query hai)
 
     // ── build: dono trees array se banao ──────────────────────────────────
@@ -58,30 +58,32 @@ private:
         maxiTree[i] = max(maxiTree[2 * i + 1], maxiTree[2 * i + 2]);
     }
 
-    // ── push: lazy add dono trees me apply karo (EK shared lazy) ───────────
-    //   1) lazy[i] == 0 ho to kuch pending nahi — return
-    //   2) miniTree[i] += lazy[i] AUR maxiTree[i] += lazy[i] — dono sync me badhe
-    //   3) internal node (l != r) ho to wahi lazy bachho ke lazy me += pass karo
-    //   4) lazy[i] = 0 — apna pending clear, dono trees ab up-to-date
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE = min + max ───────────────
+    //   ⚠️ push me min()/max() NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending
+    //   1) lazyAdd[i] == 0 → return
+    //   2) miniTree[i] += lazyAdd[i]  AND  maxiTree[i] += lazyAdd[i]
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            miniTree[i] += lazy[i];
-            maxiTree[i] += lazy[i];
+            miniTree[i] += lazyAdd[i];
+            maxiTree[i] += lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
     // ── update_Range: [start, end] me +val add karo ───────────────────────
     //   1) pehle push(i,l,r) — purana pending lazy dono trees me apply karo
     //   2) Case 1 NO overlap (r < start || l > end) — return
-    //   3) Case 2 FULL overlap (start <= l && r <= end) — lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap (start <= l && r <= end) — lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL — mid split, dono bachho me recurse
     //      NOTE: point-query variant — wapas parent min/max refresh nahi karte
     void update_Range(int i, int l, int r, int start, int end, int val)
@@ -93,7 +95,7 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
@@ -136,7 +138,7 @@ public:
         n = (int)arr.size();
         miniTree.assign(4 * max(n, 1), MIN_ID);
         maxiTree.assign(4 * max(n, 1), MAX_ID);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

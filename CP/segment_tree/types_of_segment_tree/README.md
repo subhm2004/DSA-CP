@@ -39,9 +39,29 @@ types_of_segment_tree/
 | Folder | Merge | No-overlap identity | Lazy note |
 |--------|-------|---------------------|-----------|
 | `sum/` | `a + b` | `0` | `seg += lazy * len` |
-| `max/` | `max(a,b)` | `INT_MIN` | `seg += lazy` (range add) |
-| `min/` | `min(a,b)` | `INT_MAX` | `seg += lazy` (range add) |
-| `min_max/` | min + max **dono** | `INT_MAX` / `INT_MIN` | **ek lazy** — dono trees sync |
+| `max/` | `max(a,b)` | `INT_MIN` | `lazyAdd` = pending **+ADD** → `segMax += lazyAdd` |
+| `min/` | `min(a,b)` | `INT_MAX` | `lazyAdd` = pending **+ADD** → `segMin += lazyAdd` |
+| `min_max/` | min + max **dono** | `INT_MAX` / `INT_MIN` | **ek lazyAdd** — pending +ADD, dono trees sync |
+
+## ⚠️ Push vs Merge — sabse important rule
+
+**Merge** (build/query me bachho ko combine): operation pe depend  
+**Push** (lazy apply): **UPDATE type** pe depend — merge NAHI lagta!
+
+| Operation | Merge (query) | Lazy var | Update type | Push me kya hota hai |
+|-----------|---------------|----------|-------------|----------------------|
+| **SUM** | `left + right` | `lazyAdd` | range **+ADD** | `seg += lazyAdd × len` |
+| **MAX** | `max(l,r)` | `lazyAdd` | range **+ADD** | `seg += lazyAdd` (× len NAHI) |
+| **MIN** | `min(l,r)` | `lazyAdd` | range **+ADD** | `seg += lazyAdd` (× len NAHI) |
+| **MIN_MAX** | min + max | `lazyAdd` | range **+ADD** | `mini += lazyAdd`, `maxi += lazyAdd` |
+| **XOR** | `left ^ right` | `lazyXor` | range **^= flip** | `apply()` → odd len pe `seg ^= v` |
+| **GCD** | `gcd(l,r)` | — | **NO valid lazy add** | sirf `point_update` file use karo |
+
+```text
+GALAT soch:  max tree → push me max() lagao     ❌
+SAHI soch:   range +ADD update → push me += lagao  ✅
+             range XOR update  → push/apply me ^= lagao ✅
+```
 | `xor/` | `a ^ b` | `0` | `seg ^= lazy` if odd len |
 | `gcd/` | `gcd(a,b)` | `0` | **sirf point update** — range add lazy invalid |
 

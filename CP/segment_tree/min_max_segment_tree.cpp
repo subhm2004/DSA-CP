@@ -85,6 +85,8 @@ public:
         int mid = (l + r) / 2;
         range_update(ql, qr, 2 * i + 1, l, mid, val);
         range_update(ql, qr, 2 * i + 2, mid + 1, r, val);
+        push(2 * i + 1, l, mid);       // partial ke baad bachho ka lazy pehle apply
+        push(2 * i + 2, mid + 1, r);
 
         // bachhe badle — parent ka aggregated min/max dobara banao
         mini_segtree[i] = min(mini_segtree[2 * i + 1], mini_segtree[2 * i + 2]);
@@ -112,6 +114,8 @@ public:
             point_update(idx, 2 * i + 1, l, mid, val);
         else
             point_update(idx, 2 * i + 2, mid + 1, r, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
 
         mini_segtree[i] = min(mini_segtree[2 * i + 1], mini_segtree[2 * i + 2]);
         maxi_segtree[i] = max(maxi_segtree[2 * i + 1], maxi_segtree[2 * i + 2]);

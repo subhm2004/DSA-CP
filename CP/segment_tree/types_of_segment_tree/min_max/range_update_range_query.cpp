@@ -5,22 +5,18 @@ using namespace std;
  * ════════════════════════════════════════════════════════════════════════════
  * OPERATION : MIN + MAX (dono ek saath)
  * VARIATION : Range Update + Range Query
- * LAZY      : YES (range add — EK lazy, dono trees sync)
+ * LAZY      : YES (EK lazyAdd — pending +ADD, min/max VALUE nahi!)
  * COMPLEXITY: build O(n) | range update O(log n) | range min/max query O(log n)
  * ════════════════════════════════════════════════════════════════════════════
- * Sabse common min-max combo — range add + range min + range max dono.
- * Partial update ke baad parent refresh:
- *   miniTree[i] = min(leftMini, rightMini)
- *   maxiTree[i] = max(leftMaxi, rightMaxi)
- *
- * Yehi pattern ../min_max_segment_tree.cpp me bhi hai (parent folder).
+ * miniTree[i] = segment MIN | maxiTree[i] = segment MAX | lazyAdd[i] = pending +ADD
+ * push: dono trees me += lazyAdd[i]  (uniform range add — SUM jaisa ×len NAHI)
  * ════════════════════════════════════════════════════════════════════════════
  */
 
 class MinMaxSeg_RangeUpdate_RangeQuery
 {
 private:
-    vector<int> miniTree, maxiTree, lazy;
+    vector<int> miniTree, maxiTree, lazyAdd;
     int n;
     static constexpr int MIN_ID = INT_MAX;
     static constexpr int MAX_ID = INT_MIN;
@@ -58,30 +54,32 @@ private:
         maxiTree[i] = max(maxiTree[2 * i + 1], maxiTree[2 * i + 2]);
     }
 
-    // ── push: lazy add dono trees me lagao (EK shared lazy) ─────────────────
-    //   1) lazy[i] == 0 ho to kuch pending nahi — return
-    //   2) miniTree[i] += lazy[i] aur maxiTree[i] += lazy[i] — dono sync me update
-    //   3) internal node (l != r) ho to lazy bachho ke lazy me += pass karo
-    //   4) lazy[i] = 0 — pending clear, dono trees ab sahi values pe hain
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE = min + max ───────────────
+    //   ⚠️ push me min()/max() NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending
+    //   1) lazyAdd[i] == 0 → return
+    //   2) miniTree[i] += lazyAdd[i]  AND  maxiTree[i] += lazyAdd[i]
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            miniTree[i] += lazy[i];
-            maxiTree[i] += lazy[i];
+            miniTree[i] += lazyAdd[i];
+            maxiTree[i] += lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
     // ── update_Range: [start, end] me +val, partial pe parent refresh ─────
     //   1) pehle push(i,l,r) — purana pending dono trees me apply karo
     //   2) Case 1 NO overlap — return
-    //   3) Case 2 FULL overlap — lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap — lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL — dono bachho me recurse
     //   5) wapas aate waqt dono trees refresh:
     //      miniTree[i] = min(bachho ka min), maxiTree[i] = max(bachho ka max)
@@ -94,13 +92,15 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
         int mid = (l + r) / 2;
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
         miniTree[i] = min(miniTree[2 * i + 1], miniTree[2 * i + 2]);
         maxiTree[i] = max(maxiTree[2 * i + 1], maxiTree[2 * i + 2]);
     }
@@ -160,7 +160,7 @@ public:
         n = (int)arr.size();
         miniTree.assign(4 * max(n, 1), MIN_ID);
         maxiTree.assign(4 * max(n, 1), MAX_ID);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

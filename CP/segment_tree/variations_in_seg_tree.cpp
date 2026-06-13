@@ -256,6 +256,8 @@ private:
         int mid = (l + r) / 2;  // partial
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];  // bacche badle -> sum refresh
     }
 

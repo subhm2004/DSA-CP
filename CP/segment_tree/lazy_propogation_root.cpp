@@ -80,6 +80,8 @@ private:
         int mid = (l + r) / 2;  // Case 3: PARTIAL overlap
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);       // partial ke baad bachho ka lazy pehle apply — stale segTree fix
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];  // bachhe badle — parent sum refresh
     }
 

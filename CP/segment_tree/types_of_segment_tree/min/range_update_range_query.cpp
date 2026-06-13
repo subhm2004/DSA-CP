@@ -5,18 +5,19 @@ using namespace std;
  * ════════════════════════════════════════════════════════════════════════════
  * OPERATION : MIN
  * VARIATION : Range Update + Range Query
- * LAZY      : YES (range add lazy propagation)
+ * LAZY      : YES (range ADD lazy — lazyAdd = pending +ADD, MIN value nahi!)
  * COMPLEXITY: build O(n) | range update O(log n) | range query O(log n)
  * ════════════════════════════════════════════════════════════════════════════
- * Range me +val add karo aur range ka min bhi maango.
- * Partial update ke baad parent ka min refresh karna zaroori hai.
+ * segTree[i] = segment MIN | lazyAdd[i] = kitna +ADD pending hai
+ * push: segTree[i] += lazyAdd[i]  (uniform add → min bhi +lazyAdd; SUM jaisa ×len NAHI)
+ * Partial update ke baad parent min refresh = min(left, right).
  * ════════════════════════════════════════════════════════════════════════════
  */
 
 class MinSeg_RangeUpdate_RangeQuery
 {
 private:
-    vector<int> segTree, lazy;
+    vector<int> segTree, lazyAdd;
     int n;
     static constexpr int IDENTITY = INT_MAX;
 
@@ -49,29 +50,31 @@ private:
         segTree[i] = min(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
-    // ── push: lazy add apply karo — segment min bhi +lazy se badhega ────────
-    //   1) lazy[i] == 0 ho to kuch pending nahi — return
-    //   2) segTree[i] += lazy[i] — uniform range add se min bhi utna hi badhega
-    //   3) internal node (l != r) ho to lazy bachho ke lazy me += pass karo
-    //   4) lazy[i] = 0 — apna pending clear, node ab sahi value pe hai
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE (query) = min ─────────
+    //   ⚠️ push me merge (min) NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending (MAX/MIN value NAHI!)
+    //   1) lazyAdd[i] == 0 → return
+    //   2) segTree[i] += lazyAdd[i]   ← MIN rule: sirf ek baar (× len NAHI!)
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            segTree[i] += lazy[i];
+            segTree[i] += lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
     // ── update_Range: [start, end] me val add karo, parent min refresh ──────
     //   1) pehle push(i,l,r) — purana pending apply karo
     //   2) Case 1 NO overlap — return, kuch mat karo
-    //   3) Case 2 FULL overlap — lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap — lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL — dono bachho me recurse
     //   5) wapas aate waqt parent ka min = min(left child, right child) refresh karo
     //      (range query bhi karni hai isliye parent update zaroori hai)
@@ -84,13 +87,15 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
         int mid = (l + r) / 2;
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = min(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
@@ -126,7 +131,7 @@ public:
     {
         n = (int)arr.size();
         segTree.assign(4 * max(n, 1), IDENTITY);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);
@@ -154,12 +159,12 @@ int main()
 {
     vector<int> arr = {5, 3, 8, 6, 1, 4, 7, 9, 2, 0};
 
-    cout << "---- MIN | Range Update + Range Query ----\n";
+    cout << "---- MIN | Range Update (+ADD lazy) + Range MIN Query ----\n";
     MinSeg_RangeUpdate_RangeQuery st(arr);
     st.update_Range(2, 6, 5);
     st.update_Range(0, 4, 10);
-    cout << "Min [0,4]: " << st.query_Range(0, 4) << endl;
-    cout << "Min [2,6]: " << st.query_Range(2, 6) << endl;
+    cout << "Min [0,4]: " << st.query_Range(0, 4) << " (expected 13)\n";
+    cout << "Min [2,6]: " << st.query_Range(2, 6) << " (expected 9)\n";
 
     return 0;
 }

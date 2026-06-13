@@ -30,7 +30,7 @@ private:
     //     3) PARTIAL        -> dono bachho me recurse karo
     //
     //   SUM tree: merge = + (jodna), no-overlap identity = 0, lazy add har element me +val
-    vector<ll> segTree, lazy;
+    vector<ll> segTree, lazyAdd;
     int n;
 
     // ── build: array se sum tree banao ────────────────────────────────────────
@@ -51,23 +51,24 @@ private:
         segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];
     }
 
-    // ── push: pending lazy ko khud pe apply karo aur bachho tak pass karo ─────
-    //   Params: i = current node, l/r = is node ka segment range
-    //   1) lazy[i] == 0 ho to kuch pending nahi — seedha return
-    //   2) segTree[i] me lazy * (r-l+1) add karo — poore segment ke elements me +lazy hua
-    //   3) leaf nahi (l != r) to wahi lazy dono bachho ke lazy me += karo
-    //   4) apna lazy[i] = 0 kar do — pending clear
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE (query) = + ───────────────
+    //   ⚠️ push me merge (+) NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending hai
+    //   1) lazyAdd[i] == 0 → return
+    //   2) segTree[i] += lazyAdd[i] * (r - l + 1)   ← SUM rule: × length
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            segTree[i] += (r - l + 1) * lazy[i];
+            segTree[i] += (r - l + 1) * lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
@@ -75,7 +76,7 @@ private:
     //   Params: i, l, r = current node; start/end = update range; val = kitna add karna hai
     //   1) pehle push(i,l,r) — purana pending apply karo
     //   2) Case 1 NO overlap (r < start || l > end) -> return
-    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL -> mid split, dono bachho me recurse, parent sum refresh (left + right)
     void update_Range(int i, int l, int r, int start, int end, int val)
     {
@@ -86,13 +87,15 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
         int mid = (l + r) / 2;
         update_Range(2 * i + 1, l, mid, start, end, val);
         update_Range(2 * i + 2, mid + 1, r, start, end, val);
+        push(2 * i + 1, l, mid);       // partial ke baad bachho ka lazy pehle apply — stale segTree fix
+        push(2 * i + 2, mid + 1, r);
         segTree[i] = segTree[2 * i + 1] + segTree[2 * i + 2];
     }
 
@@ -127,7 +130,7 @@ public:
     {
         n = (int)arr.size();
         segTree.resize(4 * max(n, 1));
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

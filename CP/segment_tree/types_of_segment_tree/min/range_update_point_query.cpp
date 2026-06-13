@@ -16,7 +16,7 @@ using namespace std;
 class MinSeg_RangeUpdate_PointQuery
 {
 private:
-    vector<int> segTree, lazy;
+    vector<int> segTree, lazyAdd;
     int n;
     static constexpr int IDENTITY = INT_MAX;
 
@@ -30,7 +30,7 @@ private:
     //
     // Har range update me node [l,r] vs update [start,end] — 3 case:
     //   1) NO overlap    -> r < start || l > end  -> kuch mat karo, return
-    //   2) FULL overlap  -> start <= l && r <= end -> lazy[i] += val, push, return
+    //   2) FULL overlap  -> start <= l && r <= end -> lazyAdd[i] += val, push, return
     //   3) PARTIAL       -> dono bachho me recurse (yaha parent refresh nahi — point query hai)
 
     // ── build: array se min tree banao ──────────────────────────────────────
@@ -50,29 +50,31 @@ private:
         segTree[i] = min(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
-    // ── push: pending lazy add apply karo aur bachho ko pass karo ───────────
-    //   1) lazy[i] == 0 ho to kuch pending nahi — seedha return
-    //   2) segTree[i] += lazy[i] — range add se poore segment ka min +lazy se badhega
-    //   3) leaf nahi (l != r) ho to wahi lazy dono bachho ke lazy me += karo
-    //   4) apna lazy[i] = 0 kar do — ab ye node up-to-date, pending clear
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE (query) = min ─────────
+    //   ⚠️ push me merge (min) NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending (MAX/MIN value NAHI!)
+    //   1) lazyAdd[i] == 0 → return
+    //   2) segTree[i] += lazyAdd[i]   ← MIN rule: sirf ek baar (× len NAHI!)
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            segTree[i] += lazy[i];
+            segTree[i] += lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
     // ── update_Range: [start, end] me har element me val add karo ───────────
     //   1) pehle push(i,l,r) — is node pe purana pending lazy apply karo
     //   2) Case 1 NO overlap (r < start || l > end) — ye subtree bahar hai, return
-    //   3) Case 2 FULL overlap (start <= l && r <= end) — lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap (start <= l && r <= end) — lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL — mid split, dono bachho me recurse
     //      NOTE: point-query variant hai — wapas parent min refresh nahi karte
     void update_Range(int i, int l, int r, int start, int end, int val)
@@ -84,7 +86,7 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
@@ -126,7 +128,7 @@ public:
     {
         n = (int)arr.size();
         segTree.assign(4 * max(n, 1), IDENTITY);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

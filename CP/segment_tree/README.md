@@ -8,10 +8,10 @@ Range queries, lazy propagation, persistent.
 
 | Folder | README |
 |--------|--------|
-| [types_of_segment_tree/](./types_of_segment_tree/) | [Open →](./types_of_segment_tree/README.md) | 1D + **2D** seg trees (24 files) |
+| [types_of_segment_tree/](./types_of_segment_tree/) | [Open →](./types_of_segment_tree/README.md) | 1D + **2D** seg trees (26 files) |
 | [merge_sort_tree/](./merge_sort_tree/) | [Open →](./merge_sort_tree/README.md) | (10 files) |
 
-## Files (23)
+## Files (22 root + subfolders)
 
 | File | Type / Notes |
 |------|------------------|
@@ -22,9 +22,8 @@ Range queries, lazy propagation, persistent.
 | [dynamic_segment_tree.cpp](./dynamic_segment_tree.cpp) | Sparse indices, on-demand nodes |
 | [euler_tour_plus_segment_tree.cpp](./euler_tour_plus_segment_tree.cpp) | Tree → flat array + seg tree |
 | [gcd_problem_segment_tree.cpp](./gcd_problem_segment_tree.cpp) | Range GCD + point update |
-| [k_smallest_number_in_range.cpp](./k_smallest_number_in_range.cpp) | → redirect to `merge_sort_tree/` |
-| [lazy_propogation.cpp](./lazy_propogation.cpp) | Lazy propagation basics |
-| [lazy_propogation_root.cpp](./lazy_propogation_root.cpp) | Range add + range sum |
+| [k_smallest_number_in_range.cpp](./k_smallest_number_in_range.cpp) | Redirect stub → `merge_sort_tree/kth_smallest_in_range.cpp` |
+| [lazy_propogation_root.cpp](./lazy_propogation_root.cpp) | Range add + range sum (reference) |
 | [max_subarray_sum_segment_tree.cpp](./max_subarray_sum_segment_tree.cpp) | Max subarray sum in `[L,R]` (Kadane merge) |
 | [LC_2940_Segment_tree_+_Binary_search.cpp](./LC_2940_Segment_tree_+_Binary_search.cpp) | LC 2940 |
 | [LC_699_falling_squares.cpp](./LC_699_falling_squares.cpp) | LC 699 |

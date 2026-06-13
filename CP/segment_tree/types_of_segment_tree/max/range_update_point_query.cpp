@@ -5,11 +5,12 @@ using namespace std;
  * ════════════════════════════════════════════════════════════════════════════
  * OPERATION : MAX
  * VARIATION : Range Update + Point Query
- * LAZY      : YES (range add — har element me +val)
+ * LAZY      : YES (range ADD lazy — lazyAdd = pending +ADD, MAX value nahi!)
  * COMPLEXITY: build O(n) | range update O(log n) | point query O(log n)
  * ════════════════════════════════════════════════════════════════════════════
- * Poori range me +val add karo (sab values badh jaati hain), ek index ki value maango.
- * Lazy add se segment ke saare elements equally badhte hain — max bhi +val se badhega.
+ * segTree[i] = segment MAX | lazyAdd[i] = kitna +ADD pending hai sab elements me
+ * push: segTree[i] += lazyAdd[i]  (SUM jaisa × len NAHI — max sirf +lazyAdd badhega)
+ * Point query: leaf tak jaate waqt push se saara pending apply ho jaata hai.
  * ════════════════════════════════════════════════════════════════════════════
  */
 
@@ -25,11 +26,11 @@ private:
     //
     //   Range ops me 3 cases (node [l,r] vs user range [start,end]):
     //     1) NO overlap    -> r < start || l > end  (kuch mat karo, seedha return)
-    //     2) FULL overlap  -> start <= l && r <= end (lazy[i] += val, push karo)
+    //     2) FULL overlap  -> start <= l && r <= end (lazyAdd[i] += val, push karo)
     //     3) PARTIAL        -> dono bachho me recurse karo
     //
     //   MAX tree: merge = max(), lazy add se segment max bhi +lazy se badhega
-    vector<int> segTree, lazy;
+    vector<int> segTree, lazyAdd;
     int n;
     static constexpr int IDENTITY = INT_MIN;
 
@@ -51,23 +52,24 @@ private:
         segTree[i] = max(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
-    // ── push: pending lazy add apply karo aur bachho ko pass karo ─────────────
-    //   Params: i = current node, l/r = is node ka segment range
-    //   1) lazy[i] == 0 ho to kuch pending nahi — seedha return
-    //   2) segTree[i] += lazy[i] — range add se har element +lazy badhta hai, max bhi +lazy badhega
-    //   3) leaf nahi (l != r) to wahi lazy dono bachho ke lazy me += karo
-    //   4) apna lazy[i] = 0 kar do — pending clear
+    // ── push: LAZY UPDATE = RANGE ADD (+v) | MERGE (query) = max ─────────
+    //   ⚠️ push me merge (max) NAHI lagta — push sirf pending ADD apply karta hai!
+    //   lazyAdd[i] = har element me kitna +ADD pending (MAX/MIN value NAHI!)
+    //   1) lazyAdd[i] == 0 → return
+    //   2) segTree[i] += lazyAdd[i]   ← MAX rule: sirf ek baar (× len NAHI!)
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            segTree[i] += lazy[i];
+            segTree[i] += lazyAdd[i];
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
@@ -75,7 +77,7 @@ private:
     //   Params: i, l, r = current node; start/end = update range; val = kitna add karna hai
     //   1) pehle push(i,l,r) — is node pe purana pending apply karo
     //   2) Case 1 NO overlap (r < start || l > end) -> return
-    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazy[i] += val, push, return
+    //   3) Case 2 FULL overlap (start <= l && r <= end) -> lazyAdd[i] += val, push, return
     //   4) Case 3 PARTIAL -> mid split, dono bachho me recurse (parent max refresh NAHI — sirf point query chahiye)
     void update_Range(int i, int l, int r, int start, int end, int val)
     {
@@ -86,7 +88,7 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
@@ -127,7 +129,7 @@ public:
     {
         n = (int)arr.size();
         segTree.assign(4 * max(n, 1), IDENTITY);
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);

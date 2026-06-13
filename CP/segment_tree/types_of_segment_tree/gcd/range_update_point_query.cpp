@@ -46,7 +46,7 @@ int computeGCD(int a, int b)
 class GcdSeg_RangeUpdate_PointQuery
 {
 private:
-    vector<int> segTree, lazy; // segTree = GCD, lazy = pending add (⚠️ GCD ke liye invalid!)
+    vector<int> segTree, lazyAdd; // segTree = GCD, lazy = pending add (⚠️ GCD ke liye invalid!)
     int n;
 
     // Har recursive function me ye params baar baar aate hain, ek baar samajh le:
@@ -82,24 +82,24 @@ private:
         segTree[i] = computeGCD(segTree[2 * i + 1], segTree[2 * i + 2]);
     }
 
-    // ── push: SUM jaisa lazy add apply — ⚠️ GCD ke liye mathematically galat! ─
-    // Params: i = current node, l/r = segment bounds
-    // Steps (SUM pattern — GCD me ye step SAHI answer nahi deta):
-    //   1) Agar lazy[i] != 0 → segTree[i] += lazy[i]  (⚠️ GCD node pe direct add galat!)
-    //   2) Leaf nahi hai to lazy dono bachho ke lazy me pass karo
-    //   3) lazy[i] = 0 clear karo
-    // Sirf lazy propagation PATTERN dikhane ke liye rakha hai.
+    // ── push: ⚠️ EDUCATIONAL — SUM lazy skeleton (GCD pe INVALID!) ───────────
+    //   GCD pe range ADD lazy mathematically galat — sirf pattern seekhne ke liye
+    //   Valid GCD: gcd/point_update_range_query.cpp (NO lazy)
+    //   1) lazyAdd[i] == 0 → return
+    //   2) segTree[i] += lazyAdd[i]  ← ⚠️ GCD ke liye galat, SUM/MAX jaisa add
+    //   3) bachho: lazyAdd[child] += lazyAdd[i]
+    //   4) lazyAdd[i] = 0
     void push(int i, int l, int r)
     {
-        if (lazy[i] != 0)
+        if (lazyAdd[i] != 0)
         {
-            segTree[i] += lazy[i]; // ⚠️ GCD me ye step mathematically invalid hai
+            segTree[i] += lazyAdd[i]; // ⚠️ GCD pe mathematically invalid
             if (l != r)
             {
-                lazy[2 * i + 1] += lazy[i];
-                lazy[2 * i + 2] += lazy[i];
+                lazyAdd[2 * i + 1] += lazyAdd[i];
+                lazyAdd[2 * i + 2] += lazyAdd[i];
             }
-            lazy[i] = 0;
+            lazyAdd[i] = 0;
         }
     }
 
@@ -108,7 +108,7 @@ private:
     // Steps (SUM skeleton — GCD answers galat honge):
     //   1) push(i,l,r) — pending lazy apply
     //   2) NO overlap → return
-    //   3) FULL overlap → lazy[i] += val, push se apply
+    //   3) FULL overlap → lazyAdd[i] += val, push se apply
     //   4) PARTIAL → dono bachho me recurse
     //   NOTE: point-query variant hai — parent GCD refresh nahi karte
     void update_Range(int i, int l, int r, int start, int end, int val)
@@ -120,7 +120,7 @@ private:
         }
         if (start <= l && r <= end)
         {
-            lazy[i] += val;
+            lazyAdd[i] += val;
             push(i, l, r);
             return;
         }
@@ -165,7 +165,7 @@ public:
     {
         n = (int)arr.size();
         segTree.resize(4 * max(n, 1));
-        lazy.assign(4 * max(n, 1), 0);
+        lazyAdd.assign(4 * max(n, 1), 0);
         if (n > 0)
         {
             build(arr, 0, 0, n - 1);
