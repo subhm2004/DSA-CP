@@ -8,6 +8,7 @@ Range queries, lazy propagation, persistent.
 
 | Folder | README |
 |--------|--------|
+| [types_of_segment_tree/](./types_of_segment_tree/) | [Open →](./types_of_segment_tree/README.md) | 1D + **2D** seg trees (24 files) |
 | [merge_sort_tree/](./merge_sort_tree/) | [Open →](./merge_sort_tree/README.md) | (10 files) |
 
 ## Files (23)
@@ -36,13 +37,16 @@ Range queries, lazy propagation, persistent.
 | [segment_tree_2d_important.cpp](./segment_tree_2d_important.cpp) | 2D seg tree (important) |
 | [segment_tree_beats.cpp](./segment_tree_beats.cpp) | Range chmin/chmax/add + sum |
 | [subtree_query_problems.cpp](./subtree_query_problems.cpp) | Euler tour subtree queries |
-| [variations_in_seg_tree.cpp](./variations_in_seg_tree.cpp) | Point/range update combos |
+| [variations_in_seg_tree.cpp](./variations_in_seg_tree.cpp) | SUM 3 variations (legacy — see `types_of_segment_tree/`) |
+| [types_of_segment_tree/](./types_of_segment_tree/) | **sum, max, min, xor, gcd** — point/range update × 3 each |
 | [xor_segment_tree.cpp](./xor_segment_tree.cpp) | Range XOR + point update |
 
 ## By type (quick pick)
 
 | Need | File |
 |------|------|
+| Sum/max/min/**min_max**/xor/gcd — 3 update types | [`types_of_segment_tree/`](./types_of_segment_tree/) |
+| 2D matrix point update + submatrix query | [`types_of_segment_tree/segment_tree_2d/`](./types_of_segment_tree/segment_tree_2d/) |
 | Sum + range add | `lazy_propogation_root.cpp` |
 | Range set (assign) + sum | `range_assign_lazy_segment_tree.cpp` |
 | Max subarray sum in range | `max_subarray_sum_segment_tree.cpp` |

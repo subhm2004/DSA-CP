@@ -5,6 +5,10 @@ using ll = long long;
 // ════════════════════════════════════════════════════════════════════════════
 // SEGMENT TREE KE 3 CLASSIC VARIATIONS (sum wala seg tree)
 // ────────────────────────────────────────────────────────────────────────────
+// 📁 Naya split structure: types_of_segment_tree/
+//    sum/ max/ min/ xor/ gcd/ — har ek me 3 files (point/range update combos)
+//    Is file me sirf SUM ke teeno ek saath hain (legacy reference).
+// ────────────────────────────────────────────────────────────────────────────
 // Har recursive function me ye params baar baar aate hain, ek baar samajh le:
 //
 //   i (ya idx) -> tree array me current node ka index (root = 0)
