@@ -202,7 +202,7 @@ python3 scripts/generate_site_data.py        # site index update
 
 ## External resources
 
-- [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) by Swati Ahuja — 94 algorithm patterns; repo me tracked as [`../patterns.csv`](../patterns.csv)
+- [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) by Swati Ahuja — 94 algorithm patterns; repo me tracked as [`../PATTERNS.md`](../PATTERNS.md)
 - [LeetCode](https://leetcode.com/) — problem practice
 - [NeetCode roadmap](https://neetcode.io/roadmap) — topic order reference
 

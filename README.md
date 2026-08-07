@@ -39,8 +39,8 @@ C++/
 ├── CP/                  Contest library — segtree, flows, strings, NT, …
 ├── CP_Template/         Lean single-file starter (copy → contest)
 ├── site/                Static browser UI (search, filter, GitHub links)
-├── scripts/             README generator · site index · patterns CSV · LeetCode tools
-├── patterns.csv         94 DSA patterns × 438 problems, repo se auto-mapped
+├── scripts/             README generator · site index · patterns tracker · LeetCode tools
+├── PATTERNS.md          94 DSA patterns × 438 problems, repo se auto-mapped
 └── index.html           Local entry → redirects to /site/
 ```
 
@@ -49,7 +49,7 @@ C++/
 | **[DSA](./DSA/)** | LeetCode, interviews, DSA course | [DSA/README.md](./DSA/README.md) |
 | **[CP](./CP/)** | Contests, heavy templates, speed | [CP/README.md](./CP/README.md) |
 | **[CP_Template](./CP_Template/)** | Live contest — ek file copy karo | [CP_Template/README.md](./CP_Template/README.md) |
-| **[patterns.csv](./patterns.csv)** | Kya solve karna hai next — pattern-wise tracker | [Details ↓](#patterns-tracker--patternscsv) |
+| **[PATTERNS.md](./PATTERNS.md)** | Kya solve karna hai next — pattern-wise tracker | [Details ↓](#patterns-tracker--patternsmd) |
 | **[site/](./site/)** | Browser se search & browse | [site/README.md](./site/README.md) |
 
 ---
@@ -105,23 +105,11 @@ flowchart LR
 
 ---
 
-## Patterns tracker — [`patterns.csv`](./patterns.csv)
+## Patterns tracker — [`PATTERNS.md`](./PATTERNS.md)
 
-**94 DSA patterns · 438 problems · 15 categories** — [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) (Swati Ahuja) se generate hoti hai, aur har problem is repo ki file se **auto-map** ho jaati hai.
+**94 DSA patterns · 438 problems · 15 categories** — har pattern ki apni table, aur har problem is repo ki file se **auto-map** hoti hai.
 
-> Note: ye sheet **algorithm patterns** ki hai (two pointers, sliding window, …) — [`DSA/patterns/`](./DSA/patterns/) wale nested-loop star patterns se alag cheez hai.
-
-File ke top pe 6-line **author block** hai (`Author,Shubham Malik` …), uske baad column header. Excel / Google Sheets me seedha khul jaati hai; pandas me `skiprows=6` de dena.
-
-| Column | Kya hai |
-|--------|---------|
-| `category_no` · `category` | I–XV — Two Pointer, Sliding Window, … Design |
-| `pattern_no` · `pattern` | 1–94 — e.g. `9` / `Variable Size` |
-| `leetcode_id` · `problem` | LeetCode number + title |
-| `status` | `Done` agar repo me solution hai, warna `Todo` |
-| `repo_file` | Matched file path(s), `\|` se separated |
-| `in_30day_core` | `Yes` = sheet ke condensed 30-day core set me hai |
-| `leetcode_url` | Direct problem link |
+> Note: ye **algorithm patterns** hain (two pointers, sliding window, …) — [`DSA/patterns/`](./DSA/patterns/) wale nested-loop star patterns se alag cheez hai.
 
 **Current progress: 122 / 438 solved (27%)** · 98 problems 30-day core me
 
@@ -136,41 +124,22 @@ File ke top pe 6-line **author block** hai (`Author,Shubham Malik` …), uske ba
 | VII | Backtracking | 19 | 10 | | XV | Design | 40 | 7 |
 | VIII | Greedy | 18 | 5 | | | | | |
 
+Har pattern ki table aisi dikhti hai — ✅ solved, ⬜ pending, ⭐ 30-day core:
+
+| Status | LC | Problem | 30-day | Solution |
+|:------:|---:|---------|:------:|----------|
+| ✅ | 11 | Container With Most Water | ⭐ | [`container_with_most_water.cpp`](./DSA/two_pointers/container_with_most_water.cpp) |
+| ⬜ | 16 | 3Sum Closest | | — |
+
 ```bash
-# Sheet se dobara generate karo (naye solutions ke baad status auto-update hoga)
-python3 scripts/generate_patterns_csv.py
+# Dobara generate karo (naye solutions ke baad ✅ apne aap update hoga)
+python3 scripts/generate_patterns.py
 
 # Bina internet ke — cached sheet se
-python3 scripts/generate_patterns_csv.py --offline
+python3 scripts/generate_patterns.py --offline
 ```
 
-Matching `LEETCODE : N` header comment se hoti hai — nayi file me header dalna mat bhoolna, warna `Todo` hi dikhegi.
-
-<details>
-<summary><strong>Kaise use karein</strong></summary>
-
-```bash
-# Ab tak kya bacha hai
-awk -F',' '$8=="Todo"' patterns.csv | head -20
-
-# Sirf 30-day core ka bacha hua kaam
-awk -F',' '$8=="Todo" && $10=="Yes"' patterns.csv
-
-# Ek pattern ka poora list (e.g. Monotonic Stack = pattern 65)
-awk -F',' '$4==65' patterns.csv
-```
-
-Ye `awk` commands metadata rows ko apne aap skip kar dete hain (unme 8/10 field hai hi nahi).
-
-```python
-import pandas as pd
-df = pd.read_csv("patterns.csv", skiprows=6)     # author block skip
-df[df.status == "Todo"].groupby("category").size()
-```
-
-Excel / Google Sheets me bhi seedha khul jaati hai — `status` column pe filter laga do.
-
-</details>
+Matching `LEETCODE : N` header comment se hoti hai — nayi file me header dalna mat bhoolna, warna ⬜ hi dikhega.
 
 ---
 
@@ -285,7 +254,7 @@ Har solution is pattern follow karta hai (site search isi se LeetCode tag parse 
 | [`generate_site_data.py`](./scripts/generate_site_data.py) | DSA/CP scan → `site/data.js` (browser index) |
 | [`generate_folder_readmes.py`](./scripts/generate_folder_readmes.py) | Har topic folder ka README regenerate |
 | [`add_leetcode_headers.py`](./scripts/add_leetcode_headers.py) | `LEETCODE : N — Title` headers inject |
-| [`generate_patterns_csv.py`](./scripts/generate_patterns_csv.py) | Thita sheet → [`patterns.csv`](./patterns.csv) + Done/Todo mapping |
+| [`generate_patterns.py`](./scripts/generate_patterns.py) | Patterns sheet → [`PATTERNS.md`](./PATTERNS.md) tracker + Done/Todo mapping |
 | [`serve_site.sh`](./scripts/serve_site.sh) | Local site server (`localhost:8080`) |
 
 **Nayi `.cpp` file add karne ke baad:**
@@ -293,7 +262,7 @@ Har solution is pattern follow karta hai (site search isi se LeetCode tag parse 
 ```bash
 python3 scripts/generate_folder_readmes.py   # README tables update
 python3 scripts/generate_site_data.py        # site index update
-python3 scripts/generate_patterns_csv.py     # patterns.csv Done/Todo update
+python3 scripts/generate_patterns.py         # PATTERNS.md Done/Todo update
 git push origin main                         # → auto-deploy site (gh-pages)
 ```
 
@@ -303,7 +272,7 @@ git push origin main                         # → auto-deploy site (gh-pages)
 
 - [CP-Algorithms](https://cp-algorithms.com/) — geometry, graphs, Josephus, tortoise & hare, MST, …
 - [LeetCode](https://leetcode.com/) — DSA problem tagging
-- [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) by **Swati Ahuja** — 94 patterns, [`patterns.csv`](./patterns.csv) ka source ([editorials](https://thita.ai/dsa-patterns-sheet) · [playlist](https://www.youtube.com/watch?v=DKWEYzF2xJU&list=PL2SB3o9_VW78xKoiCPtzLnTWjMOklYlNy))
+- [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) by **Swati Ahuja** — 94 patterns, [`PATTERNS.md`](./PATTERNS.md) ka source ([editorials](https://thita.ai/dsa-patterns-sheet) · [playlist](https://www.youtube.com/watch?v=DKWEYzF2xJU&list=PL2SB3o9_VW78xKoiCPtzLnTWjMOklYlNy))
 
 ---
 

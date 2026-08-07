@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
-"""Generate patterns.csv from the Thita DSA Patterns Sheet (Swati Ahuja).
+"""Generate PATTERNS.md — a Markdown progress tracker for the DSA patterns sheet.
 
 Source sheet : https://docs.google.com/spreadsheets/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview
   gid=0                -> full sheet (94 patterns)
   gid=2094977620       -> "30 day" core subset
 
-Each output row is ONE problem, so the CSV sorts/filters cleanly in Excel or
-pandas. Solved problems are matched against this repo by the `LEETCODE : N`
-header comment inside every .cpp file (and by leetcode_<N>_ filenames).
-
-The file opens with a META_ROWS-line author block (same convention the source
-sheet uses), so readers must skip those before the column header:
-    pandas.read_csv("patterns.csv", skiprows=6)
+Output is a summary table plus one collapsible table per pattern, so GitHub
+renders it as a real document. Solved problems are matched against this repo by
+the `LEETCODE : N` header comment inside every .cpp file (and by leetcode_<N>_
+filenames), which is what drives the ✅ / ⬜ column.
 
 Usage:
-    python3 scripts/generate_patterns_csv.py            # fetch from Google
-    python3 scripts/generate_patterns_csv.py --offline  # use cached CSVs only
+    python3 scripts/generate_patterns.py            # fetch from Google
+    python3 scripts/generate_patterns.py --offline  # use cached CSVs only
 """
 
 import argparse
@@ -27,7 +24,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "patterns.csv"
+OUT = ROOT / "PATTERNS.md"
 CACHE = ROOT / "scripts" / ".patterns_cache"
 
 AUTHOR = "Shubham Malik"
@@ -36,7 +33,6 @@ REPO_URL = "https://github.com/subhm2004/DSA-CP"
 
 SHEET_ID = "1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk"
 SHEET_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/htmlview"
-META_ROWS = 6  # metadata + blank lines written above the column header
 EXPORT = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv"
 # The first tab has no usable gid on this sheet — bare export returns it.
 TABS = {"full": EXPORT, "core30": f"{EXPORT}&gid=2094977620"}
@@ -47,19 +43,24 @@ CATEGORY_RE = re.compile(r"^([IVXL]+)\.\s*(.+?)\s*$")
 PATTERN_RE = re.compile(r"^Pattern\s*(\d+)\s*[:.]?\s*(.*)$", re.I)
 ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8,
          "IX": 9, "X": 10, "XI": 11, "XII": 12, "XIII": 13, "XIV": 14, "XV": 15}
+ROMAN_OUT = {v: k for k, v in ROMAN.items()}
 
 # Problems missing their LeetCode number in the source sheet.
 TITLE_TO_ID = {"merge k sorted lists": 23}
 
 
-def comma_safe(label: str) -> str:
-    """Drop commas from label columns so plain `awk -F,` stays correct.
+def md_escape(text: str) -> str:
+    """A literal pipe would split a Markdown table cell in two."""
+    return text.replace("|", "\\|")
 
-    Only one pattern name carries a comma ("0/1 Knapsack, Subset Sum Style"),
-    but a quoted field silently shifts every column after it for naive splitters,
-    so normalise it here rather than leaving a trap in the data.
+
+def gh_anchor(heading: str) -> str:
+    """Mimic github-slugger so the summary table's links actually land.
+
+    Each space maps to its own hyphen — collapsing runs would be wrong, because
+    a removed "&" leaves two spaces behind and GitHub emits "dfs--bfs".
     """
-    return re.sub(r"\s*,\s*", " & ", label).strip()
+    return re.sub(r"[^\w\s-]", "", heading.lower()).strip().replace(" ", "-")
 
 
 def slugify(title: str) -> str:
@@ -213,6 +214,79 @@ def repo_index() -> dict[int, list[str]]:
     return index
 
 
+def bar(done: int, total: int, width: int = 10) -> str:
+    """Unicode progress bar — renders the same everywhere GitHub shows text."""
+    filled = round(width * done / total) if total else 0
+    return "█" * filled + "░" * (width - filled)
+
+
+def build_markdown(rows: list[dict], core: set[int], index: dict[int, list[str]]) -> str:
+    """Render the whole tracker as GitHub-flavoured Markdown tables."""
+    for r in rows:
+        r["files"] = index.get(r["leetcode_id"], []) if r["leetcode_id"] else []
+
+    total, solved = len(rows), sum(bool(r["files"]) for r in rows)
+    cats = sorted({(r["category_no"], r["category"]) for r in rows})
+    out: list[str] = []
+    add = out.append
+
+    add("# DSA Patterns — Progress Tracker\n")
+    add(f"**Author:** [{AUTHOR}]({AUTHOR_URL}) · [{REPO_URL.split('/')[-1]}]({REPO_URL})  ")
+    add(f"**Generated:** {date.today().isoformat()} · "
+        f"`python3 scripts/{Path(__file__).name}`\n")
+    add(f"**{len(cats)} categories · {len({r['pattern_no'] for r in rows})} patterns · "
+        f"{total} problems**\n")
+    add(f"### Progress — {solved} / {total} solved ({solved * 100 // total}%)\n")
+    add(f"`{bar(solved, total, 30)}`\n")
+    add("✅ = repo me solution hai · ⬜ = pending · ⭐ = 30-day core set\n")
+    add("---\n")
+
+    # ── Summary table ────────────────────────────────────────────────────────
+    add("## Categories\n")
+    add("| # | Category | Patterns | Problems | Done | Progress |")
+    add("|--:|----------|---------:|---------:|-----:|----------|")
+    for cno, cname in cats:
+        sub = [r for r in rows if r["category_no"] == cno]
+        d = sum(bool(r["files"]) for r in sub)
+        anchor = gh_anchor(f"{ROMAN_OUT[cno]}. {cname}")
+        add(f"| {ROMAN_OUT[cno]} | [{md_escape(cname)}](#{anchor}) | "
+            f"{len({r['pattern_no'] for r in sub})} | {len(sub)} | {d} | "
+            f"`{bar(d, len(sub))}` {d * 100 // len(sub)}% |")
+    add(f"| | **Total** | **{len({r['pattern_no'] for r in rows})}** | **{total}** | "
+        f"**{solved}** | `{bar(solved, total)}` **{solved * 100 // total}%** |")
+    add("\n---\n")
+
+    # ── One section per category, one table per pattern ──────────────────────
+    for cno, cname in cats:
+        sub = [r for r in rows if r["category_no"] == cno]
+        d = sum(bool(r["files"]) for r in sub)
+        add(f"## {ROMAN_OUT[cno]}. {cname}\n")
+        add(f"{len(sub)} problems · **{d} done** · `{bar(d, len(sub))}` "
+            f"{d * 100 // len(sub)}%\n")
+
+        for pno in sorted({r["pattern_no"] for r in sub}):
+            prob = [r for r in sub if r["pattern_no"] == pno]
+            pd_ = sum(bool(r["files"]) for r in prob)
+            add(f"### Pattern {pno} — {md_escape(prob[0]['pattern'])}\n")
+            add(f"`{bar(pd_, len(prob))}` **{pd_}/{len(prob)}**\n")
+            add("| Status | LC | Problem | 30-day | Solution |")
+            add("|:------:|---:|---------|:------:|----------|")
+            for r in prob:
+                mark = "✅" if r["files"] else "⬜"
+                star = "⭐" if r["leetcode_id"] in core else ""
+                url = f"https://leetcode.com/problems/{slugify(r['problem'])}/"
+                sol = " · ".join(f"[`{f.split('/')[-1]}`](./{f})" for f in r["files"]) or "—"
+                add(f"| {mark} | {r['leetcode_id']} | "
+                    f"[{md_escape(r['problem'])}]({url}) | {star} | {sol} |")
+            add("")
+        add("---\n")
+
+    add(f"<sub>Auto-generated — edit karne ke bajaye "
+        f"`python3 scripts/{Path(__file__).name}` dobara chalao. "
+        f"Status `LEETCODE : N` header comment se match hota hai.</sub>")
+    return "\n".join(out) + "\n"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--offline", action="store_true", help="use cached sheet CSVs")
@@ -225,51 +299,10 @@ def main() -> None:
     print(f"  {len(rows)} problems · {len({r['pattern_no'] for r in rows})} patterns "
           f"· {len(core)} in 30-day core · {len(index)} LeetCode ids in repo")
 
-    fields = ["sr", "category_no", "category", "pattern_no", "pattern",
-              "leetcode_id", "problem", "status", "repo_file", "in_30day_core",
-              "leetcode_url"]
-    solved = 0
-    with OUT.open("w", newline="", encoding="utf-8") as fh:
-        # Metadata block, same shape as the source sheet's own header rows.
-        # META_ROWS lines sit above the real header — see README for pandas usage.
-        meta = csv.writer(fh)
-        for row in [
-            ["Author", AUTHOR],
-            ["GitHub", AUTHOR_URL],
-            ["Repo", REPO_URL],
-            ["Tracker", "DSA Patterns — progress tracker (Done/Todo auto-mapped from repo)"],
-            ["Generated", date.today().isoformat()],
-            [],
-        ]:
-            meta.writerow(row)
-
-        w = csv.DictWriter(fh, fieldnames=fields)
-        w.writeheader()
-        for i, r in enumerate(rows, 1):
-            pid = r["leetcode_id"]
-            files = index.get(pid, []) if pid else []
-            solved += bool(files)
-            w.writerow({
-                "sr": i,
-                "category_no": r["category_no"],
-                "category": comma_safe(r["category"]),
-                "pattern_no": r["pattern_no"],
-                "pattern": comma_safe(r["pattern"]),
-                "leetcode_id": pid or "",
-                "problem": comma_safe(r["problem"]),
-                "status": "Done" if files else "Todo",
-                "repo_file": " | ".join(files),
-                "in_30day_core": "Yes" if pid in core else "No",
-                "leetcode_url": f"https://leetcode.com/problems/{slugify(r['problem'])}/",
-            })
-    pct = solved * 100 // len(rows) if rows else 0
-    print(f"Wrote {OUT.relative_to(ROOT)} — {len(rows)} rows, {solved} solved ({pct}%)")
-
-    # Guard the awk-friendliness the README promises.
-    body = OUT.read_text(encoding="utf-8").splitlines()[META_ROWS:]
-    if quoted := [ln.split(",")[0] for ln in body if '"' in ln]:
-        print(f"  ! {len(quoted)} row(s) still need CSV quoting (sr {quoted[:5]}) "
-              f"— `awk -F,` will mis-split these", file=sys.stderr)
+    OUT.write_text(build_markdown(rows, core, index), encoding="utf-8")
+    solved = sum(bool(index.get(r["leetcode_id"])) for r in rows)
+    print(f"Wrote {OUT.relative_to(ROOT)} — {len(rows)} problems, "
+          f"{solved} solved ({solved * 100 // len(rows)}%)")
 
 
 if __name__ == "__main__":
