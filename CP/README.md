@@ -17,7 +17,7 @@
 | [Number Theory](./number_theory/) | [Open →](./number_theory/README.md) |
 | [Data Structures](./data_structures/) | [Open →](./data_structures/README.md) |
 | [Mo's Algorithm](./mos_algorithm/) | [Open →](./mos_algorithm/README.md) |
-| [LCA](./lca/) | [Open →](./lca/README.md) |
+| [LCA](./dp/LCA/) | [Open →](./dp/LCA/README.md) |
 | [Trie](./trie/) | [Open →](./trie/README.md) |
 
 ## All folders
@@ -33,7 +33,7 @@
 | [Geometry](./geometry/) | [Open →](./geometry/README.md) |
 | [Matrix Exponentiation](./matrix_exponentiation/) | [Open →](./matrix_exponentiation/README.md) |
 | [Math (FFT / NTT)](./math/) | [Open →](./math/README.md) |
-| [Meet in the Middle](./meet_in_the_middle/) | [Open →](./meet_in_the_middle/README.md) |
+| [Meet in the Middle](./bit_manipulation/meet_in_middle.cpp) | [Open →](./bit_manipulation/README.md) |
 | [Monotonic Stack](./monotonic_stack/) | [Open →](./monotonic_stack/README.md) |
 | [Monotonic Queue](./monotonic_queue/) | [Open →](./monotonic_queue/README.md) |
 | [Numerical Methods](./numerical_methods/) | [Open →](./numerical_methods/README.md) |
@@ -45,9 +45,11 @@
 
 ## TODO — contest templates to add
 
-- [ ] `li_chao_segment_tree.cpp`
 - [ ] `suffix_automaton.cpp`
 - [ ] Stress test template (brute vs optimal)
+- [ ] Game theory — Sprague-Grundy / Nim
+- [ ] XOR (linear) basis
+- [ ] Pollard's Rho factorization
 
 ## Added templates
 
@@ -56,6 +58,8 @@
 - [x] `aho_corasick.cpp` → `string_algorithms/`
 - [x] `fft_ntt.cpp` → `math/`
 - [x] `treap.cpp` (+ implicit) → `data_structures/`
+- [x] `li_chao_segment_tree.cpp` → `segment_tree/`
+- [x] `cp_template.cpp` (+ `custom_hash`) → [`../CP_Template/`](../CP_Template/)
 
 ## Compile
 

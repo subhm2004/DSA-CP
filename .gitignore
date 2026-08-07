@@ -19,6 +19,9 @@ __tmp_*.cpp
 __pycache__/
 *.pyc
 
+# Cached Google Sheet export (generate_patterns_csv.py --offline)
+scripts/.patterns_cache/
+
 # Misc
 output.txt
 tempCodeRunnerFile.cpp

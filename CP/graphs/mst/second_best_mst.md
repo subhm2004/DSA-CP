@@ -109,7 +109,7 @@ Demo output:
 |------|--------|
 | [`krushkal_algorithm.cpp`](./krushkal_algorithm.cpp) | MST — Kruskal |
 | [`prims_algorithm.cpp`](./prims_algorithm.cpp) | MST — Prim |
-| [`../../lca/binary_lifting_lca.cpp`](../../lca/binary_lifting_lca.cpp) | LCA preprocessing |
+| [`../../dp/LCA/LCA_Binary_Lifting.cpp`](../../dp/LCA/LCA_Binary_Lifting.cpp) | LCA preprocessing |
 
 ---
 

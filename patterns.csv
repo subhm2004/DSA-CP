@@ -1,0 +1,445 @@
+Author,Shubham Malik
+GitHub,https://github.com/subhm2004
+Repo,https://github.com/subhm2004/DSA-CP
+Tracker,DSA Patterns — progress tracker (Done/Todo auto-mapped from repo)
+Generated,2026-08-07
+
+sr,category_no,category,pattern_no,pattern,leetcode_id,problem,status,repo_file,in_30day_core,leetcode_url
+1,1,Two Pointer Patterns,1,Converging,11,Container With Most Water,Done,CP/two_pointers/container_with_most_water.cpp | DSA/two_pointers/container_with_most_water.cpp,Yes,https://leetcode.com/problems/container-with-most-water/
+2,1,Two Pointer Patterns,1,Converging,15,3Sum,Done,CP/two_pointers/three_sum.cpp | DSA/two_pointers/three_sum.cpp,Yes,https://leetcode.com/problems/3sum/
+3,1,Two Pointer Patterns,1,Converging,16,3Sum Closest,Todo,,No,https://leetcode.com/problems/3sum-closest/
+4,1,Two Pointer Patterns,1,Converging,18,4Sum,Todo,,No,https://leetcode.com/problems/4sum/
+5,1,Two Pointer Patterns,1,Converging,167,Two Sum II - Input Array Is Sorted,Done,CP/two_pointers/two_sum_sorted.cpp | DSA/two_pointers/two_sum_sorted.cpp,Yes,https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+6,1,Two Pointer Patterns,1,Converging,349,Intersection of Two Arrays,Todo,,No,https://leetcode.com/problems/intersection-of-two-arrays/
+7,1,Two Pointer Patterns,1,Converging,881,Boats to Save People,Todo,,No,https://leetcode.com/problems/boats-to-save-people/
+8,1,Two Pointer Patterns,1,Converging,977,Squares of a Sorted Array,Todo,,No,https://leetcode.com/problems/squares-of-a-sorted-array/
+9,1,Two Pointer Patterns,1,Converging,259,3Sum Smaller,Todo,,No,https://leetcode.com/problems/3sum-smaller/
+10,1,Two Pointer Patterns,2,Fast & Slow,141,Linked List Cycle,Done,DSA/linked_list/tortoise_algo.cpp,Yes,https://leetcode.com/problems/linked-list-cycle/
+11,1,Two Pointer Patterns,2,Fast & Slow,202,Happy Number,Todo,,No,https://leetcode.com/problems/happy-number/
+12,1,Two Pointer Patterns,2,Fast & Slow,287,Find the Duplicate Number,Done,DSA/arrays/duplicate_number.cpp,Yes,https://leetcode.com/problems/find-the-duplicate-number/
+13,1,Two Pointer Patterns,2,Fast & Slow,392,Is Subsequence,Todo,,No,https://leetcode.com/problems/is-subsequence/
+14,1,Two Pointer Patterns,3,Fixed Separation,19,Remove Nth Node From End of List,Todo,,Yes,https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+15,1,Two Pointer Patterns,3,Fixed Separation,876,Middle of the Linked List,Done,DSA/linked_list/middle_of_linked_list.cpp,No,https://leetcode.com/problems/middle-of-the-linked-list/
+16,1,Two Pointer Patterns,3,Fixed Separation,2095,Delete the Middle Node of a Linked List,Todo,,No,https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+17,1,Two Pointer Patterns,4,In-place Array Modification,26,Remove Duplicates from Sorted Array,Done,DSA/two_pointers/remove_duplicates_sorted_array.cpp,Yes,https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+18,1,Two Pointer Patterns,4,In-place Array Modification,27,Remove Element,Todo,,No,https://leetcode.com/problems/remove-element/
+19,1,Two Pointer Patterns,4,In-place Array Modification,75,Sort Colors,Done,DSA/arrays/dutch_national_flag.cpp | DSA/arrays/sort_colors.cpp,Yes,https://leetcode.com/problems/sort-colors/
+20,1,Two Pointer Patterns,4,In-place Array Modification,80,Remove Duplicates from Sorted Array II,Todo,,No,https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
+21,1,Two Pointer Patterns,4,In-place Array Modification,283,Move Zeroes,Todo,,Yes,https://leetcode.com/problems/move-zeroes/
+22,1,Two Pointer Patterns,4,In-place Array Modification,443,String Compression,Todo,,No,https://leetcode.com/problems/string-compression/
+23,1,Two Pointer Patterns,4,In-place Array Modification,905,Sort Array By Parity,Done,DSA/arrays/rearrange_positive_negative.cpp,No,https://leetcode.com/problems/sort-array-by-parity/
+24,1,Two Pointer Patterns,4,In-place Array Modification,2337,Move Pieces to Obtain a String,Todo,,No,https://leetcode.com/problems/move-pieces-to-obtain-a-string/
+25,1,Two Pointer Patterns,4,In-place Array Modification,2938,Separate Black and White Balls,Todo,,No,https://leetcode.com/problems/separate-black-and-white-balls/
+26,1,Two Pointer Patterns,5,String Comparison with  special characters,844,Backspace String Compare,Todo,,No,https://leetcode.com/problems/backspace-string-compare/
+27,1,Two Pointer Patterns,5,String Comparison with  special characters,1598,Crawler Log Folder,Todo,,No,https://leetcode.com/problems/crawler-log-folder/
+28,1,Two Pointer Patterns,5,String Comparison with  special characters,2390,Removing Stars From a String,Todo,,No,https://leetcode.com/problems/removing-stars-from-a-string/
+29,1,Two Pointer Patterns,6,Expanding From Center,5,Longest Palindromic Substring,Todo,,Yes,https://leetcode.com/problems/longest-palindromic-substring/
+30,1,Two Pointer Patterns,6,Expanding From Center,647,Palindromic Substrings,Todo,,No,https://leetcode.com/problems/palindromic-substrings/
+31,1,Two Pointer Patterns,7,String Reversal,151,Reverse Words in a String,Todo,,Yes,https://leetcode.com/problems/reverse-words-in-a-string/
+32,1,Two Pointer Patterns,7,String Reversal,344,Reverse String,Done,DSA/arrays/reverse.cpp,No,https://leetcode.com/problems/reverse-string/
+33,1,Two Pointer Patterns,7,String Reversal,345,Reverse Vowels of a String,Todo,,No,https://leetcode.com/problems/reverse-vowels-of-a-string/
+34,1,Two Pointer Patterns,7,String Reversal,541,Reverse String II,Todo,,No,https://leetcode.com/problems/reverse-string-ii/
+35,2,Sliding Window Patterns,8,Fixed Size,346,Moving Average from Data Stream,Todo,,No,https://leetcode.com/problems/moving-average-from-data-stream/
+36,2,Sliding Window Patterns,8,Fixed Size,643,Maximum Average Subarray I,Done,DSA/sliding_window/max_sum_subarray_size_k.cpp,No,https://leetcode.com/problems/maximum-average-subarray-i/
+37,2,Sliding Window Patterns,8,Fixed Size,2985,Calculate Compressed Mean,Todo,,No,https://leetcode.com/problems/calculate-compressed-mean/
+38,2,Sliding Window Patterns,8,Fixed Size,3254,Find the Power of K-Size Subarrays I,Todo,,No,https://leetcode.com/problems/find-the-power-of-ksize-subarrays-i/
+39,2,Sliding Window Patterns,8,Fixed Size,3318,Find X-Sum of All K-Long Subarrays I,Todo,,No,https://leetcode.com/problems/find-xsum-of-all-klong-subarrays-i/
+40,2,Sliding Window Patterns,9,Variable Size,3,Longest Substring Without Repeating Characters,Done,DSA/sliding_window/longest_substring_without_repeat.cpp,Yes,https://leetcode.com/problems/longest-substring-without-repeating-characters/
+41,2,Sliding Window Patterns,9,Variable Size,76,Minimum Window Substring,Done,DSA/sliding_window/minimum_window_substring.cpp,Yes,https://leetcode.com/problems/minimum-window-substring/
+42,2,Sliding Window Patterns,9,Variable Size,209,Minimum Size Subarray Sum,Todo,,Yes,https://leetcode.com/problems/minimum-size-subarray-sum/
+43,2,Sliding Window Patterns,9,Variable Size,219,Contains Duplicate II,Todo,,No,https://leetcode.com/problems/contains-duplicate-ii/
+44,2,Sliding Window Patterns,9,Variable Size,424,Longest Repeating Character Replacement,Done,DSA/sliding_window/longest_repeating_char_replace.cpp,Yes,https://leetcode.com/problems/longest-repeating-character-replacement/
+45,2,Sliding Window Patterns,9,Variable Size,713,Subarray Product Less Than K,Todo,,No,https://leetcode.com/problems/subarray-product-less-than-k/
+46,2,Sliding Window Patterns,9,Variable Size,904,Fruit Into Baskets,Done,DSA/sliding_window/fruit_into_baskets.cpp,No,https://leetcode.com/problems/fruit-into-baskets/
+47,2,Sliding Window Patterns,9,Variable Size,1004,Max Consecutive Ones III,Todo,,No,https://leetcode.com/problems/max-consecutive-ones-iii/
+48,2,Sliding Window Patterns,9,Variable Size,1438,Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit,Todo,,No,https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
+49,2,Sliding Window Patterns,9,Variable Size,1493,Longest Subarray of 1's After Deleting One Element,Todo,,No,https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/
+50,2,Sliding Window Patterns,9,Variable Size,1658,Minimum Operations to Reduce X to Zero,Todo,,No,https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/
+51,2,Sliding Window Patterns,9,Variable Size,1838,Frequency of the Most Frequent Element,Todo,,No,https://leetcode.com/problems/frequency-of-the-most-frequent-element/
+52,2,Sliding Window Patterns,9,Variable Size,2461,Maximum Sum of Distinct Subarrays With Length K,Todo,,No,https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/
+53,2,Sliding Window Patterns,9,Variable Size,2516,Take K of Each Character From Left and Right,Todo,,No,https://leetcode.com/problems/take-k-of-each-character-from-left-and-right/
+54,2,Sliding Window Patterns,9,Variable Size,2762,Continuous Subarrays,Todo,,No,https://leetcode.com/problems/continuous-subarrays/
+55,2,Sliding Window Patterns,9,Variable Size,2779,Maximum Beauty of an Array After Applying Operation,Todo,,No,https://leetcode.com/problems/maximum-beauty-of-an-array-after-applying-operation/
+56,2,Sliding Window Patterns,9,Variable Size,2981,Find Longest Special Substring That Occurs Thrice I,Todo,,No,https://leetcode.com/problems/find-longest-special-substring-that-occurs-thrice-i/
+57,2,Sliding Window Patterns,9,Variable Size,3026,Maximum Good Subarray Sum,Todo,,No,https://leetcode.com/problems/maximum-good-subarray-sum/
+58,2,Sliding Window Patterns,9,Variable Size,3346,Maximum Frequency of an Element After Performing Operations I,Todo,,No,https://leetcode.com/problems/maximum-frequency-of-an-element-after-performing-operations-i/
+59,2,Sliding Window Patterns,9,Variable Size,3347,Maximum Frequency of an Element After Performing Operations II,Todo,,No,https://leetcode.com/problems/maximum-frequency-of-an-element-after-performing-operations-ii/
+60,2,Sliding Window Patterns,10,Monotonic Queue for Max/Min,239,Sliding Window Maximum,Done,CP/monotonic_queue/monotonic_queue.cpp | DSA/queues/deque_implementation.cpp | DSA/queues/sliding_window_maximum.cpp,No,https://leetcode.com/problems/sliding-window-maximum/
+61,2,Sliding Window Patterns,10,Monotonic Queue for Max/Min,862,Shortest Subarray with Sum at Least K,Todo,,No,https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+62,2,Sliding Window Patterns,10,Monotonic Queue for Max/Min,1696,Jump Game VI,Todo,,No,https://leetcode.com/problems/jump-game-vi/
+63,2,Sliding Window Patterns,11,Character Frequency Matching,1,Two Sum,Done,DSA/arrays/two_sum.cpp | DSA/hash_map/two_sum_hashmap.cpp,No,https://leetcode.com/problems/two-sum/
+64,2,Sliding Window Patterns,11,Character Frequency Matching,438,Find All Anagrams in a String,Todo,,Yes,https://leetcode.com/problems/find-all-anagrams-in-a-string/
+65,2,Sliding Window Patterns,11,Character Frequency Matching,567,Permutation in String,Todo,,No,https://leetcode.com/problems/permutation-in-string/
+66,3,Tree Traversal Patterns (DFS & BFS),12,Level Order Traversal,102,Binary Tree Level Order Traversal,Done,DSA/graphs/bfs_traversal.cpp,Yes,https://leetcode.com/problems/binary-tree-level-order-traversal/
+67,3,Tree Traversal Patterns (DFS & BFS),12,Level Order Traversal,103,Binary Tree Zigzag Level Order Traversal,Done,DSA/trees/zigzag_level_order.cpp,No,https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+68,3,Tree Traversal Patterns (DFS & BFS),12,Level Order Traversal,199,Binary Tree Right Side View,Done,DSA/trees/left_view_binary_tree.cpp | DSA/trees/right_view_binary_tree.cpp,Yes,https://leetcode.com/problems/binary-tree-right-side-view/
+69,3,Tree Traversal Patterns (DFS & BFS),12,Level Order Traversal,515,Find Largest Value in Each Tree Row,Todo,,No,https://leetcode.com/problems/find-largest-value-in-each-tree-row/
+70,3,Tree Traversal Patterns (DFS & BFS),12,Level Order Traversal,1161,Maximum Level Sum of a Binary Tree,Todo,,No,https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/
+71,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,100,Same Tree,Todo,,No,https://leetcode.com/problems/same-tree/
+72,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,101,Symmetric Tree,Todo,,No,https://leetcode.com/problems/symmetric-tree/
+73,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,105,Construct Binary Tree from Preorder and Inorder Traversal,Done,DSA/trees/build_tree_inorder_preorder.cpp,Yes,https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+74,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,114,Flatten Binary Tree to Linked List,Todo,,No,https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+75,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,226,Invert Binary Tree,Todo,,Yes,https://leetcode.com/problems/invert-binary-tree/
+76,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,257,Binary Tree Paths,Todo,,No,https://leetcode.com/problems/binary-tree-paths/
+77,3,Tree Traversal Patterns (DFS & BFS),13,Recursive Preorder Traversal,988,Smallest String Starting From Leaf,Todo,,No,https://leetcode.com/problems/smallest-string-starting-from-leaf/
+78,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,94,Binary Tree Inorder Traversal,Done,DSA/trees/morris_traversal_binary_tree.cpp | DSA/trees/morris_traversal_bst.cpp,No,https://leetcode.com/problems/binary-tree-inorder-traversal/
+79,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,98,Validate Binary Search Tree,Todo,,Yes,https://leetcode.com/problems/validate-binary-search-tree/
+80,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,173,Binary Search Tree Iterator,Todo,,No,https://leetcode.com/problems/binary-search-tree-iterator/
+81,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,230,Kth Smallest Element in a BST,Todo,,Yes,https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+82,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,501,Find Mode in Binary Search Tree,Todo,,No,https://leetcode.com/problems/find-mode-in-binary-search-tree/
+83,3,Tree Traversal Patterns (DFS & BFS),14,Recursive Inorder Traversal,530,Minimum Absolute Difference in BST,Todo,,No,https://leetcode.com/problems/minimum-absolute-difference-in-bst/
+84,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,104,Maximum Depth of Binary Tree,Done,DSA/graphs/dfs_traversal.cpp | DSA/trees/binary_tree_height.cpp,Yes,https://leetcode.com/problems/maximum-depth-of-binary-tree/
+85,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,110,Balanced Binary Tree,Done,DSA/trees/balanced_binary_tree.cpp,No,https://leetcode.com/problems/balanced-binary-tree/
+86,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,124,Binary Tree Maximum Path Sum,Todo,,Yes,https://leetcode.com/problems/binary-tree-maximum-path-sum/
+87,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,145,Binary Tree Postorder Traversal,Todo,,No,https://leetcode.com/problems/binary-tree-postorder-traversal/
+88,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,337,House Robber III,Todo,,No,https://leetcode.com/problems/house-robber-iii/
+89,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,366,Find Leaves of Binary Tree,Todo,,No,https://leetcode.com/problems/find-leaves-of-binary-tree/
+90,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,543,Diameter of Binary Tree,Done,DSA/trees/binary_tree_diameter.cpp,Yes,https://leetcode.com/problems/diameter-of-binary-tree/
+91,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,863,All Nodes Distance K in Binary Tree,Todo,,No,https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/
+92,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,1110,Delete Nodes And Return Forest,Todo,,No,https://leetcode.com/problems/delete-nodes-and-return-forest/
+93,3,Tree Traversal Patterns (DFS & BFS),15,Recursive Postorder Traversal,2458,Height of Binary Tree After Subtree Removal Queries,Todo,,No,https://leetcode.com/problems/height-of-binary-tree-after-subtree-removal-queries/
+94,3,Tree Traversal Patterns (DFS & BFS),16,Lowest Common Ancestor,235,Lowest Common Ancestor of a Binary Search Tree,Done,DSA/bst/lca_in_bst.cpp,Yes,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+95,3,Tree Traversal Patterns (DFS & BFS),16,Lowest Common Ancestor,236,Lowest Common Ancestor of a Binary Tree,Todo,,Yes,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+96,3,Tree Traversal Patterns (DFS & BFS),17,Serialization and Deserialization,297,Serialize and Deserialize Binary Tree,Done,DSA/trees/serialize_deserialize_binary_tree.cpp,Yes,https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+97,3,Tree Traversal Patterns (DFS & BFS),17,Serialization and Deserialization,572,Subtree of Another Tree,Todo,,No,https://leetcode.com/problems/subtree-of-another-tree/
+98,3,Tree Traversal Patterns (DFS & BFS),17,Serialization and Deserialization,652,Find Duplicate Subtrees,Todo,,No,https://leetcode.com/problems/find-duplicate-subtrees/
+99,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,130,Surrounded Regions,Done,DSA/graphs/surrounded_regions.cpp,No,https://leetcode.com/problems/surrounded-regions/
+100,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,200,Number of Islands,Done,DSA/graphs/number_of_islands.cpp,Yes,https://leetcode.com/problems/number-of-islands/
+101,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,417,Pacific Atlantic Water Flow,Done,DSA/graphs/pacific_atlantic_water_flow.cpp,No,https://leetcode.com/problems/pacific-atlantic-water-flow/
+102,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,547,Number of Provinces,Done,DSA/graphs/number_of_provinces.cpp,Yes,https://leetcode.com/problems/number-of-provinces/
+103,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,695,Max Area of Island,Done,DSA/graphs/max_area_of_island.cpp,Yes,https://leetcode.com/problems/max-area-of-island/
+104,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,733,Flood Fill,Done,DSA/graphs/flood_fill.cpp,Yes,https://leetcode.com/problems/flood-fill/
+105,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,841,Keys and Rooms,Todo,,No,https://leetcode.com/problems/keys-and-rooms/
+106,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,1020,Number of Enclaves,Todo,,No,https://leetcode.com/problems/number-of-enclaves/
+107,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,1254,Number of Closed Islands,Done,DSA/graphs/number_of_closed_islands.cpp,No,https://leetcode.com/problems/number-of-closed-islands/
+108,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,1905,Count Sub Islands,Todo,,No,https://leetcode.com/problems/count-sub-islands/
+109,4,Graph Traversal Patterns (DFS & BFS),18,DFS - Connected Components / Island Counting,2101,Detonate the Maximum Bombs,Todo,,No,https://leetcode.com/problems/detonate-the-maximum-bombs/
+110,4,Graph Traversal Patterns (DFS & BFS),19,BFS - Connected Components / Island Counting,542,01 Matrix,Todo,,No,https://leetcode.com/problems/01-matrix/
+111,4,Graph Traversal Patterns (DFS & BFS),19,BFS - Connected Components / Island Counting,994,Rotting Oranges,Done,DSA/graphs/rotten_oranges.cpp,No,https://leetcode.com/problems/rotting-oranges/
+112,4,Graph Traversal Patterns (DFS & BFS),19,BFS - Connected Components / Island Counting,1091,Shortest Path in Binary Matrix,Todo,,No,https://leetcode.com/problems/shortest-path-in-binary-matrix/
+113,4,Graph Traversal Patterns (DFS & BFS),20,DFS - Cycle Detection,207,Course Schedule,Done,DSA/graphs/cycle_detection_directed.cpp,Yes,https://leetcode.com/problems/course-schedule/
+114,4,Graph Traversal Patterns (DFS & BFS),20,DFS - Cycle Detection,210,Course Schedule II,Done,DSA/graphs/topological_sort_kahn.cpp,Yes,https://leetcode.com/problems/course-schedule-ii/
+115,4,Graph Traversal Patterns (DFS & BFS),20,DFS - Cycle Detection,802,Find Eventual Safe States,Todo,,No,https://leetcode.com/problems/find-eventual-safe-states/
+116,4,Graph Traversal Patterns (DFS & BFS),20,DFS - Cycle Detection,1059,All Paths from Source Lead to Destination,Todo,,No,https://leetcode.com/problems/all-paths-from-source-lead-to-destination/
+117,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),210,Course Schedule II,Done,DSA/graphs/topological_sort_kahn.cpp,Yes,https://leetcode.com/problems/course-schedule-ii/
+118,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),269,Alien Dictionary,Todo,,Yes,https://leetcode.com/problems/alien-dictionary/
+119,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),310,Minimum Height Trees,Todo,,No,https://leetcode.com/problems/minimum-height-trees/
+120,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),444,Sequence Reconstruction,Todo,,No,https://leetcode.com/problems/sequence-reconstruction/
+121,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),1136,Parallel Courses,Todo,,No,https://leetcode.com/problems/parallel-courses/
+122,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),1857,Largest Color Value in a Directed Graph,Todo,,No,https://leetcode.com/problems/largest-color-value-in-a-directed-graph/
+123,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),2050,Parallel Courses III,Todo,,No,https://leetcode.com/problems/parallel-courses-iii/
+124,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),2115,Find All Possible Recipes from Given Supplies,Todo,,No,https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/
+125,4,Graph Traversal Patterns (DFS & BFS),21,BFS - Topological Sort(Kahn's Algorithm),2392,Build a Matrix With Conditions,Todo,,No,https://leetcode.com/problems/build-a-matrix-with-conditions/
+126,4,Graph Traversal Patterns (DFS & BFS),22,Deep Copy / Cloning,133,Clone Graph,Done,DSA/graphs/clone_graph.cpp,Yes,https://leetcode.com/problems/clone-graph/
+127,4,Graph Traversal Patterns (DFS & BFS),22,Deep Copy / Cloning,1334,Find the City With the Smallest Number of Neighbors at a Threshold Distance,Todo,,No,https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/
+128,4,Graph Traversal Patterns (DFS & BFS),22,Deep Copy / Cloning,138,Copy List with Random Pointer,Todo,,No,https://leetcode.com/problems/copy-list-with-random-pointer/
+129,4,Graph Traversal Patterns (DFS & BFS),22,Deep Copy / Cloning,1490,Clone N-ary Tree,Todo,,No,https://leetcode.com/problems/clone-nary-tree/
+130,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,743,Network Delay Time,Todo,,No,https://leetcode.com/problems/network-delay-time/
+131,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,778,Swim in Rising Water,Todo,,No,https://leetcode.com/problems/swim-in-rising-water/
+132,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,1514,Path with Maximum Probability,Todo,,No,https://leetcode.com/problems/path-with-maximum-probability/
+133,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,1631,Path With Minimum Effort,Todo,,No,https://leetcode.com/problems/path-with-minimum-effort/
+134,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,1976,Number of Ways to Arrive at Destination,Todo,,No,https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/
+135,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,2045,Second Minimum Time to Reach Destination,Todo,,No,https://leetcode.com/problems/second-minimum-time-to-reach-destination/
+136,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,2203,Minimum Weighted Subgraph With the Required Paths,Todo,,No,https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths/
+137,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,2290,Minimum Obstacle Removal to Reach Corner,Todo,,No,https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner/
+138,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,2577,Minimum Time to Visit a Cell In a Grid,Todo,,No,https://leetcode.com/problems/minimum-time-to-visit-a-cell-in-a-grid/
+139,4,Graph Traversal Patterns (DFS & BFS),23,Shortest Path,2812,Find the Safest Path in a Grid,Todo,,No,https://leetcode.com/problems/find-the-safest-path-in-a-grid/
+140,4,Graph Traversal Patterns (DFS & BFS),24,Shortest Path (Bellman-Ford / BFS+K),787,Cheapest Flights Within K Stops,Todo,,No,https://leetcode.com/problems/cheapest-flights-within-k-stops/
+141,4,Graph Traversal Patterns (DFS & BFS),24,Shortest Path (Bellman-Ford / BFS+K),1129,Shortest Path with Alternating Colors,Todo,,No,https://leetcode.com/problems/shortest-path-with-alternating-colors/
+142,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,200,Number of Islands,Done,DSA/graphs/number_of_islands.cpp,Yes,https://leetcode.com/problems/number-of-islands/
+143,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,261,Graph Valid Tree,Done,DSA/graphs/cycle_detection_undirected.cpp,No,https://leetcode.com/problems/graph-valid-tree/
+144,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,305,Number of Islands II,Todo,,No,https://leetcode.com/problems/number-of-islands-ii/
+145,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,323,Number of Connected Components in an Undirected Graph,Todo,,Yes,https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
+146,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,547,Number of Provinces,Done,DSA/graphs/number_of_provinces.cpp,Yes,https://leetcode.com/problems/number-of-provinces/
+147,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,684,Redundant Connection,Done,DSA/graphs/union_find.cpp,No,https://leetcode.com/problems/redundant-connection/
+148,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,721,Accounts Merge,Todo,,No,https://leetcode.com/problems/accounts-merge/
+149,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,737,Sentence Similarity II,Todo,,No,https://leetcode.com/problems/sentence-similarity-ii/
+150,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,947,Most Stones Removed with Same Row or Column,Todo,,No,https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
+151,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,952,Largest Component Size by Common Factor,Todo,,No,https://leetcode.com/problems/largest-component-size-by-common-factor/
+152,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,959,Regions Cut By Slashes,Todo,,No,https://leetcode.com/problems/regions-cut-by-slashes/
+153,4,Graph Traversal Patterns (DFS & BFS),25,Union-Find,1101,The Earliest Moment When Everyone Become Friends,Todo,,No,https://leetcode.com/problems/the-earliest-moment-when-everyone-become-friends/
+154,4,Graph Traversal Patterns (DFS & BFS),26,Strongly Connected Components (Kosaraju / Tarjan),210,Course Schedule II,Done,DSA/graphs/topological_sort_kahn.cpp,Yes,https://leetcode.com/problems/course-schedule-ii/
+155,4,Graph Traversal Patterns (DFS & BFS),26,Strongly Connected Components (Kosaraju / Tarjan),547,Number of Provinces,Done,DSA/graphs/number_of_provinces.cpp,Yes,https://leetcode.com/problems/number-of-provinces/
+156,4,Graph Traversal Patterns (DFS & BFS),26,Strongly Connected Components (Kosaraju / Tarjan),1192,Critical Connections in a Network,Todo,,No,https://leetcode.com/problems/critical-connections-in-a-network/
+157,4,Graph Traversal Patterns (DFS & BFS),26,Strongly Connected Components (Kosaraju / Tarjan),2127,Maximum Employees to Be Invited to a Meeting,Todo,,No,https://leetcode.com/problems/maximum-employees-to-be-invited-to-a-meeting/
+158,4,Graph Traversal Patterns (DFS & BFS),27,Bridges & Articulation Points (Tarjan low-link),1192,Critical Connections in a Network,Todo,,No,https://leetcode.com/problems/critical-connections-in-a-network/
+159,4,Graph Traversal Patterns (DFS & BFS),27,Bridges & Articulation Points (Tarjan low-link),2360,Longest Cycle in a Graph,Todo,,No,https://leetcode.com/problems/longest-cycle-in-a-graph/
+160,4,Graph Traversal Patterns (DFS & BFS),28,Minimum Spanning Tree (Kruskal / Prim / DSU + heap),1135,Connecting Cities With Minimum Cost,Todo,,No,https://leetcode.com/problems/connecting-cities-with-minimum-cost/
+161,4,Graph Traversal Patterns (DFS & BFS),28,Minimum Spanning Tree (Kruskal / Prim / DSU + heap),1584,Min Cost to Connect All Points,Todo,,No,https://leetcode.com/problems/min-cost-to-connect-all-points/
+162,4,Graph Traversal Patterns (DFS & BFS),28,Minimum Spanning Tree (Kruskal / Prim / DSU + heap),1168,Optimize Water Distribution in a Village,Todo,,No,https://leetcode.com/problems/optimize-water-distribution-in-a-village/
+163,4,Graph Traversal Patterns (DFS & BFS),28,Minimum Spanning Tree (Kruskal / Prim / DSU + heap),1489,Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree,Todo,,No,https://leetcode.com/problems/find-critical-and-pseudocritical-edges-in-minimum-spanning-tree/
+164,4,Graph Traversal Patterns (DFS & BFS),29,Bidirectional BFS,127,Word Ladder,Done,DSA/graphs/word_ladder_bfs.cpp,Yes,https://leetcode.com/problems/word-ladder/
+165,4,Graph Traversal Patterns (DFS & BFS),29,Bidirectional BFS,126,Word Ladder II,Todo,,No,https://leetcode.com/problems/word-ladder-ii/
+166,4,Graph Traversal Patterns (DFS & BFS),29,Bidirectional BFS,815,Bus Routes,Todo,,No,https://leetcode.com/problems/bus-routes/
+167,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,70,Climbing Stairs,Done,DSA/dynamic_programming/climbing_stairs.cpp,Yes,https://leetcode.com/problems/climbing-stairs/
+168,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,91,Decode Ways,Todo,,No,https://leetcode.com/problems/decode-ways/
+169,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,198,House Robber,Done,DSA/dynamic_programming/house_robber.cpp | DSA/recursion/house_robber.cpp,Yes,https://leetcode.com/problems/house-robber/
+170,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,213,House Robber II,Done,DSA/dynamic_programming/house_robber_2.cpp,No,https://leetcode.com/problems/house-robber-ii/
+171,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,337,House Robber III,Todo,,No,https://leetcode.com/problems/house-robber-iii/
+172,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,509,Fibonacci Number,Todo,,No,https://leetcode.com/problems/fibonacci-number/
+173,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,740,Delete and Earn,Todo,,No,https://leetcode.com/problems/delete-and-earn/
+174,5,Dynamic Programming (DP) Patterns,30,Fibonacci Style,746,Min Cost Climbing Stairs,Todo,,No,https://leetcode.com/problems/min-cost-climbing-stairs/
+175,5,Dynamic Programming (DP) Patterns,31,Kadane's Algorithm for Max/Min Subarray,53,Maximum Subarray,Done,DSA/arrays/kadanes_max_subarray.cpp | DSA/recursion/maximum_sum.cpp,Yes,https://leetcode.com/problems/maximum-subarray/
+176,5,Dynamic Programming (DP) Patterns,31,Kadane's Algorithm for Max/Min Subarray,918,Maximum Sum Circular Subarray,Todo,,No,https://leetcode.com/problems/maximum-sum-circular-subarray/
+177,5,Dynamic Programming (DP) Patterns,31,Kadane's Algorithm for Max/Min Subarray,2321,Maximum Score Of Spliced Array,Todo,,No,https://leetcode.com/problems/maximum-score-of-spliced-array/
+178,5,Dynamic Programming (DP) Patterns,31,Kadane's Algorithm for Max/Min Subarray,1749,Maximum Absolute Sum of Any Subarray,Todo,,No,https://leetcode.com/problems/maximum-absolute-sum-of-any-subarray/
+179,5,Dynamic Programming (DP) Patterns,31,Kadane's Algorithm for Max/Min Subarray,152,Maximum Product Subarray,Done,DSA/dynamic_programming/max_product_subarray.cpp,Yes,https://leetcode.com/problems/maximum-product-subarray/
+180,5,Dynamic Programming (DP) Patterns,32,Coin Change / Unbounded Knapsack Style,322,Coin Change,Done,DSA/dynamic_programming/coin_change_min_coins.cpp | DSA/recursion/coin_change.cpp | DSA/recursion/cut_rod_max_segments.cpp,Yes,https://leetcode.com/problems/coin-change/
+181,5,Dynamic Programming (DP) Patterns,32,Coin Change / Unbounded Knapsack Style,377,Combination Sum IV,Todo,,No,https://leetcode.com/problems/combination-sum-iv/
+182,5,Dynamic Programming (DP) Patterns,32,Coin Change / Unbounded Knapsack Style,518,Coin Change II,Done,DSA/dynamic_programming/coin_change_ways.cpp,No,https://leetcode.com/problems/coin-change-ii/
+183,5,Dynamic Programming (DP) Patterns,33,0/1 Knapsack & Subset Sum Style,416,Partition Equal Subset Sum,Done,DSA/dynamic_programming/partition_equal_subset.cpp,Yes,https://leetcode.com/problems/partition-equal-subset-sum/
+184,5,Dynamic Programming (DP) Patterns,33,0/1 Knapsack & Subset Sum Style,494,Target Sum,Todo,,No,https://leetcode.com/problems/target-sum/
+185,5,Dynamic Programming (DP) Patterns,34,Word Break Style,139,Word Break,Todo,,Yes,https://leetcode.com/problems/word-break/
+186,5,Dynamic Programming (DP) Patterns,34,Word Break Style,140,Word Break II,Todo,,No,https://leetcode.com/problems/word-break-ii/
+187,5,Dynamic Programming (DP) Patterns,35,Longest Common Subsequence - LCS,1143,Longest Common Subsequence,Done,DSA/dynamic_programming/longest_common_subsequence.cpp,Yes,https://leetcode.com/problems/longest-common-subsequence/
+188,5,Dynamic Programming (DP) Patterns,35,Longest Common Subsequence - LCS,1092,Shortest Common Supersequence,Todo,,No,https://leetcode.com/problems/shortest-common-supersequence/
+189,5,Dynamic Programming (DP) Patterns,35,Longest Common Subsequence - LCS,1312,Minimum Insertion Steps to Make a String Palindrome,Todo,,No,https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/
+190,5,Dynamic Programming (DP) Patterns,36,Edit Distance / Levenshtein Distance,72,Edit Distance,Done,DSA/dynamic_programming/edit_distance.cpp,No,https://leetcode.com/problems/edit-distance/
+191,5,Dynamic Programming (DP) Patterns,36,Edit Distance / Levenshtein Distance,583,Delete Operation for Two Strings,Todo,,No,https://leetcode.com/problems/delete-operation-for-two-strings/
+192,5,Dynamic Programming (DP) Patterns,36,Edit Distance / Levenshtein Distance,712,Minimum ASCII Delete Sum for Two Strings,Todo,,No,https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/
+193,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,62,Unique Paths,Done,DSA/dynamic_programming/unique_paths_grid.cpp,Yes,https://leetcode.com/problems/unique-paths/
+194,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,63,Unique Paths II,Todo,,No,https://leetcode.com/problems/unique-paths-ii/
+195,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,64,Minimum Path Sum,Done,DSA/dynamic_programming/minimum_path_sum_grid.cpp,No,https://leetcode.com/problems/minimum-path-sum/
+196,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,120,Triangle,Todo,,No,https://leetcode.com/problems/triangle/
+197,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,221,Maximal Square,Todo,,No,https://leetcode.com/problems/maximal-square/
+198,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,931,Minimum Falling Path Sum,Todo,,No,https://leetcode.com/problems/minimum-falling-path-sum/
+199,5,Dynamic Programming (DP) Patterns,37,Unique Paths on Grid,1277,Count Square Submatrices with All Ones,Todo,,No,https://leetcode.com/problems/count-square-submatrices-with-all-ones/
+200,5,Dynamic Programming (DP) Patterns,38,Interval DP,312,Burst Balloons,Todo,,No,https://leetcode.com/problems/burst-balloons/
+201,5,Dynamic Programming (DP) Patterns,38,Interval DP,546,Remove Boxes,Todo,,No,https://leetcode.com/problems/remove-boxes/
+202,5,Dynamic Programming (DP) Patterns,39,Catalan Numbers,95,Unique Binary Search Trees II,Todo,,No,https://leetcode.com/problems/unique-binary-search-trees-ii/
+203,5,Dynamic Programming (DP) Patterns,39,Catalan Numbers,96,Unique Binary Search Trees,Todo,,No,https://leetcode.com/problems/unique-binary-search-trees/
+204,5,Dynamic Programming (DP) Patterns,39,Catalan Numbers,241,Different Ways to Add Parentheses,Todo,,No,https://leetcode.com/problems/different-ways-to-add-parentheses/
+205,5,Dynamic Programming (DP) Patterns,40,Longest Increasing Subsequence,300,Longest Increasing Subsequence,Done,DSA/dynamic_programming/longest_increasing_subsequence.cpp,Yes,https://leetcode.com/problems/longest-increasing-subsequence/
+206,5,Dynamic Programming (DP) Patterns,40,Longest Increasing Subsequence,354,Russian Doll Envelopes,Todo,,No,https://leetcode.com/problems/russian-doll-envelopes/
+207,5,Dynamic Programming (DP) Patterns,40,Longest Increasing Subsequence,1671,Minimum Number of Removals to Make Mountain Array,Todo,,No,https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/
+208,5,Dynamic Programming (DP) Patterns,40,Longest Increasing Subsequence,2407,Longest Increasing Subsequence II,Todo,,No,https://leetcode.com/problems/longest-increasing-subsequence-ii/
+209,5,Dynamic Programming (DP) Patterns,41,Stock problems,121,Best Time to Buy and Sell Stock,Todo,,Yes,https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+210,5,Dynamic Programming (DP) Patterns,41,Stock problems,122,Best Time to Buy and Sell Stock II,Todo,,No,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+211,5,Dynamic Programming (DP) Patterns,41,Stock problems,123,Best Time to Buy and Sell Stock III,Todo,,No,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+212,5,Dynamic Programming (DP) Patterns,41,Stock problems,188,Best Time to Buy and Sell Stock IV,Todo,,No,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+213,5,Dynamic Programming (DP) Patterns,41,Stock problems,309,Best Time to Buy and Sell Stock with Cooldown,Todo,,No,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+214,6,Heap (Priority Queue) Patterns,42,Top K Elements,215,Kth Largest Element in an Array,Done,DSA/heaps/find_k_greatest_elements.cpp | DSA/heaps/find_k_smallest_elements.cpp,Yes,https://leetcode.com/problems/kth-largest-element-in-an-array/
+215,6,Heap (Priority Queue) Patterns,42,Top K Elements,347,Top K Frequent Elements,Done,DSA/hash_map/top_k_frequent_elements.cpp,Yes,https://leetcode.com/problems/top-k-frequent-elements/
+216,6,Heap (Priority Queue) Patterns,42,Top K Elements,451,Sort Characters By Frequency,Todo,,No,https://leetcode.com/problems/sort-characters-by-frequency/
+217,6,Heap (Priority Queue) Patterns,42,Top K Elements,506,Relative Ranks,Todo,,No,https://leetcode.com/problems/relative-ranks/
+218,6,Heap (Priority Queue) Patterns,42,Top K Elements,703,Kth Largest Element in a Stream,Done,DSA/heaps/kth_smallest_using_min_heap.cpp,No,https://leetcode.com/problems/kth-largest-element-in-a-stream/
+219,6,Heap (Priority Queue) Patterns,42,Top K Elements,973,K Closest Points to Origin,Todo,,No,https://leetcode.com/problems/k-closest-points-to-origin/
+220,6,Heap (Priority Queue) Patterns,42,Top K Elements,1046,Last Stone Weight,Todo,,No,https://leetcode.com/problems/last-stone-weight/
+221,6,Heap (Priority Queue) Patterns,42,Top K Elements,2558,Take Gifts From the Richest Pile,Todo,,No,https://leetcode.com/problems/take-gifts-from-the-richest-pile/
+222,6,Heap (Priority Queue) Patterns,43,Two Heaps for Median Finding,295,Find Median from Data Stream,Done,DSA/heaps/find_median_from_data_stream.cpp,Yes,https://leetcode.com/problems/find-median-from-data-stream/
+223,6,Heap (Priority Queue) Patterns,43,Two Heaps for Median Finding,1825,Finding MK Average,Todo,,No,https://leetcode.com/problems/finding-mk-average/
+224,6,Heap (Priority Queue) Patterns,44,K-way Merge,23,Merge k Sorted Lists,Todo,,Yes,https://leetcode.com/problems/merge-k-sorted-lists/
+225,6,Heap (Priority Queue) Patterns,44,K-way Merge,373,Find K Pairs with Smallest Sums,Todo,,No,https://leetcode.com/problems/find-k-pairs-with-smallest-sums/
+226,6,Heap (Priority Queue) Patterns,44,K-way Merge,378,Kth Smallest Element in a Sorted Matrix,Todo,,No,https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+227,6,Heap (Priority Queue) Patterns,44,K-way Merge,632,Smallest Range Covering Elements from K Lists,Todo,,No,https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/
+228,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,253,Meeting Rooms II,Done,DSA/intervals/meeting_rooms_ii.cpp,Yes,https://leetcode.com/problems/meeting-rooms-ii/
+229,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,767,Reorganize String,Todo,,Yes,https://leetcode.com/problems/reorganize-string/
+230,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,857,Minimum Cost to Hire K Workers,Todo,,No,https://leetcode.com/problems/minimum-cost-to-hire-k-workers/
+231,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,1642,Furthest Building You Can Reach,Todo,,No,https://leetcode.com/problems/furthest-building-you-can-reach/
+232,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,1792,Maximum Average Pass Ratio,Todo,,No,https://leetcode.com/problems/maximum-average-pass-ratio/
+233,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,1834,Single-Threaded CPU,Todo,,No,https://leetcode.com/problems/singlethreaded-cpu/
+234,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,1942,The Number of the Smallest Unoccupied Chair,Todo,,No,https://leetcode.com/problems/the-number-of-the-smallest-unoccupied-chair/
+235,6,Heap (Priority Queue) Patterns,45,Scheduling / Minimum Cost,2402,Meeting Rooms III,Todo,,No,https://leetcode.com/problems/meeting-rooms-iii/
+236,7,Backtracking Patterns,46,Subsets (Include/Exclude),17,Letter Combinations of a Phone Number,Done,DSA/backtracking/letter_combinations.cpp | DSA/recursion/phone_keypad_problem.cpp,No,https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+237,7,Backtracking Patterns,46,Subsets (Include/Exclude),77,Combinations,Todo,,No,https://leetcode.com/problems/combinations/
+238,7,Backtracking Patterns,46,Subsets (Include/Exclude),78,Subsets,Done,DSA/backtracking/subsets.cpp | DSA/recursion/generate_subsequences.cpp | DSA/recursion/generate_subsets.cpp,Yes,https://leetcode.com/problems/subsets/
+239,7,Backtracking Patterns,46,Subsets (Include/Exclude),90,Subsets II,Todo,,No,https://leetcode.com/problems/subsets-ii/
+240,7,Backtracking Patterns,47,Permutations,31,Next Permutation,Todo,,No,https://leetcode.com/problems/next-permutation/
+241,7,Backtracking Patterns,47,Permutations,46,Permutations,Done,DSA/backtracking/permutations.cpp | DSA/recursion/permutations_of_string.cpp,Yes,https://leetcode.com/problems/permutations/
+242,7,Backtracking Patterns,47,Permutations,60,Permutation Sequence,Todo,,No,https://leetcode.com/problems/permutation-sequence/
+243,7,Backtracking Patterns,48,Combination Sum,39,Combination Sum,Done,DSA/backtracking/combination_sum.cpp,Yes,https://leetcode.com/problems/combination-sum/
+244,7,Backtracking Patterns,48,Combination Sum,40,Combination Sum II,Done,DSA/backtracking/combination_sum_ii.cpp,No,https://leetcode.com/problems/combination-sum-ii/
+245,7,Backtracking Patterns,49,Parentheses Generation,22,Generate Parentheses,Done,DSA/recursion/generate_parenthesis.cpp,No,https://leetcode.com/problems/generate-parentheses/
+246,7,Backtracking Patterns,49,Parentheses Generation,301,Remove Invalid Parentheses,Todo,,No,https://leetcode.com/problems/remove-invalid-parentheses/
+247,7,Backtracking Patterns,50,Word Search / Path Finding in Grid,79,Word Search,Done,DSA/trie/word_search.cpp,Yes,https://leetcode.com/problems/word-search/
+248,7,Backtracking Patterns,50,Word Search / Path Finding in Grid,212,Word Search II,Todo,,No,https://leetcode.com/problems/word-search-ii/
+249,7,Backtracking Patterns,50,Word Search / Path Finding in Grid,2018,Check if Word Can Be Placed In Crossword,Todo,,No,https://leetcode.com/problems/check-if-word-can-be-placed-in-crossword/
+250,7,Backtracking Patterns,51,N-Queens / Constraint Satisfaction,37,Sudoku Solver,Done,DSA/backtracking/sudoku_solver.cpp,No,https://leetcode.com/problems/sudoku-solver/
+251,7,Backtracking Patterns,51,N-Queens / Constraint Satisfaction,51,N-Queens,Done,DSA/backtracking/n_queens.cpp,Yes,https://leetcode.com/problems/nqueens/
+252,7,Backtracking Patterns,52,Palindrome Partitioning,131,Palindrome Partitioning,Done,DSA/backtracking/palindrome_partitioning.cpp,No,https://leetcode.com/problems/palindrome-partitioning/
+253,7,Backtracking Patterns,52,Palindrome Partitioning,132,Palindrome Partitioning II,Todo,,No,https://leetcode.com/problems/palindrome-partitioning-ii/
+254,7,Backtracking Patterns,52,Palindrome Partitioning,1457,Pseudo-Palindromic Paths in a Binary Tree,Todo,,No,https://leetcode.com/problems/pseudopalindromic-paths-in-a-binary-tree/
+255,8,Greedy Patterns,53,Interval Merging/Scheduling,56,Merge Intervals,Done,DSA/intervals/merge_intervals.cpp,Yes,https://leetcode.com/problems/merge-intervals/
+256,8,Greedy Patterns,53,Interval Merging/Scheduling,57,Insert Interval,Done,DSA/intervals/insert_interval.cpp,Yes,https://leetcode.com/problems/insert-interval/
+257,8,Greedy Patterns,53,Interval Merging/Scheduling,759,Employee Free Time,Todo,,No,https://leetcode.com/problems/employee-free-time/
+258,8,Greedy Patterns,53,Interval Merging/Scheduling,986,Interval List Intersections,Todo,,No,https://leetcode.com/problems/interval-list-intersections/
+259,8,Greedy Patterns,53,Interval Merging/Scheduling,2406,Divide Intervals Into Minimum Number of Groups,Todo,,No,https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/
+260,8,Greedy Patterns,54,Jump Game Reachability/Minimization,45,Jump Game II,Done,DSA/greedy/jump_game_2.cpp,No,https://leetcode.com/problems/jump-game-ii/
+261,8,Greedy Patterns,54,Jump Game Reachability/Minimization,55,Jump Game,Done,DSA/greedy/jump_game.cpp,Yes,https://leetcode.com/problems/jump-game/
+262,8,Greedy Patterns,55,Buy/Sell Stock,121,Best Time to Buy and Sell Stock,Todo,,Yes,https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+263,8,Greedy Patterns,55,Buy/Sell Stock,122,Best Time to Buy and Sell Stock II,Todo,,No,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+264,8,Greedy Patterns,56,Gas Station Circuit,134,Gas Station,Todo,,No,https://leetcode.com/problems/gas-station/
+265,8,Greedy Patterns,56,Gas Station Circuit,2202,Maximize the Topmost Element After K Moves,Todo,,No,https://leetcode.com/problems/maximize-the-topmost-element-after-k-moves/
+266,8,Greedy Patterns,57,Task Scheduling,621,Task Scheduler,Todo,,No,https://leetcode.com/problems/task-scheduler/
+267,8,Greedy Patterns,57,Task Scheduling,767,Reorganize String,Todo,,Yes,https://leetcode.com/problems/reorganize-string/
+268,8,Greedy Patterns,57,Task Scheduling,1054,Distant Barcodes,Todo,,No,https://leetcode.com/problems/distant-barcodes/
+269,8,Greedy Patterns,58,Sorting Based,455,Assign Cookies,Done,DSA/greedy/assign_cookies.cpp,No,https://leetcode.com/problems/assign-cookies/
+270,8,Greedy Patterns,58,Sorting Based,135,Candy,Todo,,No,https://leetcode.com/problems/candy/
+271,8,Greedy Patterns,58,Sorting Based,406,Queue Reconstruction by Height,Todo,,No,https://leetcode.com/problems/queue-reconstruction-by-height/
+272,8,Greedy Patterns,58,Sorting Based,1029,Two City Scheduling,Todo,,No,https://leetcode.com/problems/two-city-scheduling/
+273,9,Binary Search Patterns,59,On Sorted Array/List,35,Search Insert Position,Todo,,No,https://leetcode.com/problems/search-insert-position/
+274,9,Binary Search Patterns,59,On Sorted Array/List,69,Sqrt(x),Done,DSA/binary_search/square_root_binary_search.cpp,No,https://leetcode.com/problems/sqrtx/
+275,9,Binary Search Patterns,59,On Sorted Array/List,74,Search a 2D Matrix,Done,DSA/binary_search/search_2d_matrix.cpp,Yes,https://leetcode.com/problems/search-a-2d-matrix/
+276,9,Binary Search Patterns,59,On Sorted Array/List,278,First Bad Version,Todo,,No,https://leetcode.com/problems/first-bad-version/
+277,9,Binary Search Patterns,59,On Sorted Array/List,374,Guess Number Higher or Lower,Todo,,No,https://leetcode.com/problems/guess-number-higher-or-lower/
+278,9,Binary Search Patterns,59,On Sorted Array/List,540,Single Element in a Sorted Array,Done,DSA/binary_search/odd_occurrence_binary_search.cpp | DSA/binary_search/search_nearly_sorted.cpp,No,https://leetcode.com/problems/single-element-in-a-sorted-array/
+279,9,Binary Search Patterns,59,On Sorted Array/List,704,Binary Search,Done,DSA/arrays/binary_search.cpp | DSA/binary_search/exponential_search.cpp | DSA/binary_search/unbounded_binary_search.cpp,No,https://leetcode.com/problems/binary-search/
+280,9,Binary Search Patterns,59,On Sorted Array/List,1539,Kth Missing Positive Number,Todo,,No,https://leetcode.com/problems/kth-missing-positive-number/
+281,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,33,Search in Rotated Sorted Array,Done,DSA/binary_search/pivot_element.cpp,Yes,https://leetcode.com/problems/search-in-rotated-sorted-array/
+282,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,81,Search in Rotated Sorted Array II,Todo,,No,https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
+283,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,153,Find Minimum in Rotated Sorted Array,Todo,,Yes,https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+284,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,162,Find Peak Element,Done,DSA/binary_search/peak_element.cpp,No,https://leetcode.com/problems/find-peak-element/
+285,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,852,Peak Index in a Mountain Array,Todo,,No,https://leetcode.com/problems/peak-index-in-a-mountain-array/
+286,9,Binary Search Patterns,60,Find Min/Max in Rotated Sorted Array,1095,Find in Mountain Array,Todo,,No,https://leetcode.com/problems/find-in-mountain-array/
+287,9,Binary Search Patterns,61,On Answer / Condition Function,410,Split Array Largest Sum,Done,DSA/binary_search/aggressive_cows.cpp | DSA/binary_search/book_allocation.cpp | DSA/binary_search/ekos_spoj.cpp | DSA/binary_search/painter_partition.cpp | DSA/binary_search/pratas_poj.cpp,No,https://leetcode.com/problems/split-array-largest-sum/
+288,9,Binary Search Patterns,61,On Answer / Condition Function,774,Minimize Max Distance to Gas Station,Todo,,No,https://leetcode.com/problems/minimize-max-distance-to-gas-station/
+289,9,Binary Search Patterns,61,On Answer / Condition Function,875,Koko Eating Bananas,Todo,,Yes,https://leetcode.com/problems/koko-eating-bananas/
+290,9,Binary Search Patterns,61,On Answer / Condition Function,1011,Capacity To Ship Packages Within D Days,Todo,,No,https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+291,9,Binary Search Patterns,61,On Answer / Condition Function,1482,Minimum Number of Days to Make m Bouquets,Todo,,No,https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/
+292,9,Binary Search Patterns,61,On Answer / Condition Function,1760,Minimum Limit of Balls in a Bag,Todo,,No,https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/
+293,9,Binary Search Patterns,61,On Answer / Condition Function,2064,Minimized Maximum of Products Distributed to Any Store,Todo,,No,https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store/
+294,9,Binary Search Patterns,61,On Answer / Condition Function,2226,Maximum Candies Allocated to K Children,Todo,,No,https://leetcode.com/problems/maximum-candies-allocated-to-k-children/
+295,9,Binary Search Patterns,62,Find First/Last Occurrence,34,Find First and Last Position of Element in Sorted Array,Done,DSA/arrays/first_occurrence.cpp | DSA/binary_search/total_occurrences.cpp,No,https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+296,9,Binary Search Patterns,62,Find First/Last Occurrence,658,Find K Closest Elements,Done,DSA/binary_search/k_closest_elements.cpp,No,https://leetcode.com/problems/find-k-closest-elements/
+297,9,Binary Search Patterns,63,Median / Kth across Two Sorted Arrays,4,Median of Two Sorted Arrays,Todo,,No,https://leetcode.com/problems/median-of-two-sorted-arrays/
+298,9,Binary Search Patterns,63,Median / Kth across Two Sorted Arrays,719,Find K-th Smallest Pair Distance,Todo,,No,https://leetcode.com/problems/find-kth-smallest-pair-distance/
+299,9,Binary Search Patterns,63,Median / Kth across Two Sorted Arrays,378,Kth Smallest Element in a Sorted Matrix,Todo,,No,https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+300,10,Stack Patterns,64,Valid Parentheses Matching,20,Valid Parentheses,Done,DSA/stacks/valid_parentheses.cpp,Yes,https://leetcode.com/problems/valid-parentheses/
+301,10,Stack Patterns,64,Valid Parentheses Matching,32,Longest Valid Parentheses,Todo,,No,https://leetcode.com/problems/longest-valid-parentheses/
+302,10,Stack Patterns,64,Valid Parentheses Matching,921,Minimum Add to Make Parentheses Valid,Todo,,No,https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+303,10,Stack Patterns,64,Valid Parentheses Matching,1249,Minimum Remove to Make Valid Parentheses,Done,DSA/stacks/minimum_bracket_reversals.cpp,No,https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
+304,10,Stack Patterns,64,Valid Parentheses Matching,1963,Minimum Number of Swaps to Make the String Balanced,Todo,,No,https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced/
+305,10,Stack Patterns,65,Monotonic Stack,402,Remove K Digits,Todo,,No,https://leetcode.com/problems/remove-k-digits/
+306,10,Stack Patterns,65,Monotonic Stack,496,Next Greater Element I,Done,CP/monotonic_stack/monotonic_stack.cpp | DSA/stacks/next_smaller_element.cpp,No,https://leetcode.com/problems/next-greater-element-i/
+307,10,Stack Patterns,65,Monotonic Stack,503,Next Greater Element II,Done,DSA/stacks/previous_smaller_element.cpp,No,https://leetcode.com/problems/next-greater-element-ii/
+308,10,Stack Patterns,65,Monotonic Stack,739,Daily Temperatures,Todo,,Yes,https://leetcode.com/problems/daily-temperatures/
+309,10,Stack Patterns,65,Monotonic Stack,901,Online Stock Span,Done,DSA/stacks/online_stock_span.cpp,No,https://leetcode.com/problems/online-stock-span/
+310,10,Stack Patterns,65,Monotonic Stack,907,Sum of Subarray Minimums,Todo,,No,https://leetcode.com/problems/sum-of-subarray-minimums/
+311,10,Stack Patterns,65,Monotonic Stack,962,Maximum Width Ramp,Todo,,No,https://leetcode.com/problems/maximum-width-ramp/
+312,10,Stack Patterns,65,Monotonic Stack,1475,Final Prices With a Special Discount in a Shop,Todo,,No,https://leetcode.com/problems/final-prices-with-a-special-discount-in-a-shop/
+313,10,Stack Patterns,65,Monotonic Stack,1673,Find the Most Competitive Subsequence,Todo,,No,https://leetcode.com/problems/find-the-most-competitive-subsequence/
+314,10,Stack Patterns,66,Expression Evaluation,150,Evaluate Reverse Polish Notation,Todo,,No,https://leetcode.com/problems/evaluate-reverse-polish-notation/
+315,10,Stack Patterns,66,Expression Evaluation,224,Basic Calculator,Todo,,No,https://leetcode.com/problems/basic-calculator/
+316,10,Stack Patterns,66,Expression Evaluation,227,Basic Calculator II,Todo,,No,https://leetcode.com/problems/basic-calculator-ii/
+317,10,Stack Patterns,66,Expression Evaluation,772,Basic Calculator III,Todo,,No,https://leetcode.com/problems/basic-calculator-iii/
+318,10,Stack Patterns,67,Simulation / Backtracking Helper,71,Simplify Path,Todo,,No,https://leetcode.com/problems/simplify-path/
+319,10,Stack Patterns,67,Simulation / Backtracking Helper,394,Decode String,Todo,,No,https://leetcode.com/problems/decode-string/
+320,10,Stack Patterns,67,Simulation / Backtracking Helper,735,Asteroid Collision,Done,DSA/stacks/asteroid_collision.cpp,No,https://leetcode.com/problems/asteroid-collision/
+321,10,Stack Patterns,68,Min Stack Design,155,Min Stack,Done,DSA/stacks/min_stack.cpp | DSA/stacks/two_stacks_in_array.cpp,No,https://leetcode.com/problems/min-stack/
+322,10,Stack Patterns,68,Min Stack Design,895,Maximum Frequency Stack,Todo,,No,https://leetcode.com/problems/maximum-frequency-stack/
+323,10,Stack Patterns,68,Min Stack Design,901,Online Stock Span,Done,DSA/stacks/online_stock_span.cpp,No,https://leetcode.com/problems/online-stock-span/
+324,10,Stack Patterns,69,Largest Rectangle in Histogram,84,Largest Rectangle in Histogram,Done,DSA/stacks/largest_rectangle_histogram.cpp,Yes,https://leetcode.com/problems/largest-rectangle-in-histogram/
+325,10,Stack Patterns,69,Largest Rectangle in Histogram,85,Maximal Rectangle,Todo,,No,https://leetcode.com/problems/maximal-rectangle/
+326,11,Bit Manipulation Patterns,70,Bitwise XOR - Finding Single/Missing Number,136,Single Number,Done,DSA/bit_manipulation/single_number.cpp,Yes,https://leetcode.com/problems/single-number/
+327,11,Bit Manipulation Patterns,70,Bitwise XOR - Finding Single/Missing Number,137,Single Number II,Todo,,No,https://leetcode.com/problems/single-number-ii/
+328,11,Bit Manipulation Patterns,70,Bitwise XOR - Finding Single/Missing Number,268,Missing Number,Done,DSA/binary_search/missing_element.cpp,Yes,https://leetcode.com/problems/missing-number/
+329,11,Bit Manipulation Patterns,70,Bitwise XOR - Finding Single/Missing Number,389,Find the Difference,Todo,,No,https://leetcode.com/problems/find-the-difference/
+330,11,Bit Manipulation Patterns,71,Bitwise AND - Counting Set Bits (Hamming Weight),191,Number of 1 Bits,Todo,,Yes,https://leetcode.com/problems/number-of-1-bits/
+331,11,Bit Manipulation Patterns,71,Bitwise AND - Counting Set Bits (Hamming Weight),231,Power of Two,Done,DSA/bit_manipulation/power_of_two.cpp,No,https://leetcode.com/problems/power-of-two/
+332,11,Bit Manipulation Patterns,71,Bitwise AND - Counting Set Bits (Hamming Weight),477,Total Hamming Distance,Todo,,No,https://leetcode.com/problems/total-hamming-distance/
+333,11,Bit Manipulation Patterns,72,Bitwise DP - Counting Bits Optimization,338,Counting Bits,Done,DSA/bit_manipulation/counting_bits.cpp,Yes,https://leetcode.com/problems/counting-bits/
+334,11,Bit Manipulation Patterns,72,Bitwise DP - Counting Bits Optimization,1494,Parallel Courses II,Todo,,No,https://leetcode.com/problems/parallel-courses-ii/
+335,11,Bit Manipulation Patterns,72,Bitwise DP - Counting Bits Optimization,1442,Count Triplets That Can Form Two Arrays of Equal XOR,Todo,,No,https://leetcode.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/
+336,11,Bit Manipulation Patterns,73,Bitwise Operations - Power of Two/Four Check,231,Power of Two,Done,DSA/bit_manipulation/power_of_two.cpp,No,https://leetcode.com/problems/power-of-two/
+337,11,Bit Manipulation Patterns,73,Bitwise Operations - Power of Two/Four Check,342,Power of Four,Todo,,No,https://leetcode.com/problems/power-of-four/
+338,12,Linked List Manipulation Patterns,74,In-place Reversal,83,Remove Duplicates from Sorted List,Todo,,No,https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+339,12,Linked List Manipulation Patterns,74,In-place Reversal,92,Reverse Linked List II,Todo,,Yes,https://leetcode.com/problems/reverse-linked-list-ii/
+340,12,Linked List Manipulation Patterns,74,In-place Reversal,206,Reverse Linked List,Done,DSA/linked_list/reverse_linked_list.cpp | DSA/queues/reverse_queue.cpp,Yes,https://leetcode.com/problems/reverse-linked-list/
+341,12,Linked List Manipulation Patterns,74,In-place Reversal,25,Reverse Nodes in k-Group,Done,DSA/linked_list/k_group_reversal.cpp | DSA/queues/reverse_k_queue_elements.cpp,No,https://leetcode.com/problems/reverse-nodes-in-kgroup/
+342,12,Linked List Manipulation Patterns,74,In-place Reversal,234,Palindrome Linked List,Done,DSA/linked_list/palindrome_linked_list.cpp,No,https://leetcode.com/problems/palindrome-linked-list/
+343,12,Linked List Manipulation Patterns,74,In-place Reversal,82,Remove Duplicates from Sorted List II,Todo,,No,https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+344,12,Linked List Manipulation Patterns,75,Merging Two Sorted Lists,21,Merge Two Sorted Lists,Todo,,Yes,https://leetcode.com/problems/merge-two-sorted-lists/
+345,12,Linked List Manipulation Patterns,75,Merging Two Sorted Lists,23,Merge k Sorted Lists,Todo,,Yes,https://leetcode.com/problems/merge-k-sorted-lists/
+346,12,Linked List Manipulation Patterns,76,Addition of Numbers,2,Add Two Numbers,Done,DSA/linked_list/add_two_linked_lists.cpp,No,https://leetcode.com/problems/add-two-numbers/
+347,12,Linked List Manipulation Patterns,76,Addition of Numbers,369,Plus One Linked List,Done,DSA/linked_list/addone.cpp,No,https://leetcode.com/problems/plus-one-linked-list/
+348,12,Linked List Manipulation Patterns,77,Intersection Detection,160,Intersection of Two Linked Lists,Todo,,No,https://leetcode.com/problems/intersection-of-two-linked-lists/
+349,12,Linked List Manipulation Patterns,77,Intersection Detection,599,Minimum Index Sum of Two Lists,Todo,,No,https://leetcode.com/problems/minimum-index-sum-of-two-lists/
+350,12,Linked List Manipulation Patterns,78,Reordering / Partitioning,24,Swap Nodes in Pairs,Todo,,No,https://leetcode.com/problems/swap-nodes-in-pairs/
+351,12,Linked List Manipulation Patterns,78,Reordering / Partitioning,61,Rotate List,Todo,,No,https://leetcode.com/problems/rotate-list/
+352,12,Linked List Manipulation Patterns,78,Reordering / Partitioning,86,Partition List,Todo,,No,https://leetcode.com/problems/partition-list/
+353,12,Linked List Manipulation Patterns,78,Reordering / Partitioning,143,Reorder List,Todo,,No,https://leetcode.com/problems/reorder-list/
+354,12,Linked List Manipulation Patterns,78,Reordering / Partitioning,328,Odd Even Linked List,Todo,,No,https://leetcode.com/problems/odd-even-linked-list/
+355,13,Array/Matrix Manipulation Patterns,79,In-place Rotation,48,Rotate Image,Done,DSA/arrays/rotate_matrix.cpp,Yes,https://leetcode.com/problems/rotate-image/
+356,13,Array/Matrix Manipulation Patterns,79,In-place Rotation,189,Rotate Array,Done,DSA/arrays/rotate_array.cpp | DSA/arrays/shift_one.cpp,No,https://leetcode.com/problems/rotate-array/
+357,13,Array/Matrix Manipulation Patterns,79,In-place Rotation,867,Transpose Matrix,Done,DSA/arrays/transpose_matrix.cpp,No,https://leetcode.com/problems/transpose-matrix/
+358,13,Array/Matrix Manipulation Patterns,80,Spiral Traversal,54,Spiral Matrix,Todo,,Yes,https://leetcode.com/problems/spiral-matrix/
+359,13,Array/Matrix Manipulation Patterns,80,Spiral Traversal,59,Spiral Matrix II,Todo,,No,https://leetcode.com/problems/spiral-matrix-ii/
+360,13,Array/Matrix Manipulation Patterns,80,Spiral Traversal,885,Spiral Matrix III,Todo,,No,https://leetcode.com/problems/spiral-matrix-iii/
+361,13,Array/Matrix Manipulation Patterns,80,Spiral Traversal,2326,Spiral Matrix IV,Todo,,No,https://leetcode.com/problems/spiral-matrix-iv/
+362,13,Array/Matrix Manipulation Patterns,81,In-place Marking,73,Set Matrix Zeroes,Todo,,Yes,https://leetcode.com/problems/set-matrix-zeroes/
+363,13,Array/Matrix Manipulation Patterns,81,In-place Marking,289,Game of Life,Todo,,No,https://leetcode.com/problems/game-of-life/
+364,13,Array/Matrix Manipulation Patterns,81,In-place Marking,498,Diagonal Traverse,Todo,,No,https://leetcode.com/problems/diagonal-traverse/
+365,13,Array/Matrix Manipulation Patterns,82,Prefix/Suffix Products,238,Product of Array Except Self,Todo,,Yes,https://leetcode.com/problems/product-of-array-except-self/
+366,13,Array/Matrix Manipulation Patterns,82,Prefix/Suffix Products,845,Longest Mountain in Array,Todo,,No,https://leetcode.com/problems/longest-mountain-in-array/
+367,13,Array/Matrix Manipulation Patterns,82,Prefix/Suffix Products,2483,Minimum Penalty for a Shop,Todo,,No,https://leetcode.com/problems/minimum-penalty-for-a-shop/
+368,13,Array/Matrix Manipulation Patterns,83,Plus One,66,Plus One,Todo,,No,https://leetcode.com/problems/plus-one/
+369,13,Array/Matrix Manipulation Patterns,83,Plus One,43,Multiply Strings,Todo,,No,https://leetcode.com/problems/multiply-strings/
+370,13,Array/Matrix Manipulation Patterns,83,Plus One,989,Add to Array-Form of Integer,Todo,,No,https://leetcode.com/problems/add-to-arrayform-of-integer/
+371,13,Array/Matrix Manipulation Patterns,83,Plus One,67,Add Binary,Todo,,No,https://leetcode.com/problems/add-binary/
+372,13,Array/Matrix Manipulation Patterns,84,In-place from End,88,Merge Sorted Array,Todo,,No,https://leetcode.com/problems/merge-sorted-array/
+373,13,Array/Matrix Manipulation Patterns,84,In-place from End,977,Squares of a Sorted Array,Todo,,No,https://leetcode.com/problems/squares-of-a-sorted-array/
+374,13,Array/Matrix Manipulation Patterns,85,Cyclic Sort,41,First Missing Positive,Todo,,No,https://leetcode.com/problems/first-missing-positive/
+375,13,Array/Matrix Manipulation Patterns,85,Cyclic Sort,268,Missing Number,Done,DSA/binary_search/missing_element.cpp,Yes,https://leetcode.com/problems/missing-number/
+376,13,Array/Matrix Manipulation Patterns,85,Cyclic Sort,287,Find the Duplicate Number,Done,DSA/arrays/duplicate_number.cpp,Yes,https://leetcode.com/problems/find-the-duplicate-number/
+377,13,Array/Matrix Manipulation Patterns,85,Cyclic Sort,442,Find All Duplicates in an Array,Todo,,No,https://leetcode.com/problems/find-all-duplicates-in-an-array/
+378,13,Array/Matrix Manipulation Patterns,85,Cyclic Sort,448,Find All Numbers Disappeared in an Array,Todo,,No,https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+379,14,String Manipulation Patterns,86,Palindrome Check,9,Palindrome Number,Todo,,No,https://leetcode.com/problems/palindrome-number/
+380,14,String Manipulation Patterns,86,Palindrome Check,125,Valid Palindrome,Done,DSA/recursion/palindrome_string.cpp | DSA/strings/palindrome_string.cpp,No,https://leetcode.com/problems/valid-palindrome/
+381,14,String Manipulation Patterns,86,Palindrome Check,680,Valid Palindrome II,Todo,,No,https://leetcode.com/problems/valid-palindrome-ii/
+382,14,String Manipulation Patterns,87,Anagram Check,49,Group Anagrams,Done,DSA/hash_map/group_anagrams.cpp,Yes,https://leetcode.com/problems/group-anagrams/
+383,14,String Manipulation Patterns,87,Anagram Check,242,Valid Anagram,Done,DSA/hash_map/valid_anagram.cpp,Yes,https://leetcode.com/problems/valid-anagram/
+384,14,String Manipulation Patterns,88,Roman to Integer Conversion,13,Roman to Integer,Todo,,No,https://leetcode.com/problems/roman-to-integer/
+385,14,String Manipulation Patterns,88,Roman to Integer Conversion,12,Integer to Roman,Todo,,No,https://leetcode.com/problems/integer-to-roman/
+386,14,String Manipulation Patterns,89,String to Integer (atoi),8,String to Integer (atoi),Todo,,No,https://leetcode.com/problems/string-to-integer-atoi/
+387,14,String Manipulation Patterns,89,String to Integer (atoi),65,Valid Number,Todo,,No,https://leetcode.com/problems/valid-number/
+388,14,String Manipulation Patterns,90,Manual Simulation,43,Multiply Strings,Todo,,No,https://leetcode.com/problems/multiply-strings/
+389,14,String Manipulation Patterns,90,Manual Simulation,415,Add Strings,Todo,,No,https://leetcode.com/problems/add-strings/
+390,14,String Manipulation Patterns,90,Manual Simulation,67,Add Binary,Todo,,No,https://leetcode.com/problems/add-binary/
+391,14,String Manipulation Patterns,91,String Matching - Naive / KMP / Rabin-Karp,28,Find the Index of the First Occurrence in a String,Todo,,No,https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+392,14,String Manipulation Patterns,91,String Matching - Naive / KMP / Rabin-Karp,214,Shortest Palindrome,Todo,,No,https://leetcode.com/problems/shortest-palindrome/
+393,14,String Manipulation Patterns,91,String Matching - Naive / KMP / Rabin-Karp,686,Repeated String Match,Todo,,No,https://leetcode.com/problems/repeated-string-match/
+394,14,String Manipulation Patterns,91,String Matching - Naive / KMP / Rabin-Karp,796,Rotate String,Todo,,No,https://leetcode.com/problems/rotate-string/
+395,14,String Manipulation Patterns,91,String Matching - Naive / KMP / Rabin-Karp,3008,Find Beautiful Indices in the Given Array II,Todo,,No,https://leetcode.com/problems/find-beautiful-indices-in-the-given-array-ii/
+396,14,String Manipulation Patterns,92,Repeated Substring Pattern Detection,459,Repeated Substring Pattern,Todo,,No,https://leetcode.com/problems/repeated-substring-pattern/
+397,14,String Manipulation Patterns,92,Repeated Substring Pattern Detection,28,Find the Index of the First Occurrence in a String,Todo,,No,https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+398,14,String Manipulation Patterns,92,Repeated Substring Pattern Detection,686,Repeated String Match,Todo,,No,https://leetcode.com/problems/repeated-string-match/
+399,15,Design Patterns,93,Design (General/Specific),146,LRU Cache,Done,DSA/design/lru_cache.cpp | DSA/linked_list/doubly_linked_list.cpp,Yes,https://leetcode.com/problems/lru-cache/
+400,15,Design Patterns,93,Design (General/Specific),155,Min Stack,Done,DSA/stacks/min_stack.cpp | DSA/stacks/two_stacks_in_array.cpp,No,https://leetcode.com/problems/min-stack/
+401,15,Design Patterns,93,Design (General/Specific),225,Implement Stack using Queues,Done,DSA/stacks/insert_at_bottom_of_stack.cpp,No,https://leetcode.com/problems/implement-stack-using-queues/
+402,15,Design Patterns,93,Design (General/Specific),232,Implement Queue using Stacks,Done,DSA/queues/queue_using_two_stacks.cpp,No,https://leetcode.com/problems/implement-queue-using-stacks/
+403,15,Design Patterns,93,Design (General/Specific),251,Flatten 2D Vector,Todo,,No,https://leetcode.com/problems/flatten-2d-vector/
+404,15,Design Patterns,93,Design (General/Specific),271,Encode and Decode Strings,Todo,,No,https://leetcode.com/problems/encode-and-decode-strings/
+405,15,Design Patterns,93,Design (General/Specific),295,Find Median from Data Stream,Done,DSA/heaps/find_median_from_data_stream.cpp,Yes,https://leetcode.com/problems/find-median-from-data-stream/
+406,15,Design Patterns,93,Design (General/Specific),341,Flatten Nested List Iterator,Todo,,No,https://leetcode.com/problems/flatten-nested-list-iterator/
+407,15,Design Patterns,93,Design (General/Specific),346,Moving Average from Data Stream,Todo,,No,https://leetcode.com/problems/moving-average-from-data-stream/
+408,15,Design Patterns,93,Design (General/Specific),353,Design Snake Game,Todo,,No,https://leetcode.com/problems/design-snake-game/
+409,15,Design Patterns,93,Design (General/Specific),359,Logger Rate Limiter,Todo,,No,https://leetcode.com/problems/logger-rate-limiter/
+410,15,Design Patterns,93,Design (General/Specific),362,Design Hit Counter,Todo,,No,https://leetcode.com/problems/design-hit-counter/
+411,15,Design Patterns,93,Design (General/Specific),379,Design Phone Directory,Todo,,No,https://leetcode.com/problems/design-phone-directory/
+412,15,Design Patterns,93,Design (General/Specific),380,Insert Delete GetRandom O(1),Todo,,Yes,https://leetcode.com/problems/insert-delete-getrandom-o1/
+413,15,Design Patterns,93,Design (General/Specific),432,All O`one Data Structure,Todo,,No,https://leetcode.com/problems/all-oone-data-structure/
+414,15,Design Patterns,93,Design (General/Specific),460,LFU Cache,Todo,,No,https://leetcode.com/problems/lfu-cache/
+415,15,Design Patterns,93,Design (General/Specific),604,Design Compressed String Iterator,Todo,,No,https://leetcode.com/problems/design-compressed-string-iterator/
+416,15,Design Patterns,93,Design (General/Specific),622,Design Circular Queue,Done,DSA/queues/circular_queue_implementation.cpp,No,https://leetcode.com/problems/design-circular-queue/
+417,15,Design Patterns,93,Design (General/Specific),641,Design Circular Deque,Todo,,No,https://leetcode.com/problems/design-circular-deque/
+418,15,Design Patterns,93,Design (General/Specific),642,Design Search Autocomplete System,Todo,,No,https://leetcode.com/problems/design-search-autocomplete-system/
+419,15,Design Patterns,93,Design (General/Specific),706,Design HashMap,Todo,,No,https://leetcode.com/problems/design-hashmap/
+420,15,Design Patterns,93,Design (General/Specific),715,Range Module,Todo,,No,https://leetcode.com/problems/range-module/
+421,15,Design Patterns,93,Design (General/Specific),900,RLE Iterator,Todo,,No,https://leetcode.com/problems/rle-iterator/
+422,15,Design Patterns,93,Design (General/Specific),981,Time Based Key-Value Store,Todo,,No,https://leetcode.com/problems/time-based-keyvalue-store/
+423,15,Design Patterns,93,Design (General/Specific),1146,Snapshot Array,Todo,,No,https://leetcode.com/problems/snapshot-array/
+424,15,Design Patterns,93,Design (General/Specific),1348,Tweet Counts Per Frequency,Todo,,No,https://leetcode.com/problems/tweet-counts-per-frequency/
+425,15,Design Patterns,93,Design (General/Specific),1352,Product of the Last K Numbers,Todo,,No,https://leetcode.com/problems/product-of-the-last-k-numbers/
+426,15,Design Patterns,93,Design (General/Specific),1381,Design a Stack With Increment Operation,Todo,,No,https://leetcode.com/problems/design-a-stack-with-increment-operation/
+427,15,Design Patterns,93,Design (General/Specific),1756,Design Most Recently Used Queue,Todo,,No,https://leetcode.com/problems/design-most-recently-used-queue/
+428,15,Design Patterns,93,Design (General/Specific),2013,Detect Squares,Todo,,No,https://leetcode.com/problems/detect-squares/
+429,15,Design Patterns,93,Design (General/Specific),2034,Stock Price Fluctuation,Todo,,No,https://leetcode.com/problems/stock-price-fluctuation/
+430,15,Design Patterns,93,Design (General/Specific),2296,Design a Text Editor,Todo,,No,https://leetcode.com/problems/design-a-text-editor/
+431,15,Design Patterns,93,Design (General/Specific),2336,Smallest Number in Infinite Set,Todo,,No,https://leetcode.com/problems/smallest-number-in-infinite-set/
+432,15,Design Patterns,94,Tries,208,Implement Trie (Prefix Tree),Done,DSA/trie/trie_insert_search.cpp,Yes,https://leetcode.com/problems/implement-trie-prefix-tree/
+433,15,Design Patterns,94,Tries,211,Design Add and Search Words Data Structure,Todo,,Yes,https://leetcode.com/problems/design-add-and-search-words-data-structure/
+434,15,Design Patterns,94,Tries,720,Longest Word in Dictionary,Todo,,No,https://leetcode.com/problems/longest-word-in-dictionary/
+435,15,Design Patterns,94,Tries,648,Replace Words,Todo,,No,https://leetcode.com/problems/replace-words/
+436,15,Design Patterns,94,Tries,425,Word Squares,Todo,,No,https://leetcode.com/problems/word-squares/
+437,15,Design Patterns,94,Tries,642,Design Search Autocomplete System,Todo,,No,https://leetcode.com/problems/design-search-autocomplete-system/
+438,15,Design Patterns,94,Tries,745,Prefix and Suffix Search,Todo,,No,https://leetcode.com/problems/prefix-and-suffix-search/

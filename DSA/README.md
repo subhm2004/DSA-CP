@@ -50,7 +50,7 @@ flowchart TD
 
 | Step | Folder | Files | Kyon |
 |------|--------|------:|------|
-| 0 | [Patterns](./patterns/) | 14 | Nested loops — [Thita Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) |
+| 0 | [Patterns](./patterns/) | 14 | Nested-loop star/number patterns — pehla C++ drill |
 | 1 | [Basics](./basics/) | 16 | Loops, I/O, functions |
 | 2 | [Arrays](./arrays/) · [Vectors](./vectors/) · [Strings](./strings/) | 32 · 5 · 8 | Core interview topic |
 | 3 | [Recursion](./recursion/) | 35 | Subsets, permutations, base cases |
@@ -202,7 +202,7 @@ python3 scripts/generate_site_data.py        # site index update
 
 ## External resources
 
-- [Thita Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) — pattern practice
+- [Thita DSA Patterns Sheet](https://docs.google.com/spreadsheets/u/0/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview) by Swati Ahuja — 94 algorithm patterns; repo me tracked as [`../patterns.csv`](../patterns.csv)
 - [LeetCode](https://leetcode.com/) — problem practice
 - [NeetCode roadmap](https://neetcode.io/roadmap) — topic order reference
 
