@@ -2,13 +2,12 @@
 """Generate PATTERNS.md — a Markdown progress tracker for the DSA patterns sheet.
 
 Source sheet : https://docs.google.com/spreadsheets/d/1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk/htmlview
-  gid=0                -> full sheet (94 patterns)
-  gid=2094977620       -> "30 day" core subset
+  (bare CSV export = the full 94-pattern tab)
 
-Output is a summary table plus one collapsible table per pattern, so GitHub
-renders it as a real document. Solved problems are matched against this repo by
-the `LEETCODE : N` header comment inside every .cpp file (and by leetcode_<N>_
-filenames), which is what drives the ✅ / ⬜ column.
+Output is a contents table plus one plain table per pattern: LeetCode number,
+problem (linked to LeetCode), and the repo file solving it. That last column is
+matched by the `LEETCODE : N` header comment inside every .cpp file (and by
+leetcode_<N>_ filenames); unsolved problems show a dash.
 
 Usage:
     python3 scripts/generate_patterns.py            # fetch from Google
@@ -34,8 +33,8 @@ REPO_URL = "https://github.com/subhm2004/DSA-CP"
 SHEET_ID = "1EEYzyD_483B-7CmWxsJB_zycdv4Y5dxnzcoEQtaIfuk"
 SHEET_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/htmlview"
 EXPORT = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv"
-# The first tab has no usable gid on this sheet — bare export returns it.
-TABS = {"full": EXPORT, "core30": f"{EXPORT}&gid=2094977620"}
+# The first tab has no usable gid on this sheet — the bare export returns it.
+SHEET_CSV = EXPORT
 
 # Roman numeral category headers: "I. Two Pointer Patterns"
 CATEGORY_RE = re.compile(r"^([IVXL]+)\.\s*(.+?)\s*$")
@@ -181,18 +180,6 @@ def parse_full(text: str) -> list[dict]:
     return rows
 
 
-def parse_core30(text: str) -> set[int]:
-    """Collect the LeetCode ids that appear in the condensed 30-day tab."""
-    ids = set()
-    for row in csv.reader(text.splitlines()):
-        if len(row) < 2 or not PATTERN_RE.match((row[0] or "").strip()):
-            continue
-        for pid, _ in split_problems(row[1]):
-            if pid:
-                ids.add(pid)
-    return ids
-
-
 def repo_index() -> dict[int, list[str]]:
     """Map LeetCode id -> repo files, from `LEETCODE : N` headers + filenames."""
     header_re = re.compile(r"LEETCODE\s*:\s*#?\s*(\d{1,4})", re.I)
@@ -214,76 +201,58 @@ def repo_index() -> dict[int, list[str]]:
     return index
 
 
-def bar(done: int, total: int, width: int = 10) -> str:
-    """Unicode progress bar — renders the same everywhere GitHub shows text."""
-    filled = round(width * done / total) if total else 0
-    return "█" * filled + "░" * (width - filled)
-
-
-def build_markdown(rows: list[dict], core: set[int], index: dict[int, list[str]]) -> str:
-    """Render the whole tracker as GitHub-flavoured Markdown tables."""
+def build_markdown(rows: list[dict], index: dict[int, list[str]]) -> str:
+    """Render the tracker as plain GitHub-flavoured Markdown tables."""
     for r in rows:
         r["files"] = index.get(r["leetcode_id"], []) if r["leetcode_id"] else []
 
-    total, solved = len(rows), sum(bool(r["files"]) for r in rows)
+    total = len(rows)
     cats = sorted({(r["category_no"], r["category"]) for r in rows})
     out: list[str] = []
     add = out.append
 
-    add("# DSA Patterns — Progress Tracker\n")
-    add(f"**Author:** [{AUTHOR}]({AUTHOR_URL}) · [{REPO_URL.split('/')[-1]}]({REPO_URL})  ")
-    add(f"**Generated:** {date.today().isoformat()} · "
-        f"`python3 scripts/{Path(__file__).name}`\n")
-    add(f"**{len(cats)} categories · {len({r['pattern_no'] for r in rows})} patterns · "
-        f"{total} problems**\n")
-    add(f"### Progress — {solved} / {total} solved ({solved * 100 // total}%)\n")
-    add(f"`{bar(solved, total, 30)}`\n")
-    add("✅ = repo me solution hai · ⬜ = pending · ⭐ = 30-day core set\n")
+    add("# DSA Patterns\n")
+    add(f"**Author:** [{AUTHOR}]({AUTHOR_URL}) &nbsp;·&nbsp; "
+        f"[{REPO_URL.split('/')[-1]}]({REPO_URL})  ")
+    add(f"**Generated:** {date.today().isoformat()}\n")
+    add(f"{len(cats)} categories &nbsp;·&nbsp; "
+        f"{len({r['pattern_no'] for r in rows})} patterns &nbsp;·&nbsp; "
+        f"{total} problems\n")
     add("---\n")
 
-    # ── Summary table ────────────────────────────────────────────────────────
-    add("## Categories\n")
-    add("| # | Category | Patterns | Problems | Done | Progress |")
-    add("|--:|----------|---------:|---------:|-----:|----------|")
+    # ── Contents ─────────────────────────────────────────────────────────────
+    add("## Contents\n")
+    add("| # | Category | Patterns | Problems |")
+    add("|--:|----------|---------:|---------:|")
     for cno, cname in cats:
         sub = [r for r in rows if r["category_no"] == cno]
-        d = sum(bool(r["files"]) for r in sub)
         anchor = gh_anchor(f"{ROMAN_OUT[cno]}. {cname}")
         add(f"| {ROMAN_OUT[cno]} | [{md_escape(cname)}](#{anchor}) | "
-            f"{len({r['pattern_no'] for r in sub})} | {len(sub)} | {d} | "
-            f"`{bar(d, len(sub))}` {d * 100 // len(sub)}% |")
-    add(f"| | **Total** | **{len({r['pattern_no'] for r in rows})}** | **{total}** | "
-        f"**{solved}** | `{bar(solved, total)}` **{solved * 100 // total}%** |")
+            f"{len({r['pattern_no'] for r in sub})} | {len(sub)} |")
+    add(f"| | **Total** | **{len({r['pattern_no'] for r in rows})}** | **{total}** |")
     add("\n---\n")
 
     # ── One section per category, one table per pattern ──────────────────────
     for cno, cname in cats:
         sub = [r for r in rows if r["category_no"] == cno]
-        d = sum(bool(r["files"]) for r in sub)
         add(f"## {ROMAN_OUT[cno]}. {cname}\n")
-        add(f"{len(sub)} problems · **{d} done** · `{bar(d, len(sub))}` "
-            f"{d * 100 // len(sub)}%\n")
 
         for pno in sorted({r["pattern_no"] for r in sub}):
             prob = [r for r in sub if r["pattern_no"] == pno]
-            pd_ = sum(bool(r["files"]) for r in prob)
             add(f"### Pattern {pno} — {md_escape(prob[0]['pattern'])}\n")
-            add(f"`{bar(pd_, len(prob))}` **{pd_}/{len(prob)}**\n")
-            add("| Status | LC | Problem | 30-day | Solution |")
-            add("|:------:|---:|---------|:------:|----------|")
+            add("| No. | Problem | Solution |")
+            add("|----:|---------|----------|")
             for r in prob:
-                mark = "✅" if r["files"] else "⬜"
-                star = "⭐" if r["leetcode_id"] in core else ""
                 url = f"https://leetcode.com/problems/{slugify(r['problem'])}/"
-                sol = " · ".join(f"[`{f.split('/')[-1]}`](./{f})" for f in r["files"]) or "—"
-                add(f"| {mark} | {r['leetcode_id']} | "
-                    f"[{md_escape(r['problem'])}]({url}) | {star} | {sol} |")
+                sol = " · ".join(f"[`{f}`](./{f})" for f in r["files"]) or "—"
+                add(f"| {r['leetcode_id']} | "
+                    f"[{md_escape(r['problem'])}]({url}) | {sol} |")
             add("")
         add("---\n")
 
     add(f"<sub>Auto-generated — edit karne ke bajaye "
         f"`python3 scripts/{Path(__file__).name}` dobara chalao. "
-        f"Status `LEETCODE : N` header comment se match hota hai.</sub>")
+        f"Solution column `LEETCODE : N` header comment se match hota hai.</sub>")
     return "\n".join(out) + "\n"
 
 
@@ -293,13 +262,12 @@ def main() -> None:
     args = ap.parse_args()
 
     print("Fetching sheet…")
-    rows = parse_full(fetch(TABS["full"], "full", args.offline))
-    core = parse_core30(fetch(TABS["core30"], "core30", args.offline))
+    rows = parse_full(fetch(SHEET_CSV, "full", args.offline))
     index = repo_index()
     print(f"  {len(rows)} problems · {len({r['pattern_no'] for r in rows})} patterns "
-          f"· {len(core)} in 30-day core · {len(index)} LeetCode ids in repo")
+          f"· {len(index)} LeetCode ids in repo")
 
-    OUT.write_text(build_markdown(rows, core, index), encoding="utf-8")
+    OUT.write_text(build_markdown(rows, index), encoding="utf-8")
     solved = sum(bool(index.get(r["leetcode_id"])) for r in rows)
     print(f"Wrote {OUT.relative_to(ROOT)} — {len(rows)} problems, "
           f"{solved} solved ({solved * 100 // len(rows)}%)")

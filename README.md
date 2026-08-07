@@ -107,39 +107,37 @@ flowchart LR
 
 ## Patterns tracker — [`PATTERNS.md`](./PATTERNS.md)
 
-**94 DSA patterns · 438 problems · 15 categories** — har pattern ki apni table, aur har problem is repo ki file se **auto-map** hoti hai.
+**94 patterns · 438 problems · 15 categories** — har pattern ki apni table, har problem LeetCode pe linked, aur jo solve ho chuki hain wo is repo ki file se **auto-map** hoti hain.
 
 > Note: ye **algorithm patterns** hain (two pointers, sliding window, …) — [`DSA/patterns/`](./DSA/patterns/) wale nested-loop star patterns se alag cheez hai.
 
-**Current progress: 122 / 438 solved (27%)** · 98 problems 30-day core me
+| # | Category | Patterns | Problems | | # | Category | Patterns | Problems |
+|--:|----------|---------:|---------:|-|--:|----------|---------:|---------:|
+| I | Two Pointer | 7 | 34 | | IX | Binary Search | 5 | 27 |
+| II | Sliding Window | 4 | 31 | | X | Stack | 6 | 26 |
+| III | Tree Traversal | 6 | 33 | | XI | Bit Manipulation | 4 | 12 |
+| IV | Graph Traversal | 12 | 68 | | XII | Linked List | 5 | 17 |
+| V | Dynamic Programming | 12 | 47 | | XIII | Array / Matrix | 7 | 24 |
+| VI | Heap | 4 | 22 | | XIV | String | 7 | 20 |
+| VII | Backtracking | 7 | 19 | | XV | Design | 2 | 40 |
+| VIII | Greedy | 6 | 18 | | | **Total** | **94** | **438** |
 
-| # | Category | Problems | Done | | # | Category | Problems | Done |
-|--:|----------|---------:|-----:|-|--:|----------|---------:|-----:|
-| I | Two Pointer | 34 | 10 | | IX | Binary Search | 27 | 9 |
-| II | Sliding Window | 31 | 7 | | X | Stack | 26 | 9 |
-| III | Tree Traversal | 33 | 10 | | XI | Bit Manipulation | 12 | 5 |
-| IV | Graph Traversal | 68 | 19 | | XII | Linked List | 17 | 5 |
-| V | Dynamic Programming | 47 | 13 | | XIII | Array / Matrix | 24 | 5 |
-| VI | Heap | 22 | 5 | | XIV | String | 20 | 3 |
-| VII | Backtracking | 19 | 10 | | XV | Design | 40 | 7 |
-| VIII | Greedy | 18 | 5 | | | | | |
+Har pattern ki table aisi dikhti hai:
 
-Har pattern ki table aisi dikhti hai — ✅ solved, ⬜ pending, ⭐ 30-day core:
-
-| Status | LC | Problem | 30-day | Solution |
-|:------:|---:|---------|:------:|----------|
-| ✅ | 11 | Container With Most Water | ⭐ | [`container_with_most_water.cpp`](./DSA/two_pointers/container_with_most_water.cpp) |
-| ⬜ | 16 | 3Sum Closest | | — |
+| No. | Problem | Solution |
+|----:|---------|----------|
+| 11 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water/) | [`DSA/two_pointers/container_with_most_water.cpp`](./DSA/two_pointers/container_with_most_water.cpp) |
+| 16 | [3Sum Closest](https://leetcode.com/problems/3sum-closest/) | — |
 
 ```bash
-# Dobara generate karo (naye solutions ke baad ✅ apne aap update hoga)
+# Dobara generate karo (naye solutions ke baad Solution column apne aap bharega)
 python3 scripts/generate_patterns.py
 
 # Bina internet ke — cached sheet se
 python3 scripts/generate_patterns.py --offline
 ```
 
-Matching `LEETCODE : N` header comment se hoti hai — nayi file me header dalna mat bhoolna, warna ⬜ hi dikhega.
+Solution column `LEETCODE : N` header comment se match hota hai — nayi file me header dalna mat bhoolna, warna `—` hi dikhega.
 
 ---
 
